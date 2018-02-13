@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Cat-Fas</title>
+
+        <meta charset="UTF-8">
+        <meta name="description" content="Cat_Fast">
+        <meta name="keywords" content="Cat">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- jquery-3.2.1 -->
+        <script src="js/jquery/jquery-3.2.1.js"></script>
+
+        <!-- popper-1.11.0 -->
+        <script src="js/popper/popper.min.js"></script>
+
+        <!-- bootstrap-4.0.0-beta-->
+        <script src="js/bottstrap/bootstrap.js"></script>
+        <link href="css/bootstrap/bootstrap.css" rel="stylesheet">
+
+        <!-- datatable-1.10.15-->
+        <script src="js/datatable/jquery.dataTables.min.js"></script>
+        <link href="css/datatable/jquery.dataTables.min.css" rel="stylesheet">
+        <!-- Font Awesome -->
+        <link href="css/font-awesome.css" rel="stylesheet">
+
+        <!-- custom scripts style -->
+        <script src="js/scripts.js"></script>
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <!-- BEGIN navbar -->
+        <nav class="navbar navbar-dark bg-dark navbar-expand-sm">
+            <a class="navbar-brand" href="main.html">CAT-FAS</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="member.html">訪員管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="organization.html">單位管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="dataManagement.html">資料管理</a>
+                    </li>
+                </ul>
+                <button class="btn btn-outline-success my-2 my-sm-0" onclick="logout()">登出</button>
+            </div>
+        </nav>
+        <!-- End navbar -->
+
+        <!-- Begin Content -->
+        <div class="container" id="content">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="dataManagement.html">資料管理</a>
+                        </li>
+                        <li class="breadcrumb-item active">測驗歷程管理</li>
+                    </ol>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <button class="btn btn-primary" onclick="addExam()">新增測驗</button>
+                            <button class="btn btn-info" onclick="exportData()">資料匯出</button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="testProgressTable" class="table table-bordered table-hover" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <td>recordId</td>
+                                            <td>病歷號碼</td>
+                                            <td>姓名</td>
+                                            <td>建立日期</td>
+                                            <td>進行測驗</td>
+                                            <td>測驗結果</td>
+                                            <td>刪除紀錄</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Begin Content -->
+
+        <!-- BEGIN footer -->
+        <nav class="navbar navbar-dark bg-dark navbar-fixed-bottom hidden-sm" role="navigation">
+            <div class="container text-center"> 
+                <h5 style="color: white;">
+                    Copyright (c) 2017 Billy Shih All Rights Reserved.
+                </h5>
+            </div>
+        </nav>
+        <!-- END footer -->
+    </body>
+
+
+    <!-- delete modal -->
+    <button id="deleteButton" type="button" class="btn btn-primary hide" data-toggle="modal" data-target="#deleteModal"></button>
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">即將刪除</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        確定要刪除此資料？
+                    </p>
+                    <div style="display:none;" id="deleteId"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="testProgress.delete()" >確定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Large modal -->
+    <button class="btn btn-primary" data-toggle="modal" data-target="#resultModal" id="resultButton">resultModal</button>
+
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="resultModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">測驗結果</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table id="resultTable" class="table table-bordered table-hover" style="width:100%;">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th>向度</th>
+                                    <th>t分數</th>
+                                    <th>95%信賴區間上限</th>
+                                    <th>95%信賴區間下限</th>
+                                    <th>百分等級</th>
+                                    <th>信度</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr id="category1">
+                                    <td class="table-info">上肢動作</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr id="category2">
+                                    <td class="table-info">下肢動作</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr id="category3">
+                                    <td class="table-info">平衡</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr id="category4">
+                                    <td class="table-info">日常生活活動</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="text-center">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">回到歷程管理</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- message modal -->
+    <button id="messageButton" type="button" class="btn btn-primary hide" data-toggle="modal" data-target="#messageModal"></button>
+
+    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">錯誤</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="messageText">
+
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <div>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</html>
+<script>
+    $(document).ready(function(){
+        testProgress.init();
+
+        var table = $("#testProgressTable").DataTable();
+    });
+
+    var currentId = 4;
+    var testProgress = {
+        dataList : [],
+        init : function() {
+            var data = {};
+            data.recordId = 1;
+            data.medicalNumber = "101";
+            data.name = "John";
+            data.createDate = transferDate(new Date("2017-09-01"));
+            data.complete = true;
+            testProgress.dataList.push(data);
+
+            var data = {};
+            data.recordId = 2;
+            data.medicalNumber = "101";
+            data.name = "John";
+            data.createDate = transferDate(new Date("2017-09-02"));
+            data.complete = false;
+            testProgress.dataList.push(data);
+
+            var data = {};
+            data.recordId = 3;
+            data.medicalNumber = "101";
+            data.name = "John";
+            data.createDate = transferDate(new Date("2017-09-03"));
+            data.complete = false;
+            testProgress.dataList.push(data);
+
+            for(key in testProgress.dataList) {
+                testProgress.renderHtml(testProgress.dataList[key]);
+            }
+        },
+        renderHtml : function(progressObject) {
+            var recordId = progressObject.recordId;
+            var medicalNumber= progressObject.medicalNumber;
+            var name = progressObject.name;
+            var createDate = progressObject.createDate;
+            var complete = progressObject.complete;
+
+            var $tr = '<tr id="data-' + recordId + '">';
+            var $td = '<td>' + recordId + '</td>';
+            $td += '<td>' + medicalNumber + '</td>';
+            $td += '<td>' + name + '</td>';
+            $td += '<td>' + createDate + '</td>';
+            $td += '<td>';
+
+            if (complete) {
+                $td += '<button class="btn-default marginButton" onclick="startHighReliabilityTest(this)" disabled>高信度</button>';
+                $td += '<button class="btn-default marginButton" onclick="startHighValidityTest(this)" disabled>高效率</button>';
+            } else {
+                $td += '<button class="btn-success marginButton" onclick="startHighReliabilityTest(this)">高信度</button>';
+                $td += '<button class="btn-success marginButton" onclick="startHighValidityTest(this)">高效率</button>'; 
+            }
+
+            $td += '</td>';
+            $td += '<td>';
+
+            if (complete) {
+                $td += '<button class="btn-info marginButton" onclick="showResult(this)">結果</button>';
+            } else {
+                $td += '<button class="btn-default marginButton" onclick="showResult(this)" disabled>結果</button>';
+            }
+
+            $td += '</td>';
+            $td += '<td>';
+            $td += '<button class="btn-danger marginButton" onclick="showDeleteRow(this)">刪除</button>';
+            $td += '</td>';
+            $tr += $td + '</tr>';
+
+            $("#testProgressTable tbody").append($tr);
+        },
+        insert : function() {
+            var recordId = currentId;
+            var medicalNumber = "101";
+            var name = "John";
+            var createDate = transferDate(new Date());
+            var complete = false;
+            
+            var data = {};
+            data.recordId = recordId;
+            data.medicalNumber = medicalNumber;
+            data.name = name;
+            data.createDate = createDate;
+            data.complete = complete;
+            testProgress.dataList.push(data);
+
+
+            var table = $("#testProgressTable").DataTable();
+            var node = table.row.add( [
+                '<td>' + recordId + '</td>',
+                '<td>' + medicalNumber + '</td>',
+                '<td>' + name + '</td>',
+                '<td>' + createDate + '</td>',
+                function() {
+                    var $td = '<td>';
+                    if (complete) {
+                        $td += '<button class="btn-default marginButton" onclick="startHighReliabilityTest(this)" disabled>高信度</button>';
+                        $td += '<button class="btn-default marginButton" onclick="startHighValidityTest(this)" disabled>高效率</button>';
+                    } else {
+                        $td += '<button class="btn-success marginButton" onclick="startHighReliabilityTest(this)">高信度</button>';
+                        $td += '<button class="btn-success marginButton" onclick="startHighValidityTest(this)">高效率</button>'; 
+                    }
+                    $td += '</td>';
+
+                    return $td;
+                },
+                function() {
+                    var $td = '<td>';
+
+                    if (complete) {
+                        $td += '<button class="btn-info marginButton" onclick="showResult(this)">結果</button>';
+                    } else {
+                        $td += '<button class="btn-default marginButton" onclick="showResult(this) disabled">結果</button>';
+                    }
+
+                    $td += '</td>';
+
+                    return $td;
+                },
+                function() {
+                    var $td = '<td>';
+                    $td += '<button class="btn-danger marginButton" onclick="showDeleteRow(this)">刪除</button>';
+                    $td += '</td>';
+
+                    return $td;
+                }    
+            ] ).draw( true ).node();
+
+            $(node).attr("id", 'data-' + currentId);
+
+            currentId++;
+        },
+        delete : function() {
+            var recordId = $("#deleteId").html();
+            var table = $("#testProgressTable").DataTable();
+            var deleteObject = $("#testProgressTable tbody tr#data-" + recordId);
+
+            table.row(deleteObject).remove().draw();
+
+            for (key in testProgress.dataList) {
+                if (testProgress.dataList[key].recordId == recordId ) {                       
+                    var array = testProgress.dataList;                                                             
+                    var index = array.indexOf(testProgress.dataList[key]);                                                             array.splice(index, 1);
+                    break;
+                }
+            }
+
+            $("#deleteModal").modal("hide");
+        }
+    }
+
+    function addExam() {
+        testProgress.insert();
+    }
+
+    function showDeleteRow(target) {
+        var testProgressRow = $(target).parent().parent();
+        var id = testProgressRow.find('td:nth-child(1)').html();
+        $("#deleteId").html(id);
+
+        $("#deleteButton").trigger("click");
+    }
+
+    function showMessage() {
+        $('#messageButton').trigger("click");
+    }
+
+    function startHighReliabilityTest(target) {
+        console.log("開始高信度測驗:" + target);
+        window.location.href = "exam1.html";
+    }
+
+    function startHighValidityTest(target) {
+        console.log("開始高效率測驗:" + target);
+        window.location.href = "exam1.html";
+    }
+
+    function showResult(target) {
+        $("#resultButton").trigger("click");
+    }
+
+    function exportData() {
+        console.log("匯出資料:");
+    }
+
+    function transferDate(input) {
+        var year = input.getFullYear();
+        var month = input.getMonth() + 1;
+        var day = input.getDate();
+        var fomatedDate = year + "/" + month + "/" + day;
+
+        return fomatedDate;
+    }
+</script>
