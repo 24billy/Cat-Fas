@@ -259,7 +259,7 @@ public class MemberServiceImpl implements IMemberService {
 		sqlText.append(role.getRoleId());
 		sqlText.append("WHERE memberId = ");
 		sqlText.append(memberId);
-		System.out.println(sqlText.toString());
+		
 		Integer updateCount = jdbcDAO.update(sqlText.toString());
 
 		if (updateCount > 0) {

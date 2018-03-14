@@ -153,14 +153,19 @@
 </div>
 
 <script type="text/javascript">
+	var data = '${organizationList}';
+	var form = document.getElementById("organizationForm");
+	var count = 0;
+
 	$(document).ready(function() {
-		organization.init();
+		organization.dataList = JSON.parse(data);
+
+		for (key in organization.dataList) {
+			organization.renderHtml(organization.dataList[key]);
+		}
 
 		var table = $("#organizationTable").DataTable();
 	});
-
-	var form = document.getElementById("organizationForm");
-	var count = 4;
 
 	form.addEventListener("submit", function(event) {
 		event.preventDefault();
@@ -244,33 +249,29 @@
 			}
 
 			var name = $("#addOrganization").val();
-			var organizationObject = {};
-			organizationObject.id = count;
-			organizationObject.name = name;
-			organization.dataList.push(organizationObject);
-			//organization.renderHtml(organizationObject);
+			$.ajax({
+				url : "organization/addOrganization",
+				type : "POST",
+				data : {
+					organizationName : name
+				},
+				error : function(e) {
 
-			var table = $("#organizationTable").DataTable();
-			var node = table.row
-					.add(
-							[
-									'<td id="td-' + count + '">' + count
-											+ '</td>',
-									'<td>' + name + '</td>',
-									function() {
-										var $td = '<td>';
-										$td += '<button class="btn-warning marginButton" onclick="showUpdateRow(this)">編輯</button> ';
-										$td += '<button class="btn-danger marginButton" onclick="showDeleteRow(this)">刪除</button>';
-										$td += '</td>';
-
-										return $td;
-									} ]).draw(true).node();
-
-			$(node).attr("id", 'data-' + count);
-			count++;
+				},
+				success : function(data) {
+					showOrganization();
+				}
+			});
 		},
 		renderHtml : function(organizationObject) {
-			var id = organizationObject.id;
+			var isVisible = organizationObject.isVisible;
+
+			// 不可視則隱藏
+			if (!isVisible) {
+				return;
+			}
+
+			var id = organizationObject.organizationid;
 			var name = organizationObject.name;
 
 			var $tr = '<tr id="data-' + id + '">';
@@ -294,37 +295,41 @@
 				return false;
 			}
 
-			$("#organizationTable tbody tr#data-" + id).find('td:nth-child(2)')
-					.html(name);
-
-			// update
-			for (key in organization.dataList) {
-				if (id == organization.dataList[key].id) {
-					organization.dataList[key].name = name;
-					break;
-				}
-			}
-
 			$('#updateModal').modal("hide");
+
+			$.ajax({
+				url : "organization/updateOrganization",
+				type : "POST",
+				data : {
+					organizationId : id,
+					organizationName : name
+				},
+				error : function(e) {
+
+				},
+				success : function(data) {
+					showOrganization();
+				}
+			});
 		},
 		deleteRow : function() {
 			var id = $("#deleteId").val();
-			var table = $("#organizationTable").DataTable();
-			var deleteObject = $("#organizationTable tbody tr#data-" + id);
-
-			table.row(deleteObject).remove().draw();
-
-			// 刪除資料
-			for (key in organization.dataList) {
-				if (id == organization.dataList[key].id) {
-					var array = organization.dataList;
-					var index = array.indexOf(organization.dataList[key]);
-					array.splice(index, 1);
-					break;
-				}
-			}
 
 			$("#deleteModal").modal("hide");
+
+			$.ajax({
+				url : "organization/deleteOrganization",
+				type : "POST",
+				data : {
+					organizationId : id
+				},
+				error : function(e) {
+
+				},
+				success : function(data) {
+					showOrganization();
+				}
+			});
 		}
 	};
 

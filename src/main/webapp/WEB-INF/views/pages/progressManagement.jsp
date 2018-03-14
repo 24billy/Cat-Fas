@@ -96,7 +96,7 @@
 						<thead class="table-primary">
 							<tr>
 								<th>向度</th>
-								<th>t分數</th>
+								<th>T分數</th>
 								<th>95%信賴區間上限</th>
 								<th>95%信賴區間下限</th>
 								<th>百分等級</th>
@@ -177,20 +177,19 @@
 </div>
 <script>
 	var data = '${responseList}';
+	var subjectId = '${subjectId}';
+
 	$(document).ready(function() {
 		testProgress.dataList = JSON.parse(data);
-		testProgress.init();
-		console.log(data);
-		console.log(testProgress.dataList);
-		/*
+		//testProgress.init();
+
 		for (key in testProgress.dataList) {
 			testProgress.renderHtml(testProgress.dataList[key]);
 		}
-		*/
+
 		var table = $("#testProgressTable").DataTable();
 	});
 
-	var currentId = 4;
 	var testProgress = {
 		dataList : [],
 		init : function() {
@@ -204,37 +203,17 @@
 			data.isComplete = true;
 			testProgress.dataList.push(data);
 
-			var data = {};
-			data.recordId = 2;
-			var subject = {};
-			subject.medicalNumber = "101";
-			subject.subjectName = "John";
-			data.subject = subject
-			data.startDate = transferDate(new Date("2017-09-02"));
-			data.isComplete = false;
-			testProgress.dataList.push(data);
-
-			var data = {};
-			data.recordId = 3;
-			var subject = {};
-			subject.medicalNumber = "101";
-			subject.subjectName = "John";
-			data.subject = subject
-			data.startDate = transferDate(new Date("2017-09-03"));
-			data.isComplete = false;
-			testProgress.dataList.push(data);
-
 			for (key in testProgress.dataList) {
 				testProgress.renderHtml(testProgress.dataList[key]);
 			}
 		},
 		renderHtml : function(progressObject) {
-			console.log(progressObject);
 			var recordId = progressObject.recordId;
 			var medicalNumber = progressObject.subject.medicalNumber;
 			var name = progressObject.subject.subjectName;
 			var startDate = progressObject.startDate;
 			var complete = progressObject.isComplete;
+			var isDelete = progressObject.isDelete;
 
 			var $tr = '<tr id="data-' + recordId + '">';
 			var $td = '<td>' + recordId + '</td>';
@@ -259,103 +238,57 @@
 			$td += '<td>';
 
 			if (complete) {
-				$td += '<button class="btn-info marginButton" onclick="showResult(this)">結果</button>';
+				$td += '<button class="btn-info marginButton" onclick="showResult('
+						+ recordId + ')">結果</button>';
 			} else {
-				$td += '<button class="btn-default marginButton" onclick="showResult(this)" disabled>結果</button>';
+				$td += '<button class="btn-default marginButton" disabled>結果</button>';
 			}
 
 			$td += '</td>';
 			$td += '<td>';
-			$td += '<button class="btn-danger marginButton" onclick="showDeleteRow(this)">刪除</button>';
+
+			if (isDelete) {
+				$td += '<button class="btn-default marginButton" onclick="showDeleteRow(this)" disabled>刪除</button>';
+			} else {
+				$td += '<button class="btn-danger marginButton" onclick="showDeleteRow(this)">刪除</button>';
+			}
+
 			$td += '</td>';
 			$tr += $td + '</tr>';
 
 			$("#testProgressTable tbody").append($tr);
 		},
 		insert : function() {
-			var recordId = currentId;
-			var medicalNumber = "101";
-			var name = "John";
-			var createDate = transferDate(new Date());
-			var complete = false;
+			$.ajax({
+				url : "progressManagement/addExam",
+				type : "POST",
+				data : {
+					subjectId : subjectId
+				},
+				error : function(e) {
 
-			var data = {};
-			data.recordId = recordId;
-			data.medicalNumber = medicalNumber;
-			data.name = name;
-			data.createDate = createDate;
-			data.complete = complete;
-			testProgress.dataList.push(data);
-
-			var table = $("#testProgressTable").DataTable();
-			var node = table.row
-					.add(
-							[
-									'<td>' + recordId + '</td>',
-									'<td>' + medicalNumber + '</td>',
-									'<td>' + name + '</td>',
-									'<td>' + createDate + '</td>',
-									function() {
-										var $td = '<td>';
-										if (complete) {
-											$td += '<button class="btn-default marginButton" onclick="startHighReliabilityTest('
-													+ recordId
-													+ ')" disabled>高信度</button>';
-											$td += '<button class="btn-default marginButton" onclick="startHighValidityTest('
-													+ recordId
-													+ ')" disabled>高效率</button>';
-										} else {
-											$td += '<button class="btn-success marginButton" onclick="startHighReliabilityTest('
-													+ recordId
-													+ ')">高信度</button>';
-											$td += '<button class="btn-success marginButton" onclick="startHighValidityTest('
-													+ recordId
-													+ ')">高效率</button>';
-										}
-										$td += '</td>';
-
-										return $td;
-									},
-									function() {
-										var $td = '<td>';
-
-										if (complete) {
-											$td += '<button class="btn-info marginButton" onclick="showResult(this)">結果</button>';
-										} else {
-											$td += '<button class="btn-default marginButton" onclick="showResult(this) disabled">結果</button>';
-										}
-
-										$td += '</td>';
-
-										return $td;
-									},
-									function() {
-										var $td = '<td>';
-										$td += '<button class="btn-danger marginButton" onclick="showDeleteRow(this)">刪除</button>';
-										$td += '</td>';
-
-										return $td;
-									} ]).draw(true).node();
-
-			$(node).attr("id", 'data-' + currentId);
-
-			currentId++;
+				},
+				success : function(data) {
+					showProgressManagement(subjectId);
+				}
+			});
 		},
 		remove : function() {
 			var recordId = $("#deleteId").html();
-			var table = $("#testProgressTable").DataTable();
-			var deleteObject = $("#testProgressTable tbody tr#data-" + recordId);
 
-			table.row(deleteObject).remove().draw();
+			$.ajax({
+				url : "progressManagement/deleteExam",
+				type : "POST",
+				data : {
+					recordId : recordId
+				},
+				error : function(e) {
 
-			for (key in testProgress.dataList) {
-				if (testProgress.dataList[key].recordId == recordId) {
-					var array = testProgress.dataList;
-					var index = array.indexOf(testProgress.dataList[key]);
-					array.splice(index, 1);
-					break;
+				},
+				success : function(data) {
+					showProgressManagement(subjectId);
 				}
-			}
+			});
 
 			$("#deleteModal").modal("hide");
 		}
@@ -377,8 +310,48 @@
 		$('#messageButton').trigger("click");
 	}
 
-	function showResult(target) {
-		$("#resultButton").trigger("click");
+	function showResult(id) {
+		$.ajax({
+			url : "progressManagement/getExamResult",
+			type : "POST",
+			data : {
+				recordId : id
+			},
+			error : function(e) {
+
+			},
+			success : function(data) {
+				var result = JSON.parse(data);
+
+				for (var i = 1; i <= 4; i++) {
+					// TScore
+					var tscore = new Number(result.tScore[i - 1]);
+					$("tr#category" + i + " td:nth-child(2)").html(
+							tscore.toFixed(3));
+					// 95%信賴區間上限
+					var criUpper = new Number(result.criUpper[i - 1]);
+					$("tr#category" + i + " td:nth-child(3)").html(
+							criUpper.toFixed(5));
+					// 95%信賴區間下限
+					var criLower = new Number(result.criLower[i - 1]);
+					$("tr#category" + i + " td:nth-child(4)").html(
+							criLower.toFixed(5));
+					// 百分等級
+					var percentileLevel = new Number(
+							result.percentileLevel[i - 1]);
+					$("tr#category" + i + " td:nth-child(5)").html(
+							percentileLevel);
+					// 信度
+					var reliability = new Number(result.reliability[i - 1]);
+					$("tr#category" + i + " td:nth-child(6)").html(
+							reliability.toFixed(3));
+				}
+
+				$("#resultButton").trigger("click");
+				//showProgressManagement(subjectId);
+			}
+		});
+
 	}
 
 	function exportData() {

@@ -47,21 +47,67 @@ public class SubjectServiceImpl implements ISubjectService {
 	}
 
 	@Override
-	public Subject addSubject(Subject subject) {
-		// TODO Auto-generated method stub
-		return null;
+	public Integer addSubject(Subject subject) {
+		StringBuilder sqlText = new StringBuilder(
+				"INSERT INTO SUBJECT (subjectid,organizationid,medicalnumber,subjectname,createdate,birthday,gender,creatememberid) VALUES (");
+		sqlText.append(subject.getSubjectId() + ", ");
+		sqlText.append(subject.getOrganizationId() + ", ");
+		sqlText.append(subject.getMedicalNumber() + ", '");
+		sqlText.append(subject.getSubjectName() + "', '");
+		sqlText.append(subject.getCreatedate() + "', '");
+		sqlText.append(subject.getBirthday() + "', '");
+		sqlText.append(subject.getGender() + "', ");
+		sqlText.append(subject.getCreateMemberId() + ")");
+
+		Integer updateCount = jdbcDAO.update(sqlText.toString());
+
+		return updateCount;
 	}
 
 	@Override
-	public Subject updateSubject(Subject subject) {
-		// TODO Auto-generated method stub
-		return null;
+	public Integer updateSubject(Subject subject) {
+		Integer subjectId = subject.getSubjectId();
+		String subjectName = subject.getSubjectName();
+		Integer medicalNumber = subject.getMedicalNumber();
+		Integer organizationId = subject.getOrganizationId();
+		String gender = subject.getGender();
+		String birthday = subject.getBirthday();
+		String createDate = subject.getCreatedate();
+		Integer createMemberId = subject.getCreateMemberId();
+
+		StringBuilder sqlText = new StringBuilder();
+		sqlText.append("UPDATE SUBJECT SET ");
+		sqlText.append("subjectName = '");
+		sqlText.append(subjectName);
+		sqlText.append("', medicalNumber = '");
+		sqlText.append(medicalNumber);
+		sqlText.append("', organizationId = '");
+		sqlText.append(organizationId);
+		sqlText.append("', gender = '");
+		sqlText.append(gender);
+		sqlText.append("', birthday = '");
+		sqlText.append(birthday);
+		sqlText.append("', createDate = '");
+		sqlText.append(createDate);
+		sqlText.append("', createMemberId = ");
+		sqlText.append(createMemberId);
+		sqlText.append("WHERE subjectId = ");
+		sqlText.append(subjectId);
+
+		Integer updateCount = jdbcDAO.update(sqlText.toString());
+		
+		return updateCount;
 	}
 
 	@Override
 	public Integer deleteSubject(Subject subject) {
-		// TODO Auto-generated method stub
-		return null;
+		Integer subjectId = subject.getSubjectId();
+		String sqlText = "DELETE FROM SUBJECT WHERE subjectId = $P{subjectId}";
+		sqlText = sqlText.replace("$P{subjectId}", subjectId.toString());
+
+		Integer deleteCount = jdbcDAO.update(sqlText);
+
+		return deleteCount;
 	}
 
 }

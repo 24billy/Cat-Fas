@@ -33,10 +33,14 @@ public class LoginController {
 		member = memberService.getMemberByAccount(member);
 
 		Integer roleId = member.getRole().getRoleId();
+		Integer memberId = member.getMemberId();
+		Integer organizationId = member.getOrganization().getOrganizationid();
 
 		if (password.equals(member.getVerifyCode())) {
 			request.setAttribute("result", "true");
 			request.getSession().setAttribute("userName", userName);
+			request.getSession().setAttribute("memberId", memberId);
+			request.getSession().setAttribute("organizationId", organizationId);
 			request.getSession().setAttribute("isLogin", true);
 			request.getSession().setAttribute("roleId", roleId);
 

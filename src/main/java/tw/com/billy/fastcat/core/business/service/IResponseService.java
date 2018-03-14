@@ -1,6 +1,7 @@
 package tw.com.billy.fastcat.core.business.service;
 
 import java.util.List;
+import java.util.Map;
 
 import tw.com.billy.fastcat.core.db.model.Response;
 import tw.com.billy.fastcat.core.db.model.Subject;
@@ -23,12 +24,20 @@ public interface IResponseService {
 	List<Response> getResponseBySubjectId(Subject subject);
 
 	/**
+	 * 根據作答反應代碼取得作答反應
+	 * 
+	 * @param response
+	 * @return
+	 */
+	Response getResponseByResponseId(Response response);
+
+	/**
 	 * 新增作答反應
 	 * 
 	 * @param response
 	 * @return
 	 */
-	Response addResponse(Response response);
+	Integer addResponse(Response response);
 
 	/**
 	 * 更新作答反應
@@ -36,7 +45,7 @@ public interface IResponseService {
 	 * @param response
 	 * @return
 	 */
-	Response updateResponse(Response response);
+	Integer updateResponse(Response response);
 
 	/**
 	 * 刪除作答反應
@@ -45,5 +54,12 @@ public interface IResponseService {
 	 * @return
 	 */
 	Integer deleteResponse(Response response);
+
+	/**
+	 * 取得百分等級資料
+	 * 
+	 * @return
+	 */
+	List<Map<String, Object>> getPercentileLevel();
 
 }

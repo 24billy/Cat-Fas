@@ -12,6 +12,14 @@ public class Response {
 	String startDate;
 	String answer;
 	String choosedItem;
+	String tScore;
+	String se;
+	String upper95;
+	String lower95;
+	String reliability;
+	String examType;
+	String percentileLevel;
+	String ability;
 	Boolean isComplete;
 	Boolean isDelete;
 
@@ -82,11 +90,77 @@ public class Response {
 		this.isDelete = isDelete;
 	}
 
+	public String gettScore() {
+		return tScore;
+	}
+
+	public void settScore(String tScore) {
+		this.tScore = tScore;
+	}
+
+	public String getSe() {
+		return se;
+	}
+
+	public void setSe(String se) {
+		this.se = se;
+	}
+
+	public String getUpper95() {
+		return upper95;
+	}
+
+	public void setUpper95(String upper95) {
+		this.upper95 = upper95;
+	}
+
+	public String getLower95() {
+		return lower95;
+	}
+
+	public void setLower95(String lower95) {
+		this.lower95 = lower95;
+	}
+
+	public String getReliability() {
+		return reliability;
+	}
+
+	public void setReliability(String reliability) {
+		this.reliability = reliability;
+	}
+
+	public String getExamType() {
+		return examType;
+	}
+
+	public void setExamType(String examType) {
+		this.examType = examType;
+	}
+
+	public String getPercentileLevel() {
+		return percentileLevel;
+	}
+
+	public void setPercentileLevel(String percentileLevel) {
+		this.percentileLevel = percentileLevel;
+	}
+
+	public String getAbility() {
+		return ability;
+	}
+
+	public void setAbility(String ability) {
+		this.ability = ability;
+	}
+
 	@Override
 	public String toString() {
 		return "Response [recordId=" + recordId + ", startDate=" + startDate + ", answer=" + answer + ", choosedItem="
-				+ choosedItem + ", isComplete=" + isComplete + ", isDelete=" + isDelete + ", examiner=" + examiner
-				+ ", subject=" + subject + "]";
+				+ choosedItem + ", tScore=" + tScore + ", se=" + se + ", upper95=" + upper95 + ", lower95=" + lower95
+				+ ", reliability=" + reliability + ", examType=" + examType + ", percentileLevel=" + percentileLevel
+				+ ", ability=" + ability + ", isComplete=" + isComplete + ", isDelete=" + isDelete + ", examiner="
+				+ examiner + ", subject=" + subject + "]";
 	}
 
 }

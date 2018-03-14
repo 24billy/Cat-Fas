@@ -58,10 +58,10 @@ function showProgressManagement(subjectId) {
 }
 
 function startHighReliabilityTest(recordId) {
-    console.log("開始高信度測驗:" + recordId);
-    
+	console.log("開始高信度測驗:" + recordId);
+
 	$.ajax({
-		url : "progressManagement/beginExam",
+		url : "cat/beginHighReliabilityExam",
 		type : "POST",
 		data : {
 			recordId : recordId
@@ -76,13 +76,30 @@ function startHighReliabilityTest(recordId) {
 }
 
 function startHighValidityTest(recordId) {
-    console.log("開始高效率測驗:" + recordId);
+	console.log("開始高效率測驗:" + recordId);
+
 	$.ajax({
-		url : "progressManagement/beginExam",
+		url : "cat/beginHighValidityExam",
 		data : {
 			recordId : recordId
 		},
 		type : "POST",
+		error : function(e) {
+
+		},
+		success : function(data) {
+			setContent(data);
+		}
+	});
+}
+
+function chooseItem(answer) {
+	$.ajax({
+		url : "cat/chooseItem",
+		type : "POST",
+		data : {
+			answer : answer
+		},
 		error : function(e) {
 
 		},

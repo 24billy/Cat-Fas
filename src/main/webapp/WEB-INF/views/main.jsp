@@ -55,7 +55,7 @@
 					onclick="showDataManagement()">資料管理</a></li>
 			</ul>
 			<button class="btn btn-outline-success my-2 my-sm-0"
-				onclick="logout()">登出</button>
+				onclick="logout()">${userName}登出</button>
 		</div>
 	</nav>
 	<!-- End navbar -->

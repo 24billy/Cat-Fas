@@ -38,8 +38,34 @@ public class ItemServiceImpl implements IItemService {
 		Double step1 = (Double) resultList.get(0).get("step1");
 		Double step2 = (Double) resultList.get(0).get("step2");
 		Double step3 = (Double) resultList.get(0).get("step3");
+		String engTitle = (String) resultList.get(0).get("engtitle");
+		String chtTitle = (String) resultList.get(0).get("chttitle");
+		String introduction = (String) resultList.get(0).get("introduction");
+		String startPose = (String) resultList.get(0).get("startpose");
+		String option1 = (String) resultList.get(0).get("option1");
+		String option2 = (String) resultList.get(0).get("option2");
+		String option3 = (String) resultList.get(0).get("option3");
+		String option4 = (String) resultList.get(0).get("option4");
 
-		Item item = new Item(id, dimension, categoryNumber, delta, step1, step2, step3);
+		Item item = new Item();
+		item.setItemId(id);
+
+		item.setCategoryNumber(categoryNumber);
+		item.setDimension(dimension);
+		item.setDelta(delta);
+		item.setStep1(step1);
+		item.setStep2(step2);
+		item.setStep3(step3);
+
+		item.setEngTitle(engTitle);
+		item.setChtTitle(chtTitle);
+		item.setIntroduction(introduction);
+		item.setStartPose(startPose);
+
+		item.setOption1(option1);
+		item.setOption2(option2);
+		item.setOption3(option3);
+		item.setOption4(option4);
 
 		return item;
 	}
@@ -50,16 +76,44 @@ public class ItemServiceImpl implements IItemService {
 		List<Map<String, Object>> resultList = jdbcDAO.queryForList(sqltext);
 
 		List<Item> itemList = new ArrayList<Item>();
-		for (Map<String, Object> map : resultList) {
-			Integer id = (Integer) map.get("id");
-			Integer dimension = (Integer) resultList.get(0).get("dimension");
-			Integer categoryNumber = (Integer) map.get("categorynumber");
-			Double delta = (Double) map.get("delta");
-			Double step1 = (Double) map.get("step1");
-			Double step2 = (Double) map.get("step2");
-			Double step3 = (Double) map.get("step3");
 
-			Item item = new Item(id, dimension, categoryNumber, delta, step1, step2, step3);
+		for (int i = 0; i < resultList.size(); i++) {
+			Integer id = (Integer) resultList.get(i).get("id");
+			Integer dimension = (Integer) resultList.get(i).get("dimension");
+			Integer categoryNumber = (Integer) resultList.get(i).get("categorynumber");
+			Double delta = (Double) resultList.get(i).get("delta");
+			Double step1 = (Double) resultList.get(i).get("step1");
+			Double step2 = (Double) resultList.get(i).get("step2");
+			Double step3 = (Double) resultList.get(i).get("step3");
+			String engTitle = (String) resultList.get(i).get("engtitle");
+			String chtTitle = (String) resultList.get(i).get("chttitle");
+			String introduction = (String) resultList.get(i).get("introduction");
+			String startPose = (String) resultList.get(i).get("startpose");
+			String option1 = (String) resultList.get(i).get("option1");
+			String option2 = (String) resultList.get(i).get("option2");
+			String option3 = (String) resultList.get(i).get("option3");
+			String option4 = (String) resultList.get(i).get("option4");
+
+			Item item = new Item();
+			item.setItemId(id);
+
+			item.setCategoryNumber(categoryNumber);
+			item.setDimension(dimension);
+			item.setDelta(delta);
+			item.setStep1(step1);
+			item.setStep2(step2);
+			item.setStep3(step3);
+
+			item.setEngTitle(engTitle);
+			item.setChtTitle(chtTitle);
+			item.setIntroduction(introduction);
+			item.setStartPose(startPose);
+
+			item.setOption1(option1);
+			item.setOption2(option2);
+			item.setOption3(option3);
+			item.setOption4(option4);
+
 			itemList.add(item);
 		}
 

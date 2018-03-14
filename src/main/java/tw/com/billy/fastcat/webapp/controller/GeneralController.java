@@ -26,7 +26,11 @@ public class GeneralController {
 	@RequestMapping("/main")
 	public String showFullFunctionMain(HttpServletRequest request) {
 		Boolean isLogin = (Boolean) request.getSession().getAttribute("isLogin");
-
+		
+		if (isLogin == null || !isLogin) {
+			return "redirect:/";
+		}
+		
 		return "main"; // 頁面導向 /WEB-INF/views/ 搜索檔案類型.jsp
 	}
 

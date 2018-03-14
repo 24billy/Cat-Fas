@@ -25,7 +25,7 @@ public interface ISubjectService {
 	 * @param subject
 	 * @return
 	 */
-	Subject addSubject(Subject subject);
+	Integer addSubject(Subject subject);
 
 	/**
 	 * 編輯受試者資料
@@ -33,7 +33,7 @@ public interface ISubjectService {
 	 * @param subject
 	 * @return
 	 */
-	Subject updateSubject(Subject subject);
+	Integer updateSubject(Subject subject);
 
 	/**
 	 * 刪除受試者資料

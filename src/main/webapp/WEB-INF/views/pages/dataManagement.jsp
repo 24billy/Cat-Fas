@@ -256,8 +256,8 @@
 			var birthday = testObject.birthday;
 
 			var $tr = '<tr id="data-' + id + '">';
-			var $td = '<td>' + id + '</td><td>';
-			$td += medicalNumber + '</td>';
+			var $td = '<td>' + id + '</td>';
+			$td += '<td>' + medicalNumber + '</td>';
 			$td += '<td>' + name + '</td>';
 			$td += '<td>' + gender + '</td>';
 			$td += '<td>' + birthday + '</td>';
@@ -274,96 +274,75 @@
 			$("#testDataTable tbody").append($tr);
 		},
 		insert : function() {
-			var id = currentId;
 			var medicalNumber = $("#medicalNumber").val();
 			var name = $("#name").val();
 			var gender = $("#gender").val();
 			var birthday = $("#birthday").val();
 
-			var testDataObject = {};
-			testDataObject.id = id;
-			testDataObject.medicalNumber = medicalNumber;
-			testDataObject.name = name;
-			testDataObject.gender = gender;
-			testDataObject.birthday = birthday;
-			testData.dataList.push(testDataObject);
+			$.ajax({
+				url : "dataManagement/addSubject",
+				type : "POST",
+				data : {
+					medicalNumber : medicalNumber,
+					name : name,
+					gender : gender,
+					birthday : birthday
+				},
+				error : function(e) {
 
-			var table = $("#testDataTable").DataTable();
-			var node = table.row
-					.add(
-							[
-									'<td>' + id + '</td>',
-									'<td>' + medicalNumber + '</td>',
-									'<td>' + name + '</td>',
-									'<td>' + gender + '</td>',
-									'<td>' + birthday + '</td>',
-									function() {
-										var $td = '<td>';
-										$td += '<button class="btn-success marginButton" onclick="startTest('
-												+ id + ')">開始</button> ';
+				},
+				success : function(data) {
+					showDataManagement();
+				}
+			});
 
-										$td += '</td>';
-
-										return $td;
-									},
-									function() {
-										var $td = '<td>';
-										$td += '<button class="btn-warning marginButton" onclick="showUpdateRow(this)">編輯</button> ';
-										$td += '<button class="btn-danger marginButton" onclick="showDeleteRow(this)">刪除</button>';
-										$td += '</td>';
-
-										return $td;
-									} ]).draw(true).node();
-
-			$(node).attr("id", 'data-' + currentId);
 			$("#insertTestData").modal("hide");
-
-			currentId++;
 		},
 		update : function() {
-			var id = $("#updateId").val();
-			var medicalNumber = $("#updateMedicalNumber").val();
-			var name = $("#updateName").val();
-			var gender = $("#updateGender").val();
-			var birthday = $("#updateBirthday").val();
-
-			$("#testDataTable tbody tr#data-" + id).find('td:nth-child(2)')
-					.html(medicalNumber);
-			$("#testDataTable tbody tr#data-" + id).find('td:nth-child(3)')
-					.html(name);
-			$("#testDataTable tbody tr#data-" + id).find('td:nth-child(4)')
-					.html(gender);
-			$("#testDataTable tbody tr#data-" + id).find('td:nth-child(5)')
-					.html(birthday);
-
-			for (key in testData.dataList) {
-				if (testData.dataList[key].id == id) {
-					var data = testData.dataList[key];
-					data.medicalNumber = medicalNumber;
-					data.name = name;
-					break;
-				}
-			}
+			var updateId = $("#updateId").val();
+			var updateMedicalNumber = $("#updateMedicalNumber").val();
+			var updateName = $("#updateName").val();
+			var updateGender = $("#updateGender").val();
+			var updateBirthday = $("#updateBirthday").val();
 
 			$("#updateTestData").modal("hide");
+
+			$.ajax({
+				url : "dataManagement/updateSubject",
+				type : "POST",
+				data : {
+					subjectId : updateId,
+					medicalNumber : updateMedicalNumber,
+					name : updateName,
+					gender : updateGender,
+					birthday : updateBirthday
+				},
+				error : function(e) {
+
+				},
+				success : function(data) {
+					showDataManagement();
+				}
+			});
 		},
 		deleteData : function() {
 			var id = $("#deleteId").html();
-			var table = $("#testDataTable").DataTable();
-			var deleteObject = $("#testDataTable tbody tr#data-" + id);
-
-			table.row(deleteObject).remove().draw();
-
-			for (key in testData.dataList) {
-				if (testData.dataList[key].id == id) {
-					var array = testData.dataList;
-					var index = array.indexOf(testData.dataList[key]);
-					array.splice(index, 1);
-					break;
-				}
-			}
 
 			$("#deleteModal").modal("hide");
+
+			$.ajax({
+				url : "dataManagement/deleteSubject",
+				type : "POST",
+				data : {
+					subjectId : id
+				},
+				error : function(e) {
+
+				},
+				success : function(data) {
+					showDataManagement();
+				}
+			});
 		}
 	}
 
@@ -401,10 +380,6 @@
 
 	function showMessage() {
 		$('#messageButton').trigger("click");
-	}
-
-	function startTest(target) {
-		showProgressManagement();
 	}
 
 	function exportData() {

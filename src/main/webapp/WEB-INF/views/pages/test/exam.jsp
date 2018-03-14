@@ -4,45 +4,17 @@
 <!-- Begin Content -->
 <div class="row">
 	<div class="card col-md-12">
-		<div class="card-header bg-info text-white text-center">第1題</div>
+		<div class="card-header bg-info text-white text-center" id="itemIndex">第${itemIndex}題</div>
 		<div class="card-body bg-dark">
 			<ul class="list-group">
-				<li class="list-group-item">向度：平衡</li>
-				<li class="list-group-item">題目：無扶持下坐立</li>
-				<li class="list-group-item">指導語：腳須踩在地板上</li>
+				<li class="list-group-item" id="itemDimension">向度：</li>
+				<li class="list-group-item" id="title">題目：</li>
+				<li class="list-group-item" id="itemIntroduction">指導語：</li>
 			</ul>
 		</div>
 		<div class="card-body bg-dark">
 			<form>
-				<ul class="list-group">
-					<li class="list-group-item border exam-item"
-						onclick="changeColor(this)"><label
-						class="custom-control custom-radio"> <input name="answer"
-							type="radio" class="custom-control-input" id="option1" value="0">
-							<span class="custom-control-indicator"></span> <span
-							class="custom-control-description">0 無法坐立</span>
-					</label></li>
-					<li class="list-group-item border exam-item"
-						onclick="changeColor(this)"><label
-						class="custom-control custom-radio"> <input name="answer"
-							type="radio" class="custom-control-input" id="option2" value="1">
-							<span class="custom-control-indicator"></span> <span
-							class="custom-control-description">1 需些微扶持下始能坐立，如他人以單手幫忙</span>
-					</label></li>
-					<li class="list-group-item border exam-item"
-						onclick="changeColor(this)"><label
-						class="custom-control custom-radio"> <input name="answer"
-							type="radio" class="custom-control-input" id="option3" value="2">
-							<span class="custom-control-indicator"></span> <span
-							class="custom-control-description">2 沒有扶持下，可以坐立超過10秒鐘</span>
-					</label></li>
-					<li class="list-group-item border exam-item"
-						onclick="changeColor(this)"><label
-						class="custom-control custom-radio"> <input name="answer"
-							type="radio" class="custom-control-input" id="option4" value="3">
-							<span class="custom-control-indicator"></span> <span
-							class="custom-control-description">3 沒有扶持下，可以坐立超過5分鐘</span>
-					</label></li>
+				<ul class="list-group" id="itemList">
 				</ul>
 			</form>
 		</div>
@@ -79,6 +51,97 @@
 </div>
 
 <script>
+	var examType = '${examType}';
+	var itemStr = '${item}';
+	var abilityStr = '${ability}';
+	var record = '${record}';
+
+	$(document).ready(function() {
+		if (abilityStr && abilityStr != "") {
+			var ability = JSON.parse(abilityStr);
+			console.log(ability);
+		}
+
+		generateItem(itemStr);
+	});
+
+	function generateItem(itemStr) {
+		var item = JSON.parse(itemStr);
+		console.log(item);
+
+		var dimension = item.dimension;
+		var dimensionStr = "";
+		var title = "";
+		if (item.chtTitle) {
+			title = item.chtTitle; 
+		} else if (item.engTitle) {
+			title = item.engTitle;
+		}
+		
+		if (1 == dimension) {
+			dimensionStr = "向度：上肢動作";
+		} else if (2 == dimension) {
+			dimensionStr = "向度：下肢動作";
+		} else if (3 == dimension) {
+			dimensionStr = "向度：平衡";
+		} else if (4 == dimension) {
+			dimensionStr = "向度：日常生活活動";
+		}
+		
+		$("#itemDimension").html(dimensionStr);
+		$("#title").html("題目：" + title);
+
+		if (item.introduction) {
+			$("#itemIntroduction").html("指導語：" + item.introduction);	
+		}
+		
+		$("#itemList").html("");
+
+		if (item.option1) {
+			var $option1 = '<li class="list-group-item border exam-item" onclick="changeColor(this)">';
+			$option1 += '<label class="custom-control custom-radio">';
+			$option1 += '<input name="answer" type="radio" class="custom-control-input" id="option1" value="0">';
+			$option1 += '<span class="custom-control-indicator"></span>';
+			$option1 += '<span class="custom-control-description">'
+					+ item.option1 + '</span></label></li>'
+
+			$("#itemList").append($option1);
+		}
+
+		if (item.option2) {
+			var $option2 = '<li class="list-group-item border exam-item" onclick="changeColor(this)">';
+			$option2 += '<label class="custom-control custom-radio">';
+			$option2 += '<input name="answer" type="radio" class="custom-control-input" id="option2" value="1">';
+			$option2 += '<span class="custom-control-indicator"></span>';
+			$option2 += '<span class="custom-control-description">'
+					+ item.option2 + '</span></label></li>'
+
+			$("#itemList").append($option2);
+		}
+
+		if (item.option3) {
+			var $option3 = '<li class="list-group-item border exam-item" onclick="changeColor(this)">';
+			$option3 += '<label class="custom-control custom-radio">';
+			$option3 += '<input name="answer" type="radio" class="custom-control-input" id="option3" value="2">';
+			$option3 += '<span class="custom-control-indicator"></span>';
+			$option3 += '<span class="custom-control-description">'
+					+ item.option3 + '</span></label></li>'
+
+			$("#itemList").append($option3);
+		}
+
+		if (item.option4) {
+			var $option4 = '<li class="list-group-item border exam-item" onclick="changeColor(this)">';
+			$option4 += '<label class="custom-control custom-radio">';
+			$option4 += '<input name="answer" type="radio" class="custom-control-input" id="option4" value="3">';
+			$option4 += '<span class="custom-control-indicator"></span>';
+			$option4 += '<span class="custom-control-description">'
+					+ item.option4 + '</span></label></li>'
+
+			$("#itemList").append($option4);
+		}
+	}
+
 	function changeColor(target) {
 		// remove and add selected option style
 		clearColor();
@@ -99,6 +162,8 @@
 
 		if ($checkedItem.val() && $checkedItem.val() != undefined) {
 			console.log("送出選項：" + $checkedItem.val());
+			chooseItem($checkedItem.val());
+
 			//window.location.href = "exam2.html";
 		} else {
 			$("#messageButton").trigger("click");

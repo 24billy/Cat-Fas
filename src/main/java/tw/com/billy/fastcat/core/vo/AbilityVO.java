@@ -1,4 +1,4 @@
-package tw.com.billy.fastcat;
+package tw.com.billy.fastcat.core.vo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,6 +13,11 @@ public class AbilityVO {
 	Integer iterateTimes;
 	List<Double> se;
 	List<Double> reliability;
+
+	List<Double> tScore;
+	List<Double> criUpper;
+	List<Double> criLower;
+	List<Integer> percentileLevel;
 
 	public Double[] getAbility() {
 		return ability;
@@ -70,6 +75,38 @@ public class AbilityVO {
 		this.reliability = reliability;
 	}
 
+	public List<Double> gettScore() {
+		return tScore;
+	}
+
+	public void settScore(List<Double> tScore) {
+		this.tScore = tScore;
+	}
+
+	public List<Double> getCriUpper() {
+		return criUpper;
+	}
+
+	public void setCriUpper(List<Double> criUpper) {
+		this.criUpper = criUpper;
+	}
+
+	public List<Double> getCriLower() {
+		return criLower;
+	}
+
+	public void setCriLower(List<Double> criLower) {
+		this.criLower = criLower;
+	}
+
+	public List<Integer> getPercentileLevel() {
+		return percentileLevel;
+	}
+
+	public void setPercentileLevel(List<Integer> percentileLevel) {
+		this.percentileLevel = percentileLevel;
+	}
+
 	public void showAbility(Double[] ability) {
 		for (int i = 0; i < ability.length; i++) {
 			if (i == 0) {
@@ -101,6 +138,10 @@ public class AbilityVO {
 	}
 
 	public List<List<Double>> getInformaionMatrix(Double[][] infomationMatrix) {
+		if (infomationMatrix == null) {
+			return null;
+		}
+		
 		List<List<Double>> infomation = new ArrayList<List<Double>>();
 		for (Double[] row : infomationMatrix) {
 			List<Double> unit = new ArrayList<Double>();
@@ -119,7 +160,8 @@ public class AbilityVO {
 		return "AbilityVO [" + "iterateTimes=" + iterateTimes.toString() + ", isConverged=" + isConverged + "\n"
 				+ "ability=" + Arrays.toString(ability) + "\n" + "originalAbility=" + Arrays.toString(originalAbility)
 				+ "\n" + "infomationMatrix=" + getInformaionMatrix(infomationMatrix) + "\n" + "se=" + se + "\n"
-				+ "reliability=" + reliability + "\n" + "]";
+				+ "reliability=" + reliability + "\n" + "tScore=" + tScore + "\n" + "criUpper=" + criUpper + "\n"
+				+ "cirLower=" + criLower + "\n" + "percentileLevel=" + percentileLevel + "\n" + "]";
 	}
 
 }

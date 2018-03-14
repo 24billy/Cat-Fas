@@ -27,6 +27,7 @@
 								<td>所屬單位</td>
 								<td>身份</td>
 								<td>角色</td>
+								<td>密碼</td>
 								<td>功能</td>
 							</tr>
 						</thead>
@@ -71,9 +72,6 @@
 					<div class="form-group col-md-6">
 						<label for="organization" class="form-control-label">所屬單位:</label>
 						<select class="form-control" id="organization">
-							<option>台大</option>
-							<option>中山</option>
-							<option>台北市政府</option>
 						</select>
 					</div>
 
@@ -84,10 +82,14 @@
 					<div class="form-group col-md-6">
 						<label for="role" class="form-control-label">角色:</label> <select
 							class="form-control" id="role">
-							<option>主試者</option>
-							<option>管理員</option>
+							<option value="1">主試者</option>
+							<option value="2">管理員</option>
 						</select>
 
+					</div>
+					<div class="form-group col-md-6">
+						<label for="verifyCode" class="form-control-label">密碼:</label> <input
+							type="password" class="form-control" id="verifyCode">
 					</div>
 				</form>
 			</div>
@@ -131,10 +133,6 @@
 					<div class="form-group col-md-6">
 						<label for="updateOrganization" class="form-control-label">所屬單位:</label>
 						<select class="form-control" id="updateOrganization">
-							<option>台大</option>
-							<option>中山</option>
-							<option>中正</option>
-							<option>台北市政府</option>
 						</select>
 					</div>
 
@@ -145,10 +143,14 @@
 					<div class="form-group col-md-6">
 						<label for="updateRole" class="form-control-label">角色:</label> <select
 							class="form-control" id="updateRole">
-							<option>主試者</option>
-							<option>管理員</option>
+							<option value="1">管理員</option>
+							<option value="2">主試者</option>
 						</select>
 
+					</div>
+					<div class="form-group col-md-6">
+						<label for="updateVerifyCode" class="form-control-label">密碼:</label> <input
+							type="password" class="form-control" id="updateVerifyCode">
 					</div>
 				</form>
 			</div>
@@ -218,51 +220,71 @@
 </div>
 
 <script type="text/javascript">
+	var data = '${memberList}';
+	var organizationData = '${organizationList}';
+	
 	$(document).ready(function() {
-		member.init();
+		member.dataList = JSON.parse(data);
 
+		for (key in member.dataList) {
+			member.renderHtml(member.dataList[key]);
+		}
+		
 		$("#examinerTable").DataTable({
 			responsive : true
 		});
+		
+		generateOrganization();
 	});
+	
+	function generateOrganization() {
+		var organizationList = JSON.parse(organizationData);
+
+		for (key in organizationList) {
+			var organizationid = organizationList[key].organizationid;
+			var name = organizationList[key].name;
+			var isVisible = organizationList[key].isVisible;
+
+			var $option = '<option value=' + organizationid + '>';
+			$option += name;
+			$option += '</option>';
+			
+			if (isVisible) {
+				$('#organization').append($option); // 新增
+				$('#updateOrganization').append($option);; // 編輯				
+			}
+		}
+	}
+	
 	var currentId = 5;
 	var member = {
 		dataList : [],
 		init : function() {
 			var data = {};
-			data.id = "1";
+			data.memberId = "1";
 			data.account = "admin";
 			data.name = "管理者";
-			data.organization = "台大";
+			data.organization.name = "台大";
 			data.identity = "治療師";
-			data.role = "管理者";
+			data.role.roleName = "管理者";
 			member.dataList.push(data);
 
 			var data = {};
-			data.id = "2";
+			data.memberId = "2";
 			data.account = "kp";
 			data.name = "柯p";
-			data.organization = "台北市政府";
+			data.organization.name = "台北市政府";
 			data.identity = "市長";
-			data.role = "主試者";
+			data.role.roleName = "主試者";
 			member.dataList.push(data);
 
 			var data = {};
-			data.id = "3";
+			data.memberId = "3";
 			data.account = "Billy";
 			data.name = "Billy";
-			data.organization = "中正";
+			data.organization.name = "中正";
 			data.identity = "畢業生";
-			data.role = "管理者";
-			member.dataList.push(data);
-
-			var data = {};
-			data.id = "4";
-			data.account = "Allen";
-			data.name = "Allen";
-			data.organization = "中正";
-			data.identity = "畢業生";
-			data.role = "管理者";
+			data.role.roleName = "管理者";
 			member.dataList.push(data);
 
 			for (key in member.dataList) {
@@ -270,14 +292,16 @@
 			}
 		},
 		renderHtml : function(memberObject) {
-			var id = memberObject.id;
+			var id = memberObject.memberId;
 			var account = memberObject.account;
 			var name = memberObject.name;
-			var organization = memberObject.organization;
+			var organizationId = memberObject.organization.organizationid;
+			var organization = memberObject.organization.name;
 			var identity = memberObject.identity;
-			var role = memberObject.role;
+			var verifyCode = memberObject.verifyCode;
+			var role = memberObject.role.roleName;
 
-			var $tr = '<tr id="data-' + id + '">';
+			var $tr = '<tr id="data-' + id + '" organizationid="' + organizationId +  '">';
 			var $td = '<td>';
 			$td += id + '</td>';
 			$td += '<td>' + account + '</td>';
@@ -285,7 +309,7 @@
 			$td += '<td>' + organization + '</td>';
 			$td += '<td>' + identity + '</td>';
 			$td += '<td>' + role + '</td>';
-
+			$td += '<td>' + verifyCode + '</td>';
 			$td += '<td>';
 			$td += '<button class="btn-warning marginButton" onclick="showUpdateRow(this)">編輯</button> ';
 			$td += '<button class="btn-danger marginButton" onclick="showDeleteRow(this)">刪除</button>';
@@ -295,98 +319,80 @@
 			$("#examinerTable tbody").append($tr);
 		},
 		insert : function() {
-			var id = currentId;
 			var account = $("#account").val();
 			var name = $("#name").val();
 			var organization = $("#organization").val();
 			var identity = $("#identity").val();
 			var role = $("#role").val();
-
-			var memberObject = {};
-			memberObject.id = id;
-			memberObject.account = account;
-			memberObject.name = name;
-			memberObject.organization = organization;
-			memberObject.identity = identity;
-			memberObject.role = role;
-			member.dataList.push(memberObject);
-
-			var table = $("#examinerTable").DataTable();
-			var node = table.row
-					.add(
-							[
-									'<td>' + currentId + '</td>',
-									'<td>' + account + '</td>',
-									'<td>' + name + '</td>',
-									'<td>' + organization + '</td>',
-									'<td>' + identity + '</td>',
-									'<td>' + role + '</td>',
-									function() {
-										var $td = '<td>';
-										$td += '<button class="btn-warning marginButton" onclick="showUpdateRow(this)">編輯</button> ';
-										$td += '<button class="btn-danger marginButton" onclick="showDeleteRow(this)">刪除</button>';
-										$td += '</td>';
-
-										return $td;
-									} ]).draw(true).node();
-
-			$(node).attr("id", 'data-' + currentId);
+			var verifyCode = $("#verifyCode").val();
+			
 			$("#insertMember").modal("hide");
+			
+			$.ajax({
+				url : "member/addMember",
+				type : "POST",
+				data : {
+					organizationId : organization,
+					roleId : role,
+					account : account,
+					name : name,
+					identity : identity,
+					verifyCode : verifyCode
+				},
+				error : function(e) {
 
-			currentId++;
+				},
+				success : function(data) {
+					showMember();
+				}
+			});
 		},
 		update : function() {
-			var id = $("#updateMemberId").val();
-			var account = $("#updateAccount").val();
-			var name = $("#updateName").val();
-			var organization = $("#updateOrganization").val();
-			var identity = $("#updateIdentity").val();
-			var role = $("#updateIRole").val();
-
-			$("#examinerTable tbody tr#data-" + id).find('td:nth-child(2)')
-					.html(account);
-			$("#examinerTable tbody tr#data-" + id).find('td:nth-child(3)')
-					.html(name);
-			$("#examinerTable tbody tr#data-" + id).find('td:nth-child(4)')
-					.html(organization);
-			$("#examinerTable tbody tr#data-" + id).find('td:nth-child(5)')
-					.html(identity);
-			$("#examinerTable tbody tr#data-" + id).find('td:nth-child(6)')
-					.html(role);
-
-			// update
-			for (key in member.dataList) {
-				if (id == member.dataList[key].id) {
-					member.dataList[key].account = account;
-					member.dataList[key].name = name;
-					member.dataList[key].organization = organization;
-					member.dataList[key].identity = identity;
-					member.dataList[key].role = role;
-
-					break;
-				}
-			}
+			var updateId = $("#updateMemberId").val();
+			var updateName = $("#updateName").val();
+			var updateOrganization = $("#updateOrganization").val();
+			var updateIdentity = $("#updateIdentity").val();
+			var updateRole = $("#updateRole").val();
+			var updateVerifyCode = $("#updateVerifyCode").val();
 
 			$("#updateMember").modal("hide");
+			
+			$.ajax({
+				url : "member/updateMember",
+				type : "POST",
+				data : {
+					memberId : updateId,
+					name : updateName,
+					organizationId : updateOrganization,
+					roleId : updateRole,
+					identity : updateIdentity,
+					verifyCode : updateVerifyCode
+				},
+				error : function(e) {
+
+				},
+				success : function(data) {
+					showMember();
+				}
+			});
 		},
 		remove : function() {
 			var id = $("#deleteId").html();
-			var table = $("#examinerTable").DataTable();
-			var deleteObject = $("#examinerTable tbody tr#data-" + id);
-
-			// 刪除資料
-			for (key in member.dataList) {
-				if (id == member.dataList[key].id) {
-					var array = member.dataList;
-					var index = array.indexOf(member.dataList[key]);
-					array.splice(index, 1);
-
-					break;
-				}
-			}
-
-			table.row(deleteObject).remove().draw();
 			$("#deleteModal").modal("hide");
+			console.log(id);
+			$.ajax({
+				url : "member/deleteMember",
+				type : "POST",
+				data : {
+					memberId : id
+				},
+				error : function(e) {
+
+				},
+				success : function(data) {
+					showMember();
+				}
+			});
 		}
 	};
 
@@ -403,16 +409,18 @@
 		var id = memberRow.find('td:nth-child(1)').html();
 		var account = memberRow.find('td:nth-child(2)').html();
 		var name = memberRow.find('td:nth-child(3)').html();
-		var organization = memberRow.find('td:nth-child(4)').html();
 		var identity = memberRow.find('td:nth-child(5)').html();
 		var role = memberRow.find('td:nth-child(6)').html();
-
+		var verifyCode = memberRow.find('td:nth-child(7)').html();
+		var organization = memberRow.attr("organizationid");
+		
 		$("#updateMemberId").val(id);
 		$("#updateAccount").val(account);
 		$("#updateName").val(name);
 		$("#updateOrganization").val(organization);
 		$("#updateIdentity").val(identity);
 		$("#updateIRole").val(role);
+		$("#updateIverifyCode").val(verifyCode);
 
 		$("#updateButton").trigger("click");
 	}

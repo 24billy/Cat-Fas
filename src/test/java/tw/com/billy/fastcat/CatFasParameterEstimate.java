@@ -6,9 +6,23 @@ import java.util.List;
 
 import org.ejml.simple.SimpleMatrix;
 
+import tw.com.billy.fastcat.core.common.Constant;
+import tw.com.billy.fastcat.core.vo.AbilityVO;
+
 public class CatFasParameterEstimate {
 
 	public static void main(String[] args) {
+		AbilityVO aa = new AbilityVO();
+		aa.setIterateTimes(0);
+		aa.setOriginalAbility(new Double[] { 2.837729358, 3.31842464, 1.467611928, -0.216285 });
+		List<Double> seList = new ArrayList<Double>();
+		seList.add(4.105942147);
+		seList.add(3.792433056);
+		seList.add(2.783096856);
+		seList.add(1.384162349);
+		aa.setSe(seList);
+		getTscore(aa);
+		System.out.println(aa);
 		// Double stopingRule1 = new Double(0.01d);
 		// Double stopingRule2 = new Double(0.02d);
 
@@ -16,7 +30,7 @@ public class CatFasParameterEstimate {
 		// }, { 48.56, 37.564, 19.128, 10.252 },{ 24.876, 19.128, 13.829, 7.246
 		// }, { 14.72, 10.252, 7.246, 4.046 } };
 		Double[] muArray = new Double[] { -0.858d, 1.086d, 0.324d, -0.893 };
-		Double[] tVar = new Double[] { 59.8037, 29.5658, 11.756, 3.3292 };
+		// Double[] tVar = new Double[] { 59.8037, 29.5658, 11.756, 3.3292 };
 		// scoring matrix 不同項度有各自的scoring matrix
 		List<Double[][]> scoringMatrixList = new ArrayList<Double[][]>();
 		Double[][] scoringMatrix1 = new Double[][] { { 0d, 0d, 0d, 0d }, { 1d, 0d, 0d, 0d }, { 2d, 0d, 0d, 0d },
@@ -227,7 +241,7 @@ public class CatFasParameterEstimate {
 		ability.setIterateTimes(1);
 		// System.out.println(ability);
 
-		while (!ability.isConverged) {
+		while (!ability.getIsConverged()) {
 			Integer count = ability.getIterateTimes();
 
 			if (count < 30) {
@@ -241,8 +255,37 @@ public class CatFasParameterEstimate {
 		}
 
 		getReliability(ability, new Double[] { 59.8037, 29.5658, 11.756, 3.3292 });
-		
+
 		return ability;
+	}
+
+	public static void getTscore(AbilityVO ability) {
+		// =((ability-PriorAbilityAverate)/SQRT(PriortVar))*10 + 50
+		List<Double> tScore = new ArrayList<Double>();
+		for (int i = 0; i < 4; i++) {
+			double t = (ability.getOriginalAbility()[i] - Constant.abilityAverage[i]) / Math.sqrt(Constant.tVar[i]) * 10
+					+ 50;
+			tScore.add(t);
+		}
+
+		ability.settScore(tScore);
+
+		// =(((ability+1.96*se)-PriorAbilityAverate)/SQRT(PriortVar))*10+50
+		// =(((ability-1.96*E2)-PriorAbilityAverate)/SQRT(PriortVar))*10+50
+		List<Double> criUpper = new ArrayList<Double>();
+		List<Double> criLower = new ArrayList<Double>();
+		for (int i = 0; i < 4; i++) {
+			double upper = ((ability.getOriginalAbility()[i] + (1.96 * ability.getSe().get(i))
+					- Constant.abilityAverage[i]) / Math.sqrt(Constant.tVar[i])) * 10 + 50;
+			criUpper.add(upper);
+
+			double lower = ((ability.getOriginalAbility()[i] - (1.96 * ability.getSe().get(i))
+					- Constant.abilityAverage[i]) / Math.sqrt(Constant.tVar[i])) * 10 + 50;
+			criLower.add(lower);
+		}
+
+		ability.setCriUpper(criUpper);
+		ability.setCriLower(criLower);
 	}
 
 	public static void getReliability(AbilityVO ability, Double[] tVar) {
@@ -410,51 +453,59 @@ public class CatFasParameterEstimate {
 		 * 12*21*34*43 13*22*31*44 14*23*32*41
 		 */
 		List<Double> determinantList = new ArrayList<Double>();
-		
+
 		for (int i = 0; i < informationMatrix.size(); i++) {
 			Double determinant = new SimpleMatrix(informationMatrix.get(i)).determinant();
 			determinantList.add(determinant);
 			/**
-			Double determinant = 0d;
-			determinant += informationMatrix.get(i)[0][0]
-					* (informationMatrix.get(i)[1][1] * informationMatrix.get(i)[2][2] * informationMatrix.get(i)[3][3]
-							+ informationMatrix.get(i)[1][2] * informationMatrix.get(i)[2][3]
-									* informationMatrix.get(i)[3][1]
-					+ informationMatrix.get(i)[1][3] * informationMatrix.get(i)[2][1] * informationMatrix.get(i)[3][2]
-					- informationMatrix.get(i)[1][3] * informationMatrix.get(i)[2][2] * informationMatrix.get(i)[3][1]
-					- informationMatrix.get(i)[1][2] * informationMatrix.get(i)[2][1] * informationMatrix.get(i)[3][3]
-					- informationMatrix.get(i)[1][1] * informationMatrix.get(i)[2][3] * informationMatrix.get(i)[3][2]);
-
-			determinant -= informationMatrix.get(i)[0][1]
-					* (informationMatrix.get(i)[1][0] * informationMatrix.get(i)[2][2] * informationMatrix.get(i)[3][3]
-							+ informationMatrix.get(i)[1][2] * informationMatrix.get(i)[2][3]
-									* informationMatrix.get(i)[3][0]
-					+ informationMatrix.get(i)[1][3] * informationMatrix.get(i)[2][0] * informationMatrix.get(i)[3][2]
-					- informationMatrix.get(i)[1][3] * informationMatrix.get(i)[2][2] * informationMatrix.get(i)[3][0]
-					- informationMatrix.get(i)[1][2] * informationMatrix.get(i)[2][0] * informationMatrix.get(i)[3][3]
-					- informationMatrix.get(i)[1][0] * informationMatrix.get(i)[2][3] * informationMatrix.get(i)[3][2]);
-
-			determinant += informationMatrix.get(i)[0][2]
-					* (informationMatrix.get(i)[1][0] * informationMatrix.get(i)[2][1] * informationMatrix.get(i)[3][3]
-							+ informationMatrix.get(i)[1][1] * informationMatrix.get(i)[2][3]
-									* informationMatrix.get(i)[3][0]
-					+ informationMatrix.get(i)[1][3] * informationMatrix.get(i)[2][0] * informationMatrix.get(i)[3][1]
-					- informationMatrix.get(i)[1][3] * informationMatrix.get(i)[2][1] * informationMatrix.get(i)[3][0]
-					- informationMatrix.get(i)[1][1] * informationMatrix.get(i)[2][0] * informationMatrix.get(i)[3][3]
-					- informationMatrix.get(i)[1][0] * informationMatrix.get(i)[2][3] * informationMatrix.get(i)[3][1]);
-
-			determinant -= informationMatrix.get(i)[0][3]
-					* (informationMatrix.get(i)[1][0] * informationMatrix.get(i)[2][1] * informationMatrix.get(i)[3][2]
-							+ informationMatrix.get(i)[1][1] * informationMatrix.get(i)[2][2]
-									* informationMatrix.get(i)[3][0]
-					+ informationMatrix.get(i)[1][2] * informationMatrix.get(i)[2][0] * informationMatrix.get(i)[3][1]
-					- informationMatrix.get(i)[1][2] * informationMatrix.get(i)[2][1] * informationMatrix.get(i)[3][0]
-					- informationMatrix.get(i)[1][1] * informationMatrix.get(i)[2][0] * informationMatrix.get(i)[3][2]
-					- informationMatrix.get(i)[1][0] * informationMatrix.get(i)[2][2] * informationMatrix.get(i)[3][1]);
-
-
-			determinantList.add(determinant);
-			*/
+			 * Double determinant = 0d; determinant +=
+			 * informationMatrix.get(i)[0][0] (informationMatrix.get(i)[1][1] *
+			 * informationMatrix.get(i)[2][2] * informationMatrix.get(i)[3][3] +
+			 * informationMatrix.get(i)[1][2] * informationMatrix.get(i)[2][3]
+			 * informationMatrix.get(i)[3][1] + informationMatrix.get(i)[1][3] *
+			 * informationMatrix.get(i)[2][1] * informationMatrix.get(i)[3][2] -
+			 * informationMatrix.get(i)[1][3] * informationMatrix.get(i)[2][2] *
+			 * informationMatrix.get(i)[3][1] - informationMatrix.get(i)[1][2] *
+			 * informationMatrix.get(i)[2][1] * informationMatrix.get(i)[3][3] -
+			 * informationMatrix.get(i)[1][1] * informationMatrix.get(i)[2][3] *
+			 * informationMatrix.get(i)[3][2]);
+			 * 
+			 * determinant -= informationMatrix.get(i)[0][1]
+			 * (informationMatrix.get(i)[1][0] * informationMatrix.get(i)[2][2]
+			 * * informationMatrix.get(i)[3][3] + informationMatrix.get(i)[1][2]
+			 * * informationMatrix.get(i)[2][3] informationMatrix.get(i)[3][0] +
+			 * informationMatrix.get(i)[1][3] * informationMatrix.get(i)[2][0] *
+			 * informationMatrix.get(i)[3][2] - informationMatrix.get(i)[1][3] *
+			 * informationMatrix.get(i)[2][2] * informationMatrix.get(i)[3][0] -
+			 * informationMatrix.get(i)[1][2] * informationMatrix.get(i)[2][0] *
+			 * informationMatrix.get(i)[3][3] - informationMatrix.get(i)[1][0] *
+			 * informationMatrix.get(i)[2][3] * informationMatrix.get(i)[3][2]);
+			 * 
+			 * determinant += informationMatrix.get(i)[0][2]
+			 * (informationMatrix.get(i)[1][0] * informationMatrix.get(i)[2][1]
+			 * * informationMatrix.get(i)[3][3] + informationMatrix.get(i)[1][1]
+			 * * informationMatrix.get(i)[2][3] informationMatrix.get(i)[3][0] +
+			 * informationMatrix.get(i)[1][3] * informationMatrix.get(i)[2][0] *
+			 * informationMatrix.get(i)[3][1] - informationMatrix.get(i)[1][3] *
+			 * informationMatrix.get(i)[2][1] * informationMatrix.get(i)[3][0] -
+			 * informationMatrix.get(i)[1][1] * informationMatrix.get(i)[2][0] *
+			 * informationMatrix.get(i)[3][3] - informationMatrix.get(i)[1][0] *
+			 * informationMatrix.get(i)[2][3] * informationMatrix.get(i)[3][1]);
+			 * 
+			 * determinant -= informationMatrix.get(i)[0][3]
+			 * (informationMatrix.get(i)[1][0] * informationMatrix.get(i)[2][1]
+			 * * informationMatrix.get(i)[3][2] + informationMatrix.get(i)[1][1]
+			 * * informationMatrix.get(i)[2][2] informationMatrix.get(i)[3][0] +
+			 * informationMatrix.get(i)[1][2] * informationMatrix.get(i)[2][0] *
+			 * informationMatrix.get(i)[3][1] - informationMatrix.get(i)[1][2] *
+			 * informationMatrix.get(i)[2][1] * informationMatrix.get(i)[3][0] -
+			 * informationMatrix.get(i)[1][1] * informationMatrix.get(i)[2][0] *
+			 * informationMatrix.get(i)[3][2] - informationMatrix.get(i)[1][0] *
+			 * informationMatrix.get(i)[2][2] * informationMatrix.get(i)[3][1]);
+			 * 
+			 * 
+			 * determinantList.add(determinant);
+			 */
 		}
 
 		System.out.println("Max information value : " + Collections.max(determinantList));
@@ -630,7 +681,7 @@ public class CatFasParameterEstimate {
 		// printDoubleMatrix(informaionMatrixSum);
 
 		SimpleMatrix invereTwoLevelMap = new SimpleMatrix(twoLevelMapSum).invert();
-		
+
 		// System.out.println("二階MAP反矩陣:");
 		// System.out.println(invereTwoLevelMap);
 

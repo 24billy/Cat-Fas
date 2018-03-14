@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import tw.com.billy.fastcat.SpringTest;
 import tw.com.billy.fastcat.core.business.service.IItemService;
 import tw.com.billy.fastcat.core.db.model.Item;
+import tw.com.billy.fastcat.core.util.JsonUtil;
 
 public class ItemServiceImplTest extends SpringTest {
 
@@ -25,8 +26,9 @@ public class ItemServiceImplTest extends SpringTest {
 	@Test
 	public void testGetAllItem() {
 		List<Item> itemList = itemService.getAllItem();
-		
 		System.out.println(itemList);
+
+		System.out.println(JsonUtil.toJson(itemList));
 	}
 
 }
