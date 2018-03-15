@@ -1,6 +1,7 @@
 package tw.com.billy.fastcat.core.business.service.impl;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import tw.com.billy.fastcat.core.business.service.IResponseService;
 import tw.com.billy.fastcat.core.db.model.Member;
 import tw.com.billy.fastcat.core.db.model.Response;
 import tw.com.billy.fastcat.core.db.model.Subject;
+import tw.com.billy.fastcat.core.util.JsonUtil;
 
 public class ResponseServiceImplTest extends SpringTest {
 
@@ -20,7 +22,7 @@ public class ResponseServiceImplTest extends SpringTest {
 
 	@Test
 	public void testGetAllResponse() {
-		List<Response> result = responseService.getAllResponse(); 
+		List<Response> result = responseService.getAllResponse();
 		for (int i = 0; i < result.size(); i++) {
 			System.out.println(result.get(i));
 		}
@@ -94,13 +96,19 @@ public class ResponseServiceImplTest extends SpringTest {
 
 		responseService.deleteResponse(response);
 	}
-	
+
 	@Test
 	public void testGetResponseById() {
 		Response response = new Response();
 		response.setRecordId(1);
-		
-		System.out.println(responseService.getResponseByResponseId(response));
+
+		response = responseService.getResponseByResponseId(response);
+
+		System.out.println(response);
+
+		ArrayList<Double> ability = JsonUtil.fromJson(response.getLower95(), ArrayList.class);
+
+		System.out.println(ability.get(0));
 	}
 
 }

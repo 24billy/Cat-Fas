@@ -17,7 +17,7 @@
 			<div class="card">
 				<div class="card-body">
 					<button class="btn btn-primary" onclick="addExam()">新增測驗</button>
-					<button class="btn btn-info" onclick="exportData()">資料匯出</button>
+					<button class="btn btn-info" onclick="exportDataBySubject()">資料匯出</button>
 				</div>
 				<div class="card-body">
 					<div class="table-responsive">
@@ -354,8 +354,12 @@
 
 	}
 
-	function exportData() {
-		console.log("匯出資料:");
+	function exportDataBySubject() {
+		console.log("匯出Excel : " + subjectId);
+		/*
+		$('<form action="dataManagement/downloadExcelBySubject.do" method="get"><input type="text" name="subjectId" value="' + subjectId +'"/></form>')
+				.appendTo('body').submit().remove();
+		 */
 	}
 
 	function transferDate(input) {

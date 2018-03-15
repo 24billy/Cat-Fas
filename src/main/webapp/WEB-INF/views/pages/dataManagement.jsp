@@ -383,6 +383,10 @@
 	}
 
 	function exportData() {
-		console.log("匯出資料:");
+		console.log("匯出Excel");
+		/*
+		$('<form action="dataManagement/downloadExcel.do" method="get"></form>')
+				.appendTo('body').submit().remove();
+		 */
 	}
 </script>

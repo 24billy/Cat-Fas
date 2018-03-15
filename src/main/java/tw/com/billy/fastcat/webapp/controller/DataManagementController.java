@@ -5,16 +5,24 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
+import tw.com.billy.fastcat.core.business.service.IResponseService;
 import tw.com.billy.fastcat.core.business.service.ISubjectService;
+import tw.com.billy.fastcat.core.db.model.Response;
 import tw.com.billy.fastcat.core.db.model.Subject;
+import tw.com.billy.fastcat.core.util.ExcelUtil;
 import tw.com.billy.fastcat.core.util.JsonUtil;
+import tw.com.billy.fastcat.webapp.view.ExcelView;
 
 /**
  * [資料管理]導頁控制器
@@ -28,6 +36,9 @@ public class DataManagementController {
 
 	@Autowired
 	ISubjectService subjectService;
+
+	@Autowired
+	IResponseService responseService;
 
 	@RequestMapping("/showDataManagement")
 	public String showDataManagementMain(Model model) {
@@ -109,6 +120,44 @@ public class DataManagementController {
 		subjectService.deleteSubject(subject);
 
 		return "common/result";
+	}
+
+	@RequestMapping(value = "/downloadExcel", method = RequestMethod.GET)
+	public ModelAndView downloadExcel(HttpServletRequest request, HttpServletResponse response) {
+		List<Response> data = responseService.getAllResponse();
+
+		try {
+			HSSFWorkbook workbook = ExcelUtil.exportExcel("CAT-FAS_輸出", data);
+
+			ExcelView viewExcel = new ExcelView();
+			viewExcel.buildExcelDocument(null, workbook, request, response);
+
+			return new ModelAndView(viewExcel);
+		} catch (Exception e) {
+			System.out.println("匯出Excel異常" + e.getMessage());
+		}
+
+		return null;
+	}
+	
+	@RequestMapping(value = "/downloadExcelBySubject", method = RequestMethod.GET)
+	public ModelAndView downloadExcelBySubject(@RequestParam(value = "subjectId", required = true) Integer subjectId,HttpServletRequest request, HttpServletResponse response) {
+		Subject subject= new Subject();
+		subject.setSubjectId(subjectId);
+		List<Response> data = responseService.getResponseBySubjectId(subject);
+
+		try {
+			HSSFWorkbook workbook = ExcelUtil.exportExcel("CAT-FAS_輸出", data);
+
+			ExcelView viewExcel = new ExcelView();
+			viewExcel.buildExcelDocument(null, workbook, request, response);
+
+			return new ModelAndView(viewExcel);
+		} catch (Exception e) {
+			System.out.println("匯出Excel異常" + e.getMessage());
+		}
+
+		return null;
 	}
 
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import tw.com.billy.fastcat.core.business.service.IResponseService;
 import tw.com.billy.fastcat.core.db.jdbc.JdbcDAO;
 import tw.com.billy.fastcat.core.db.model.Member;
+import tw.com.billy.fastcat.core.db.model.Organization;
 import tw.com.billy.fastcat.core.db.model.Response;
 import tw.com.billy.fastcat.core.db.model.Subject;
 
@@ -41,6 +42,7 @@ public class ResponseServiceImpl implements IResponseService {
 		sqlText.append("T1.chooseditem,");
 
 		sqlText.append("T1.tscore,");
+		sqlText.append("T1.se,");
 		sqlText.append("T1.upper95,");
 		sqlText.append("T1.lower95,");
 		sqlText.append("T1.reliability,");
@@ -49,12 +51,21 @@ public class ResponseServiceImpl implements IResponseService {
 		sqlText.append("T1.percentilelevel,");
 
 		sqlText.append("T2.medicalnumber,");
-		sqlText.append("T2.subjectname");
+		sqlText.append("T2.subjectname,");
+		sqlText.append("T2.organizationid,");
+		sqlText.append("T2.birthday,");
+		sqlText.append("T2.gender,");
+		sqlText.append("T3.name AS organizationName,");
+		sqlText.append("T4.name AS examinerName");
 		sqlText.append(" FROM response T1");
 		sqlText.append(" LEFT JOIN subject T2");
 		sqlText.append(" ON T1.subjectid = T2.subjectid");
+		sqlText.append(" LEFT JOIN organization T3");
+		sqlText.append(" ON T2.organizationid = T3.organizationid");
+		sqlText.append(" LEFT JOIN member T4");
+		sqlText.append(" ON T1.examinerid = T4.memberid");
 		sqlText.append(" ORDER BY T1.responseid");
-		 
+		System.out.println(sqlText);
 
 		List<Map<String, Object>> resultList = jdbcDAO.queryForList(sqlText.toString());
 
@@ -70,6 +81,7 @@ public class ResponseServiceImpl implements IResponseService {
 			response.setChoosedItem((String) map.get("chooseditem"));
 
 			response.settScore((String) map.get("tscore"));
+			response.setSe((String) map.get("se"));
 			response.setUpper95((String) map.get("upper95"));
 			response.setLower95((String) map.get("lower95"));
 			response.setReliability((String) map.get("reliability"));
@@ -81,10 +93,19 @@ public class ResponseServiceImpl implements IResponseService {
 			subject.setSubjectId((Integer) map.get("subjectid"));
 			subject.setMedicalNumber((Integer) map.get("medicalnumber"));
 			subject.setSubjectName((String) map.get("subjectname"));
+			subject.setOrganizationId((Integer) map.get("organizationid"));
+			subject.setGender((String) map.get("gender"));
+			subject.setBirthday((String) map.get("birthday"));
 			response.setSubject(subject);
 
+			Organization organization = new Organization();
+			organization.setOrganizationid((Integer) map.get("organizationid"));
+			organization.setName((String) map.get("organizationName"));
+			
 			Member member = new Member();
 			member.setMemberId((Integer) map.get("examinerid"));
+			member.setOrganization(organization);
+			member.setName((String) map.get("examinerName"));
 			response.setExaminer(member);
 
 			responseList.add(response);
@@ -108,6 +129,7 @@ public class ResponseServiceImpl implements IResponseService {
 		sqlText.append("T1.chooseditem,");
 
 		sqlText.append("T1.tscore,");
+		sqlText.append("T1.se,");
 		sqlText.append("T1.upper95,");
 		sqlText.append("T1.lower95,");
 		sqlText.append("T1.reliability,");
@@ -116,10 +138,19 @@ public class ResponseServiceImpl implements IResponseService {
 		sqlText.append("T1.percentilelevel,");
 
 		sqlText.append("T2.medicalnumber,");
-		sqlText.append("T2.subjectname");
+		sqlText.append("T2.subjectname,");
+		sqlText.append("T2.birthday,");
+		sqlText.append("T2.gender,");
+		sqlText.append("T2.organizationid,");
+		sqlText.append("T3.name AS organizationName,");
+		sqlText.append("T4.name AS examinerName");
 		sqlText.append(" FROM response T1");
 		sqlText.append(" LEFT JOIN subject T2");
 		sqlText.append(" ON T1.subjectid = T2.subjectid");
+		sqlText.append(" LEFT JOIN organization T3");
+		sqlText.append(" ON T2.organizationid = T3.organizationid");
+		sqlText.append(" LEFT JOIN member T4");
+		sqlText.append(" ON T1.examinerid = T4.memberid");
 		sqlText.append(" WHERE");
 		sqlText.append(" T1.subjectid = " + subjectId);
 		sqlText.append(" ORDER BY T1.responseid");
@@ -138,6 +169,7 @@ public class ResponseServiceImpl implements IResponseService {
 			response.setChoosedItem((String) map.get("chooseditem"));
 
 			response.settScore((String) map.get("tscore"));
+			response.setSe((String) map.get("se"));
 			response.setUpper95((String) map.get("upper95"));
 			response.setLower95((String) map.get("lower95"));
 			response.setReliability((String) map.get("reliability"));
@@ -147,10 +179,19 @@ public class ResponseServiceImpl implements IResponseService {
 
 			subject.setMedicalNumber((Integer) map.get("medicalnumber"));
 			subject.setSubjectName((String) map.get("subjectname"));
+			subject.setOrganizationId((Integer) map.get("organizationid"));
+			subject.setGender((String) map.get("gender"));
+			subject.setBirthday((String) map.get("birthday"));
 			response.setSubject(subject);
 
+			Organization organization = new Organization();
+			organization.setOrganizationid((Integer) map.get("organizationid"));
+			organization.setName((String) map.get("organizationName"));
+			
 			Member member = new Member();
 			member.setMemberId((Integer) map.get("examinerid"));
+			member.setOrganization(organization);
+			member.setName((String) map.get("examinerName"));
 			response.setExaminer(member);
 
 			responseList.add(response);
@@ -210,13 +251,14 @@ public class ResponseServiceImpl implements IResponseService {
 		String choosedItem = response.getChoosedItem();
 
 		String tscore = response.gettScore();
+		String se = response.getSe();
 		String upper95 = response.getUpper95();
 		String lower95 = response.getLower95();
 		String reliability = response.getReliability();
 		String ability = response.getAbility();
 		String examType = response.getExamType();
 		String percentileLevel = response.getPercentileLevel();
-		
+
 		StringBuilder sqlText = new StringBuilder();
 		sqlText.append("UPDATE RESPONSE SET ");
 		sqlText.append("subjectid = '");
@@ -233,9 +275,11 @@ public class ResponseServiceImpl implements IResponseService {
 		sqlText.append(isDelete);
 		sqlText.append(", chooseditem = '");
 		sqlText.append(choosedItem);
-		
+
 		sqlText.append("', tscore = '");
 		sqlText.append(tscore);
+		sqlText.append("', se = '");
+		sqlText.append(se);
 		sqlText.append("', upper95 = '");
 		sqlText.append(upper95);
 		sqlText.append("', lower95 = '");
@@ -248,7 +292,7 @@ public class ResponseServiceImpl implements IResponseService {
 		sqlText.append(examType);
 		sqlText.append("', percentilelevel = '");
 		sqlText.append(percentileLevel);
-		
+
 		sqlText.append("' WHERE responseid = ");
 		sqlText.append(recordId);
 
@@ -289,6 +333,7 @@ public class ResponseServiceImpl implements IResponseService {
 		sqlText.append("T1.chooseditem,");
 
 		sqlText.append("T1.tscore,");
+		sqlText.append("T1.se,");
 		sqlText.append("T1.upper95,");
 		sqlText.append("T1.lower95,");
 		sqlText.append("T1.reliability,");
@@ -298,10 +343,19 @@ public class ResponseServiceImpl implements IResponseService {
 
 		sqlText.append("T2.subjectid,");
 		sqlText.append("T2.medicalnumber,");
-		sqlText.append("T2.subjectname");
+		sqlText.append("T2.subjectname,");
+		sqlText.append("T2.organizationid,");
+		sqlText.append("T2.birthday,");
+		sqlText.append("T2.gender,");
+		sqlText.append("T3.name AS organizationName,");
+		sqlText.append("T4.name AS examinerName");
 		sqlText.append(" FROM response T1");
 		sqlText.append(" LEFT JOIN subject T2");
 		sqlText.append(" ON T1.subjectid = T2.subjectid");
+		sqlText.append(" LEFT JOIN organization T3");
+		sqlText.append(" ON T2.organizationid = T3.organizationid");
+		sqlText.append(" LEFT JOIN member T4");
+		sqlText.append(" ON T1.examinerid = T4.memberid");
 		sqlText.append(" WHERE");
 		sqlText.append(" T1.responseid = " + responseId);
 		sqlText.append(" ORDER BY T1.responseid");
@@ -318,6 +372,7 @@ public class ResponseServiceImpl implements IResponseService {
 		response.setChoosedItem((String) map.get("chooseditem"));
 
 		response.settScore((String) map.get("tscore"));
+		response.setSe((String) map.get("se"));
 		response.setUpper95((String) map.get("upper95"));
 		response.setLower95((String) map.get("lower95"));
 		response.setReliability((String) map.get("reliability"));
@@ -329,10 +384,19 @@ public class ResponseServiceImpl implements IResponseService {
 		subject.setSubjectId((Integer) map.get("subjectid"));
 		subject.setMedicalNumber((Integer) map.get("medicalnumber"));
 		subject.setSubjectName((String) map.get("subjectname"));
+		subject.setOrganizationId((Integer) map.get("organizationid"));
+		subject.setGender((String) map.get("gender"));
+		subject.setBirthday((String) map.get("birthday"));
 		response.setSubject(subject);
-
+		
+		Organization organization = new Organization();
+		organization.setOrganizationid((Integer) map.get("organizationid"));
+		organization.setName((String) map.get("organizationName"));
+		
 		Member member = new Member();
 		member.setMemberId((Integer) map.get("examinerid"));
+		member.setOrganization(organization);
+		member.setName((String) map.get("examinerName"));
 		response.setExaminer(member);
 
 		return response;
@@ -342,7 +406,7 @@ public class ResponseServiceImpl implements IResponseService {
 	public List<Map<String, Object>> getPercentileLevel() {
 		String sqlText = "SELECT * FROM PERCENTILELEVEL";
 		List<Map<String, Object>> percentileList = jdbcDAO.queryForList(sqlText);
-		
+
 		return percentileList;
 	}
 

@@ -89,6 +89,7 @@ public class CatController {
 			record.setLower95(JsonUtil.toJson(abilityVO.getCriLower()));
 			record.setReliability(JsonUtil.toJson(abilityVO.getReliability()));
 			record.settScore(JsonUtil.toJson(abilityVO.gettScore()));
+			record.setSe(JsonUtil.toJson(abilityVO.getSe()));
 			record.setPercentileLevel(JsonUtil.toJson(abilityVO.getPercentileLevel()));
 
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
