@@ -87,8 +87,6 @@
 						<p class="card-text">新增、編輯、刪除主試者</p>
 						<button onclick="showMember()"
 							class="btn btn-primary marginButton">進入</button>
-						<button onclick="" class="btn btn-info marginButton">More
-							Info</button>
 					</div>
 				</div>
 			</div>
@@ -101,8 +99,6 @@
 						<p class="card-text">新增、編輯、刪除單位</p>
 						<button onclick="showOrganization()"
 							class="btn btn-primary marginButton">進入</button>
-						<button onclick="" class="btn btn-info marginButton">More
-							Info</button>
 					</div>
 				</div>
 			</div>
@@ -115,8 +111,6 @@
 						<p class="card-text">新增、編輯、刪除受試者。進行測驗、觀看結果。</p>
 						<button onclick="showDataManagement()"
 							class="btn btn-primary marginButton">進入</button>
-						<button onclick="" class="btn btn-info marginButton">More
-							Info</button>
 					</div>
 				</div>
 			</div>

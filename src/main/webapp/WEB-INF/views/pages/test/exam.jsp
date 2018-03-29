@@ -10,6 +10,7 @@
 				<li class="list-group-item" id="itemDimension">向度：</li>
 				<li class="list-group-item" id="title">題目：</li>
 				<li class="list-group-item" id="itemIntroduction">指導語：</li>
+				<li class="list-group-item" id="itemStartPose">起始姿勢：</li>
 			</ul>
 		</div>
 		<div class="card-body bg-dark">
@@ -71,6 +72,7 @@
 
 		var dimension = item.dimension;
 		var dimensionStr = "";
+		var startPose = item.startPose;
 		var title = "";
 		if (item.chtTitle) {
 			title = item.chtTitle; 
@@ -90,7 +92,14 @@
 		
 		$("#itemDimension").html(dimensionStr);
 		$("#title").html("題目：" + title);
-
+		
+		if (item.startPose) {
+			$("#itemStartPose").html("起始姿勢：" + startPose);	
+		} else {
+			$("#itemStartPose").html("");
+		}
+		
+		
 		if (item.introduction) {
 			$("#itemIntroduction").html("指導語：" + item.introduction);	
 		}

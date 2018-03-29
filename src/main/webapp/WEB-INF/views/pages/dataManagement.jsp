@@ -79,7 +79,7 @@
 					</div>
 					<div class="form-group col-md-6">
 						<label for="birthday" class="form-control-label">生日:</label> <input
-							type="text" class="form-control" id="birthday">
+							type="text" class="form-control" id="birthday" placeholder="(格式:YYYY-MM-DD)">
 
 					</div>
 				</form>
@@ -128,7 +128,7 @@
 					</div>
 					<div class="form-group col-md-6">
 						<label for="updateBirthday" class="form-control-label">生日:</label>
-						<input type="text" class="form-control" id="updateBirthday">
+						<input type="text" class="form-control" id="updateBirthday" placeholder="(格式:YYYY-MM-DD)">
 
 					</div>
 					<div style="display: none;" id="updateId"></div>
@@ -188,7 +188,7 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<p id="messageText"></p>
+				<div id="messageText"></div>
 			</div>
 			<div class="modal-footer">
 				<div>
@@ -279,6 +279,10 @@
 			var gender = $("#gender").val();
 			var birthday = $("#birthday").val();
 
+			if (!testData.validate("insert")) {
+				return false;
+			}
+			
 			$.ajax({
 				url : "dataManagement/addSubject",
 				type : "POST",
@@ -305,6 +309,10 @@
 			var updateGender = $("#updateGender").val();
 			var updateBirthday = $("#updateBirthday").val();
 
+			if (!testData.validate("update")) {
+				return false;
+			}
+			
 			$("#updateTestData").modal("hide");
 
 			$.ajax({
@@ -343,6 +351,49 @@
 					showDataManagement();
 				}
 			});
+		},
+		validate : function(source) {
+			if ("insert" == source) {
+				var medicalNumber = $("#medicalNumber").val();
+				var name = $("#name").val();
+				var errorMessage = "";
+				var hasError = false;
+
+				if (medicalNumber == "") {
+					errorMessage += "<p>病歷號碼不得為空</p>";
+					hasError = true;
+				}
+				if (name == "") {
+					errorMessage += "<p>姓名不得為空</p>";
+					hasError = true;
+				}
+
+				if (hasError) {
+					showMessage(errorMessage);
+					return false;
+				}
+			} else if ("update" == source) {
+				var updateMedicalNumber = $("#updateMedicalNumber").val();
+				var updateName = $("#updateName").val();
+				var errorMessage = "";
+				var hasError = false;
+
+				if (updateMedicalNumber == "") {
+					errorMessage += "<p>病歷號碼不得為空</p>";
+					hasError = true;
+				}
+				if (updateName == "") {
+					errorMessage += "<p>姓名不得為空</p>";
+					hasError = true;
+				}
+
+				if (hasError) {
+					showMessage(errorMessage);
+					return false;
+				}
+			} 
+
+			return true;
 		}
 	}
 
@@ -378,15 +429,16 @@
 		$("#deleteButton").trigger("click");
 	}
 
-	function showMessage() {
+	function showMessage(message) {
+		$("div#messageText").html(message);
 		$('#messageButton').trigger("click");
 	}
 
 	function exportData() {
 		console.log("匯出Excel");
-		/*
+		/**/
 		$('<form action="dataManagement/downloadExcel.do" method="get"></form>')
 				.appendTo('body').submit().remove();
-		 */
+		 
 	}
 </script>

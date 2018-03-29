@@ -1,6 +1,8 @@
 package tw.com.billy.fastcat.webapp.view;
 
+import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,19 +18,27 @@ public class ExcelView extends AbstractXlsxView {
 
 	@Override
 	public void buildExcelDocument(Map<String, Object> map, Workbook workbook, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+			HttpServletResponse response) {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date today = new Date();
 		String dateStr = format.format(today);
-		String fileName = "CAT-FAS_輸出_" + dateStr + ".xlsx";
+		String fileName = "CAT-FAS_輸出_" + dateStr + ".xls";
 
 		response.setContentType("application/vnd.ms-excel");
-		response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(fileName, "utf-8"));
+		OutputStream outputStream;
 
-		OutputStream outputStream = response.getOutputStream();
-		workbook.write(outputStream);
-		outputStream.flush();
-		outputStream.close();
+		try {
+			response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(fileName, "utf-8"));
+
+			outputStream = response.getOutputStream();
+			workbook.write(outputStream);
+			outputStream.flush();
+			outputStream.close();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -47,6 +47,36 @@ public class SubjectServiceImpl implements ISubjectService {
 	}
 
 	@Override
+	public List<Subject> getSubjectByExaminerId(Subject examiner) {
+		Integer subjectId = examiner.getCreateMemberId();
+
+		StringBuilder sqlText = new StringBuilder();
+		sqlText.append("SELECT *");
+		sqlText.append(" FROM subject");
+		sqlText.append(" WHERE creatememberid = " + subjectId);
+		sqlText.append(" ORDER BY subjectId");
+
+		List<Map<String, Object>> resultList = jdbcDAO.queryForList(sqlText.toString());
+		List<Subject> subjectList = new ArrayList<Subject>();
+
+		for (Map<String, Object> map : resultList) {
+			Subject subject = new Subject();
+			subject.setSubjectId((Integer) map.get("subjectid"));
+			subject.setOrganizationId((Integer) map.get("organizationid"));
+			subject.setSubjectName((String) map.get("subjectname"));
+			subject.setMedicalNumber((Integer) map.get("medicalnumber"));
+			subject.setCreatedate((String) map.get("createdate"));
+			subject.setBirthday((String) map.get("birthday"));
+			subject.setGender((String) map.get("gender"));
+			subject.setCreateMemberId((Integer) map.get("creatememberid"));
+
+			subjectList.add(subject);
+		}
+
+		return subjectList;
+	}
+
+	@Override
 	public Integer addSubject(Subject subject) {
 		StringBuilder sqlText = new StringBuilder(
 				"INSERT INTO SUBJECT (subjectid,organizationid,medicalnumber,subjectname,createdate,birthday,gender,creatememberid) VALUES (");
@@ -95,7 +125,7 @@ public class SubjectServiceImpl implements ISubjectService {
 		sqlText.append(subjectId);
 
 		Integer updateCount = jdbcDAO.update(sqlText.toString());
-		
+
 		return updateCount;
 	}
 

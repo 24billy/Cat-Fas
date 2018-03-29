@@ -74,7 +74,7 @@
 					class="alert alert-danger alert-dismissible fade show" role="alert">
 					<button type="button" class="close" data-dismiss="alert"
 						aria-label="hide"></button>
-					<div id="errorMessage">錯誤：姓名不得為空！</div>
+					<div id="errorMessage">錯誤：單位名稱不得為空！</div>
 				</div>
 				<div class="col-md-12">
 					<form>

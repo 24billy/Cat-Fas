@@ -14,7 +14,28 @@ public interface IResponseService {
 	 * @return
 	 */
 	List<Response> getAllResponse();
+	
+	/**
+	 * 取得所有已完成的作答反應
+	 * 
+	 * @return
+	 */
+	List<Response> getAllCompletedResponse();
+	
+	/**
+	 * 根據主試者編號取得所有已完成的作答反應
+	 * @param subject
+	 * @return
+	 */
+	List<Response> getAllCompletedResponseByExaminerId(Subject subject);
 
+	/**
+	 * 根據受試者編號取得所有已完成的作答反應
+	 * @param subject
+	 * @return
+	 */
+	List<Response> getAllCompletedResponseBySubjectId(Subject subject);
+	
 	/**
 	 * 根據受試者編號取得作答反應
 	 * 

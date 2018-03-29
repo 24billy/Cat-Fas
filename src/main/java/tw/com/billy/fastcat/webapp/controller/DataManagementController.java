@@ -7,7 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,11 +41,26 @@ public class DataManagementController {
 	IResponseService responseService;
 
 	@RequestMapping("/showDataManagement")
-	public String showDataManagementMain(Model model) {
-		List<Subject> subjectList = subjectService.getAllSubject();
-		String jsonStr = JsonUtil.toJson(subjectList);
+	public String showDataManagementMain(HttpServletRequest request, Model model) {
+		Integer roleId = (Integer) request.getSession().getAttribute("roleId");
+		Integer memberId = (Integer) request.getSession().getAttribute("memberId");
 
-		model.addAttribute("subjectList", jsonStr);
+		// 管理員直接取得所有資料
+		if (roleId == 1) {
+			List<Subject> subjectList = subjectService.getAllSubject();
+
+			String jsonStr = JsonUtil.toJson(subjectList);
+
+			model.addAttribute("subjectList", jsonStr);
+		} else {
+			Subject subject = new Subject();
+			subject.setCreateMemberId(memberId);
+			List<Subject> subjectList = subjectService.getSubjectByExaminerId(subject);
+
+			String jsonStr = JsonUtil.toJson(subjectList);
+
+			model.addAttribute("subjectList", jsonStr);
+		}
 
 		return "pages/dataManagement";
 	}
@@ -57,7 +72,12 @@ public class DataManagementController {
 			@RequestParam(value = "gender", required = true) String gender,
 			@RequestParam(value = "birthday", required = true) String birthday) {
 		List<Subject> subjectList = subjectService.getAllSubject();
-		Integer subjectId = subjectList.get(subjectList.size() - 1).getSubjectId() + 1;
+		Integer subjectId = 1;
+
+		// 若非第一筆資料，則依目前最後一筆的代碼往後遞增
+		if (subjectList != null && subjectList.size() > 0) {
+			subjectId = subjectList.get(subjectList.size() - 1).getSubjectId() + 1;
+		}
 
 		// 取得建立者
 		Integer memberId = (Integer) request.getSession().getAttribute("memberId");
@@ -124,31 +144,42 @@ public class DataManagementController {
 
 	@RequestMapping(value = "/downloadExcel", method = RequestMethod.GET)
 	public ModelAndView downloadExcel(HttpServletRequest request, HttpServletResponse response) {
-		List<Response> data = responseService.getAllResponse();
+		Integer roleId = (Integer) request.getSession().getAttribute("roleId");
+		Integer memberId = (Integer) request.getSession().getAttribute("memberId");
+
+		List<Response> data = null;
+
+		// 管理員直接取得所有資料
+		if (roleId == 1) {
+			data = responseService.getAllCompletedResponse();
+		} else {
+			Subject subject = new Subject();
+			subject.setCreateMemberId(memberId);
+			data = responseService.getAllCompletedResponseByExaminerId(subject);
+		}
 
 		try {
-			HSSFWorkbook workbook = ExcelUtil.exportExcel("CAT-FAS_輸出", data);
-
+			Workbook workbook = ExcelUtil.exportExcel("CAT-FAS_輸出", data);
 			ExcelView viewExcel = new ExcelView();
 			viewExcel.buildExcelDocument(null, workbook, request, response);
 
 			return new ModelAndView(viewExcel);
 		} catch (Exception e) {
-			System.out.println("匯出Excel異常" + e.getMessage());
+
 		}
 
 		return null;
 	}
-	
+
 	@RequestMapping(value = "/downloadExcelBySubject", method = RequestMethod.GET)
-	public ModelAndView downloadExcelBySubject(@RequestParam(value = "subjectId", required = true) Integer subjectId,HttpServletRequest request, HttpServletResponse response) {
-		Subject subject= new Subject();
+	public ModelAndView downloadExcelBySubject(@RequestParam(value = "subjectId", required = true) Integer subjectId,
+			HttpServletRequest request, HttpServletResponse response) {
+		Subject subject = new Subject();
 		subject.setSubjectId(subjectId);
-		List<Response> data = responseService.getResponseBySubjectId(subject);
+		List<Response> data = responseService.getAllCompletedResponseBySubjectId(subject);
 
 		try {
-			HSSFWorkbook workbook = ExcelUtil.exportExcel("CAT-FAS_輸出", data);
-
+			Workbook workbook = ExcelUtil.exportExcel("CAT-FAS_輸出_受試者編號(" + subjectId + ")_", data);
 			ExcelView viewExcel = new ExcelView();
 			viewExcel.buildExcelDocument(null, workbook, request, response);
 

@@ -2,7 +2,9 @@ package tw.com.billy.fastcat.webapp.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -33,8 +35,8 @@ public class ProgressManagementController {
 	IResponseService responseService;
 
 	@RequestMapping("/showProgressManagement")
-	public String showProgressManagementMain(@RequestParam(value = "subjectId", required = false) Integer subjectId,
-			Model model) {
+	public String showProgressManagementMain(HttpServletRequest request,
+			@RequestParam(value = "subjectId", required = false) Integer subjectId, Model model) {
 		Subject subject = new Subject();
 		subject.setSubjectId(subjectId);
 
@@ -54,7 +56,11 @@ public class ProgressManagementController {
 	public String addExam(HttpServletRequest request,
 			@RequestParam(value = "subjectId", required = false) Integer subjectId) {
 		List<Response> responseList = responseService.getAllResponse();
-		Integer recordId = responseList.get(responseList.size() - 1).getRecordId() + 1;
+		Integer recordId = 1;
+
+		if (responseList != null && responseList.size() > 0) {
+			recordId = responseList.get(responseList.size() - 1).getRecordId() + 1;
+		}
 
 		Subject subject = new Subject();
 		subject.setSubjectId(subjectId);
@@ -105,6 +111,8 @@ public class ProgressManagementController {
 		List<Double> criLower = JsonUtil.fromJson(response.getLower95(), List.class);
 		List<Double> reliability = JsonUtil.fromJson(response.getReliability(), List.class);
 		List<Integer> percentileLevel = JsonUtil.fromJson(response.getPercentileLevel(), List.class);
+		List<Integer> selectedItemList = JsonUtil.fromJson(response.getChoosedItem(), List.class);
+		String examType = response.getExamType();
 
 		abilityVO.settScore(tScore);
 		abilityVO.setCriLower(criLower);
@@ -112,7 +120,12 @@ public class ProgressManagementController {
 		abilityVO.setReliability(reliability);
 		abilityVO.setPercentileLevel(percentileLevel);
 
-		String result = JsonUtil.toJson(abilityVO);
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("abilityVO", abilityVO);
+		resultMap.put("itemLength", selectedItemList.size());
+		resultMap.put("examType", examType);
+
+		String result = JsonUtil.toJson(resultMap);
 
 		model.addAttribute("result", result);
 

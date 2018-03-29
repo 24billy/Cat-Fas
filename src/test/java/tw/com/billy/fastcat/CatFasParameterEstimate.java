@@ -12,17 +12,17 @@ import tw.com.billy.fastcat.core.vo.AbilityVO;
 public class CatFasParameterEstimate {
 
 	public static void main(String[] args) {
-		AbilityVO aa = new AbilityVO();
-		aa.setIterateTimes(0);
-		aa.setOriginalAbility(new Double[] { 2.837729358, 3.31842464, 1.467611928, -0.216285 });
-		List<Double> seList = new ArrayList<Double>();
-		seList.add(4.105942147);
-		seList.add(3.792433056);
-		seList.add(2.783096856);
-		seList.add(1.384162349);
-		aa.setSe(seList);
-		getTscore(aa);
-		System.out.println(aa);
+//		AbilityVO aa = new AbilityVO();
+//		aa.setIterateTimes(0);
+//		aa.setOriginalAbility(new Double[] { 2.837729358, 3.31842464, 1.467611928, -0.216285 });
+//		List<Double> seList = new ArrayList<Double>();
+//		seList.add(4.105942147);
+//		seList.add(3.792433056);
+//		seList.add(2.783096856);
+//		seList.add(1.384162349);
+//		aa.setSe(seList);
+//		getTscore(aa);
+//		System.out.println(aa);
 		// Double stopingRule1 = new Double(0.01d);
 		// Double stopingRule2 = new Double(0.02d);
 
@@ -65,11 +65,11 @@ public class CatFasParameterEstimate {
 		// 作答反應序
 		List<Double> responseList = new ArrayList<Double>();
 		responseList.add(2d);
-		responseList.add(0d);
-		responseList.add(3d);
+		responseList.add(2d);
+		responseList.add(1d);
+		responseList.add(1d);
 		responseList.add(2d);
 		responseList.add(0d);
-		responseList.add(2d);
 		responseList.add(3d);
 		responseList.add(0d);
 		responseList.add(0d);

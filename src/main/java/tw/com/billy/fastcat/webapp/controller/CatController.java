@@ -49,6 +49,15 @@ public class CatController {
 		String examType = (String) request.getSession().getAttribute("examType");
 		AbilityVO prevAbilityVO = (AbilityVO) request.getSession().getAttribute("abilityVO");
 		ItemVO selectedItem = (ItemVO) request.getSession().getAttribute("selectedItem");
+		Integer[] dimensionStatus = (Integer[]) request.getSession().getAttribute("dimensionStatus");
+
+		// 更新所選向度(前四題)
+		if (selectedItemList.size() < 5) {
+			Integer dimension = selectedItem.getDimension();
+
+			// 將該項度的數值更改為1
+			dimensionStatus[dimension - 1] = 1;
+		}
 
 		// 紀錄結果
 		Response record = (Response) request.getSession().getAttribute("record");
@@ -64,6 +73,7 @@ public class CatController {
 
 		// Stopping rule：第4題開始計算LRI
 		// 高信度hr：4向度LRI < 0.01；高效率hv：4向度LRI < 0.02。
+		// P.S. 若是能力估計發散則會回傳前一次的結果，故必定結束測驗
 		boolean isStopTest = false;
 
 		if (selectedItemList.size() > 4) {
@@ -96,30 +106,37 @@ public class CatController {
 			Date today = new Date();
 			String dateStr = format.format(today);
 			record.setStartDate(dateStr);
-			
+
 			// 紀錄所選題目與作答結果
 			List<Integer> selectItem = CatUtil.getChooseItem(selectedItemList);
 			List<Integer> answerList = CatUtil.getAnswer(selectedItemList);
 			record.setChoosedItem(JsonUtil.toJson(selectItem));
 			record.setAnswer(JsonUtil.toJson(answerList));
-			
+
 			// 計算百分等級
 			List<Map<String, Object>> percentileList = responseService.getPercentileLevel();
 			CatUtil.getPercentileLevel(abilityVO, percentileList);
 			String percentileLeveStr = JsonUtil.toJson(abilityVO.getPercentileLevel());
 			record.setPercentileLevel(percentileLeveStr);
 
-			responseService.updateResponse(record);
+			long startTime = (long)request.getSession().getAttribute("startTime");
+			long endTime = System.currentTimeMillis();
+			long elapsedTime = endTime - startTime;
 			
+			responseService.updateResponse(record);
+
+			model.addAttribute("itemLength", selectedItemList.size());
 			model.addAttribute("record", JsonUtil.toJson(record));
 			model.addAttribute("abilityVO", JsonUtil.toJson(abilityVO));
+			model.addAttribute("elapsedTime", elapsedTime);
 
 			return "pages/test/examComplete";
 		}
 
 		// 選題
 		ItemVO itemVO = CatUtil.itemSelection(abilityVO.getOriginalAbility(), abilityVO.getInfomationMatrix(), itemList,
-				Constant.scoringMatrixList, Constant.designMatrix, Constant.covInverseArray, Constant.muArray);
+				Constant.scoringMatrixList, Constant.designMatrix, Constant.covInverseArray, Constant.muArray,
+				dimensionStatus);
 		Integer itemId = itemVO.getNum();
 		Item item = itemService.getItemById(itemId);
 		String itemStr = JsonUtil.toJson(item);
@@ -134,6 +151,7 @@ public class CatController {
 		request.getSession().setAttribute("selectedItemList", selectedItemList);
 		request.getSession().setAttribute("abilityVO", abilityVO);
 		request.getSession().setAttribute("record", record);
+		request.getSession().setAttribute("dimensionStatus", dimensionStatus);
 
 		return "pages/test/exam";
 	}
@@ -158,8 +176,12 @@ public class CatController {
 		// Init Test
 		List<ItemVO> itemList = CatUtil.initItem();
 		List<ItemVO> selectedItemList = new ArrayList<ItemVO>();
+
+		// 初始所選項度
+		Integer[] dimensionStatus = new Integer[] { 0, 0, 0, 0 };
 		ItemVO itemVO = CatUtil.itemSelection(Constant.initAbility, Constant.priorInfo, itemList,
-				Constant.scoringMatrixList, Constant.designMatrix, Constant.covInverseArray, Constant.muArray);
+				Constant.scoringMatrixList, Constant.designMatrix, Constant.covInverseArray, Constant.muArray,
+				dimensionStatus);
 
 		// 取得題目內容
 		Integer itemId = itemVO.getNum();
@@ -174,12 +196,17 @@ public class CatController {
 		model.addAttribute("itemIndex", 1);
 		model.addAttribute("examType", "hr");
 
+		// 計算經過時間
+		long startTime = System.currentTimeMillis();
+
 		request.getSession().setAttribute("itemPool", itemList);
 		request.getSession().setAttribute("selectedItem", itemVO);
 		request.getSession().setAttribute("selectedItemList", selectedItemList);
 		request.getSession().setAttribute("examType", "hr");
 		request.getSession().setAttribute("abilityVO", abilityVO);
 		request.getSession().setAttribute("record", record);
+		request.getSession().setAttribute("dimensionStatus", dimensionStatus);
+		request.getSession().setAttribute("startTime", startTime);
 
 		return "pages/test/exam";
 	}
@@ -198,8 +225,13 @@ public class CatController {
 		// Init Test
 		List<ItemVO> itemList = CatUtil.initItem();
 		List<ItemVO> selectedItemList = new ArrayList<ItemVO>();
+
+		// 初始所選項度
+		Integer[] dimensionStatus = new Integer[] { 0, 0, 0, 0 };
+
 		ItemVO itemVO = CatUtil.itemSelection(Constant.initAbility, Constant.priorInfo, itemList,
-				Constant.scoringMatrixList, Constant.designMatrix, Constant.covInverseArray, Constant.muArray);
+				Constant.scoringMatrixList, Constant.designMatrix, Constant.covInverseArray, Constant.muArray,
+				dimensionStatus);
 
 		// 取得題目內容
 		Integer itemId = itemVO.getNum();
@@ -215,12 +247,17 @@ public class CatController {
 		model.addAttribute("itemIndex", 1);
 		model.addAttribute("examType", "hv");
 
+		// 計算經過時間
+		long startTime = System.currentTimeMillis();
+
 		request.getSession().setAttribute("itemPool", itemList);
 		request.getSession().setAttribute("selectedItem", itemVO);
 		request.getSession().setAttribute("selectedItemList", selectedItemList);
 		request.getSession().setAttribute("examType", "hv");
 		request.getSession().setAttribute("abilityVO", abilityVO);
 		request.getSession().setAttribute("record", record);
+		request.getSession().setAttribute("dimensionStatus", dimensionStatus);
+		request.getSession().setAttribute("startTime", startTime);
 
 		return "pages/test/exam";
 	}

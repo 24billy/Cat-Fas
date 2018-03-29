@@ -14,7 +14,8 @@ import tw.com.billy.fastcat.core.vo.ItemVO;
 public class CatUtil {
 
 	public static ItemVO itemSelection(Double[] initAbility, Double[][] priorInfo, List<ItemVO> itemList,
-			List<Double[][]> scoringMatrixList, Double[][] designMatrix, Double[][] covInverseArray, Double[] muArray) {
+			List<Double[][]> scoringMatrixList, Double[][] designMatrix, Double[][] covInverseArray, Double[] muArray,
+			Integer[] dimensionStatus) {
 		// 機率分子
 		List<List<Double>> probMatrix = new ArrayList<List<Double>>();
 		List<List<Double>> probResultMatrix = new ArrayList<List<Double>>();
@@ -147,9 +148,35 @@ public class CatUtil {
 			determinantList.add(determinant);
 		}
 
-		System.out.println("Max information value : " + Collections.max(determinantList));
-		Integer itemIndex = determinantList.indexOf(Collections.max(determinantList));
-		System.out.println("choose Item : " + itemList.get(itemIndex).getNum());
+		Integer itemIndex = 0;
+
+		if (itemList.size() > 54 && itemList.size() < 58) {
+			List<Double> sortedDeterminantList = new ArrayList<Double>();
+			sortedDeterminantList.addAll(determinantList);
+			Collections.sort(sortedDeterminantList);
+
+			Double max = 0d;
+
+			for (int y = 0; y < sortedDeterminantList.size(); y++) {
+				itemIndex = determinantList.indexOf(sortedDeterminantList.get(y));
+				Integer dimension = itemList.get(itemIndex).getDimension();
+
+				if (dimensionStatus[dimension - 1] == 0 && sortedDeterminantList.get(y) > max) {
+					max = sortedDeterminantList.get(y);
+				}
+			}
+
+			itemIndex = determinantList.indexOf(max);
+			System.out.println("all item :" + itemList);
+			System.out.println("all information value : " + determinantList);
+			System.out.println("Max information value (first 4): " + max);
+			System.out.println("choose Item (first 4): " + itemList.get(itemIndex).getNum());
+		} else {
+			itemIndex = determinantList.indexOf(Collections.max(determinantList));
+
+			System.out.println("Max information value : " + Collections.max(determinantList));
+			System.out.println("choose Item : " + itemList.get(itemIndex).getNum());
+		}
 
 		return itemList.get(itemIndex);
 	}
@@ -366,6 +393,8 @@ public class CatUtil {
 					Double expect = 0d;
 					expect = expectList.get(i) * expectList.get(j);
 					expectMatrix[i][j] = expect;
+					// System.out.println("expectMatrix(" + i + "," + j + "):" +
+					// expect);
 				}
 			}
 
@@ -387,8 +416,6 @@ public class CatUtil {
 			double[][] twoLevelMapUnit = new double[4][4];
 			Double[][] informaionMatrixUnit = new Double[4][4];
 
-			// 二階Map = scoringMatrix * scoringMatrix * prbSum - expectMatrix -
-			// covInverseMatrix
 			for (int x = 0; x < 4; x++) {
 				for (int y = 0; y < 4; y++) {
 					Double scoringProb = 0d;
@@ -484,6 +511,16 @@ public class CatUtil {
 			if (count < 30) {
 				ability = abilityEstimate(itemList, ability.getAbility(), scoringMatrixList, designMatrix,
 						covInverseArray, muArray);
+
+				// 當能力估計發散時
+				Double[] currentAbility = ability.getAbility();
+
+				for (int i = 0; i < 4; i++) {
+					if (currentAbility[i] > 30 || currentAbility[i] < -30) {
+						return initAbility;
+					}
+				}
+
 				ability.setIterateTimes(count + 1);
 			} else {
 				System.out.println("超過30次迭代");
@@ -625,6 +662,24 @@ public class CatUtil {
 		}
 
 		return result;
+	}
+
+	public static void printDoubleMatrix(Double[][] matrix) {
+		for (Double[] dd : matrix) {
+			for (Double ddd : dd) {
+				System.out.print(ddd + ", ");
+			}
+			System.out.println();
+		}
+	}
+
+	public static void printDoubleMatrix(double[][] matrix) {
+		for (double[] dd : matrix) {
+			for (double ddd : dd) {
+				System.out.print(ddd + ", ");
+			}
+			System.out.println();
+		}
 	}
 
 }

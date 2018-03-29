@@ -82,8 +82,8 @@
 					<div class="form-group col-md-6">
 						<label for="role" class="form-control-label">角色:</label> <select
 							class="form-control" id="role">
-							<option value="1">主試者</option>
-							<option value="2">管理員</option>
+							<option value="2">主試者</option>
+							<option value="1">管理員</option>
 						</select>
 
 					</div>
@@ -143,8 +143,8 @@
 					<div class="form-group col-md-6">
 						<label for="updateRole" class="form-control-label">角色:</label> <select
 							class="form-control" id="updateRole">
-							<option value="1">管理員</option>
 							<option value="2">主試者</option>
+							<option value="1">管理員</option>
 						</select>
 
 					</div>
@@ -208,7 +208,7 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<p id="messageText"></p>
+				<div id="messageText"></div>
 			</div>
 			<div class="modal-footer">
 				<div>
@@ -318,6 +318,66 @@
 
 			$("#examinerTable tbody").append($tr);
 		},
+		validate : function(source) {
+			if ("insert" == source) {
+				var account = $("#account").val();
+				var name = $("#name").val();
+				var organization = $("#organization").val();
+				var identity = $("#identity").val();
+				var role = $("#role").val();
+				var verifyCode = $("#verifyCode").val();
+				var errorMessage = "";
+				var hasError = false;
+				
+				if (account == "") {
+					errorMessage += "<p>帳號不得為空</p>";
+					hasError = true;
+				}
+				if (name == "") {
+					errorMessage += "<p>姓名不得為空</p>";
+					hasError = true;
+				}
+				if (verifyCode == "") {
+					errorMessage += "<p>密碼不得為空</p>";
+					hasError = true;
+				}
+				
+				if (hasError) {
+					showMessage(errorMessage);
+					
+					return false;
+				}
+				
+				return true;
+			}
+			if ("update" == source) {
+				var updateName = $("#updateName").val();
+				var updateVerifyCode = $("#updateVerifyCode").val();
+				var errorMessage = "";
+				var hasError = false;
+				
+				if (updateName == "") {
+					errorMessage += "<p>姓名不得為空</p>";
+					hasError = true;
+				}
+				
+				if (updateVerifyCode == "") {
+					//errorMessage += "<p>密碼不得為空</p>";
+					//hasError = true;
+				}
+				
+				if (hasError) {
+					showMessage(errorMessage);
+					
+					return false;
+				}
+				
+				return true;
+			}
+			
+			
+			return true;
+		},
 		insert : function() {
 			var account = $("#account").val();
 			var name = $("#name").val();
@@ -325,9 +385,13 @@
 			var identity = $("#identity").val();
 			var role = $("#role").val();
 			var verifyCode = $("#verifyCode").val();
+
+			if (!member.validate("insert")) {
+				return;
+			}
 			
 			$("#insertMember").modal("hide");
-			
+
 			$.ajax({
 				url : "member/addMember",
 				type : "POST",
@@ -355,6 +419,10 @@
 			var updateRole = $("#updateRole").val();
 			var updateVerifyCode = $("#updateVerifyCode").val();
 
+			if (!member.validate("update")) {
+				return;
+			}
+			
 			$("#updateMember").modal("hide");
 			
 			$.ajax({
@@ -395,7 +463,7 @@
 			});
 		}
 	};
-
+	
 	function showInsert() {
 		$("#account").val("");
 		$("#name").val("");
@@ -432,7 +500,8 @@
 		$("#deleteButton").trigger("click");
 	}
 
-	function showMessage() {
+	function showMessage(message) {
+		$("div#messageText").html(message);
 		$('#messageButton').trigger("click");
 	}
 </script>

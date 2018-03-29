@@ -65,7 +65,6 @@ public class ResponseServiceImpl implements IResponseService {
 		sqlText.append(" LEFT JOIN member T4");
 		sqlText.append(" ON T1.examinerid = T4.memberid");
 		sqlText.append(" ORDER BY T1.responseid");
-		System.out.println(sqlText);
 
 		List<Map<String, Object>> resultList = jdbcDAO.queryForList(sqlText.toString());
 
@@ -113,7 +112,268 @@ public class ResponseServiceImpl implements IResponseService {
 
 		return responseList;
 	}
+	
 
+	@Override
+	public List<Response> getAllCompletedResponse() {
+		StringBuilder sqlText = new StringBuilder();
+		sqlText.append("SELECT ");
+		sqlText.append("T1.responseid,");
+		sqlText.append("T1.subjectid,");
+		sqlText.append("T1.iscomplete,");
+		sqlText.append("T1.startdate,");
+		sqlText.append("T1.examinerid,");
+		sqlText.append("T1.answer,");
+		sqlText.append("T1.isdelete,");
+		sqlText.append("T1.chooseditem,");
+
+		sqlText.append("T1.tscore,");
+		sqlText.append("T1.se,");
+		sqlText.append("T1.upper95,");
+		sqlText.append("T1.lower95,");
+		sqlText.append("T1.reliability,");
+		sqlText.append("T1.ability,");
+		sqlText.append("T1.examtype,");
+		sqlText.append("T1.percentilelevel,");
+
+		sqlText.append("T2.medicalnumber,");
+		sqlText.append("T2.subjectname,");
+		sqlText.append("T2.organizationid,");
+		sqlText.append("T2.birthday,");
+		sqlText.append("T2.gender,");
+		sqlText.append("T3.name AS organizationName,");
+		sqlText.append("T4.name AS examinerName");
+		sqlText.append(" FROM response T1");
+		sqlText.append(" LEFT JOIN subject T2");
+		sqlText.append(" ON T1.subjectid = T2.subjectid");
+		sqlText.append(" LEFT JOIN organization T3");
+		sqlText.append(" ON T2.organizationid = T3.organizationid");
+		sqlText.append(" LEFT JOIN member T4");
+		sqlText.append(" ON T1.examinerid = T4.memberid");
+		sqlText.append(" WHERE T1.iscomplete = true");
+		sqlText.append(" ORDER BY T1.responseid");
+
+		List<Map<String, Object>> resultList = jdbcDAO.queryForList(sqlText.toString());
+
+		List<Response> responseList = new ArrayList<Response>();
+
+		for (Map<String, Object> map : resultList) {
+			Response response = new Response();
+			response.setRecordId((Integer) map.get("responseid"));
+			response.setIsComplete((Boolean) map.get("iscomplete"));
+			response.setStartDate((String) map.get("startdate"));
+			response.setAnswer((String) map.get("answer"));
+			response.setIsDelete((Boolean) map.get("isdelete"));
+			response.setChoosedItem((String) map.get("chooseditem"));
+
+			response.settScore((String) map.get("tscore"));
+			response.setSe((String) map.get("se"));
+			response.setUpper95((String) map.get("upper95"));
+			response.setLower95((String) map.get("lower95"));
+			response.setReliability((String) map.get("reliability"));
+			response.setExamType((String) map.get("examtype"));
+			response.setPercentileLevel((String) map.get("percentilelevel"));
+			response.setAbility((String) map.get("ability"));
+
+			Subject subject = new Subject();
+			subject.setSubjectId((Integer) map.get("subjectid"));
+			subject.setMedicalNumber((Integer) map.get("medicalnumber"));
+			subject.setSubjectName((String) map.get("subjectname"));
+			subject.setOrganizationId((Integer) map.get("organizationid"));
+			subject.setGender((String) map.get("gender"));
+			subject.setBirthday((String) map.get("birthday"));
+			response.setSubject(subject);
+
+			Organization organization = new Organization();
+			organization.setOrganizationid((Integer) map.get("organizationid"));
+			organization.setName((String) map.get("organizationName"));
+			
+			Member member = new Member();
+			member.setMemberId((Integer) map.get("examinerid"));
+			member.setOrganization(organization);
+			member.setName((String) map.get("examinerName"));
+			response.setExaminer(member);
+
+			responseList.add(response);
+		}
+
+		return responseList;
+	}
+	
+	@Override
+	public List<Response> getAllCompletedResponseByExaminerId(Subject subject) {
+		Integer examinerId = subject.getCreateMemberId();
+		StringBuilder sqlText = new StringBuilder();
+		sqlText.append("SELECT ");
+		sqlText.append("T1.responseid,");
+		sqlText.append("T1.subjectid,");
+		sqlText.append("T1.iscomplete,");
+		sqlText.append("T1.startdate,");
+		sqlText.append("T1.examinerid,");
+		sqlText.append("T1.answer,");
+		sqlText.append("T1.isdelete,");
+		sqlText.append("T1.chooseditem,");
+
+		sqlText.append("T1.tscore,");
+		sqlText.append("T1.se,");
+		sqlText.append("T1.upper95,");
+		sqlText.append("T1.lower95,");
+		sqlText.append("T1.reliability,");
+		sqlText.append("T1.ability,");
+		sqlText.append("T1.examtype,");
+		sqlText.append("T1.percentilelevel,");
+
+		sqlText.append("T2.medicalnumber,");
+		sqlText.append("T2.subjectname,");
+		sqlText.append("T2.organizationid,");
+		sqlText.append("T2.birthday,");
+		sqlText.append("T2.gender,");
+		sqlText.append("T3.name AS organizationName,");
+		sqlText.append("T4.name AS examinerName");
+		sqlText.append(" FROM response T1");
+		sqlText.append(" LEFT JOIN subject T2");
+		sqlText.append(" ON T1.subjectid = T2.subjectid");
+		sqlText.append(" LEFT JOIN organization T3");
+		sqlText.append(" ON T2.organizationid = T3.organizationid");
+		sqlText.append(" LEFT JOIN member T4");
+		sqlText.append(" ON T1.examinerid = T4.memberid");
+		sqlText.append(" WHERE T1.iscomplete = true");
+		sqlText.append(" AND T1.examinerid = " + examinerId);
+		sqlText.append(" ORDER BY T1.responseid");
+
+		List<Map<String, Object>> resultList = jdbcDAO.queryForList(sqlText.toString());
+
+		List<Response> responseList = new ArrayList<Response>();
+
+		for (Map<String, Object> map : resultList) {
+			Response response = new Response();
+			response.setRecordId((Integer) map.get("responseid"));
+			response.setIsComplete((Boolean) map.get("iscomplete"));
+			response.setStartDate((String) map.get("startdate"));
+			response.setAnswer((String) map.get("answer"));
+			response.setIsDelete((Boolean) map.get("isdelete"));
+			response.setChoosedItem((String) map.get("chooseditem"));
+
+			response.settScore((String) map.get("tscore"));
+			response.setSe((String) map.get("se"));
+			response.setUpper95((String) map.get("upper95"));
+			response.setLower95((String) map.get("lower95"));
+			response.setReliability((String) map.get("reliability"));
+			response.setExamType((String) map.get("examtype"));
+			response.setPercentileLevel((String) map.get("percentilelevel"));
+			response.setAbility((String) map.get("ability"));
+
+			subject.setSubjectId((Integer) map.get("subjectid"));
+			subject.setMedicalNumber((Integer) map.get("medicalnumber"));
+			subject.setSubjectName((String) map.get("subjectname"));
+			subject.setOrganizationId((Integer) map.get("organizationid"));
+			subject.setGender((String) map.get("gender"));
+			subject.setBirthday((String) map.get("birthday"));
+			response.setSubject(subject);
+
+			Organization organization = new Organization();
+			organization.setOrganizationid((Integer) map.get("organizationid"));
+			organization.setName((String) map.get("organizationName"));
+			
+			Member member = new Member();
+			member.setMemberId((Integer) map.get("examinerid"));
+			member.setOrganization(organization);
+			member.setName((String) map.get("examinerName"));
+			response.setExaminer(member);
+
+			responseList.add(response);
+		}
+
+		return responseList;
+	}
+
+	@Override
+	public List<Response> getAllCompletedResponseBySubjectId(Subject subject) {
+		Integer subjectId = subject.getSubjectId();
+		StringBuilder sqlText = new StringBuilder();
+		sqlText.append("SELECT ");
+		sqlText.append("T1.responseid,");
+		sqlText.append("T1.subjectid,");
+		sqlText.append("T1.iscomplete,");
+		sqlText.append("T1.startdate,");
+		sqlText.append("T1.examinerid,");
+		sqlText.append("T1.answer,");
+		sqlText.append("T1.isdelete,");
+		sqlText.append("T1.chooseditem,");
+
+		sqlText.append("T1.tscore,");
+		sqlText.append("T1.se,");
+		sqlText.append("T1.upper95,");
+		sqlText.append("T1.lower95,");
+		sqlText.append("T1.reliability,");
+		sqlText.append("T1.ability,");
+		sqlText.append("T1.examtype,");
+		sqlText.append("T1.percentilelevel,");
+
+		sqlText.append("T2.medicalnumber,");
+		sqlText.append("T2.subjectname,");
+		sqlText.append("T2.organizationid,");
+		sqlText.append("T2.birthday,");
+		sqlText.append("T2.gender,");
+		sqlText.append("T3.name AS organizationName,");
+		sqlText.append("T4.name AS examinerName");
+		sqlText.append(" FROM response T1");
+		sqlText.append(" LEFT JOIN subject T2");
+		sqlText.append(" ON T1.subjectid = T2.subjectid");
+		sqlText.append(" LEFT JOIN organization T3");
+		sqlText.append(" ON T2.organizationid = T3.organizationid");
+		sqlText.append(" LEFT JOIN member T4");
+		sqlText.append(" ON T1.examinerid = T4.memberid");
+		sqlText.append(" WHERE T1.iscomplete = true");
+		sqlText.append(" AND T1.subjectid = " + subjectId);
+		sqlText.append(" ORDER BY T1.responseid");
+
+		List<Map<String, Object>> resultList = jdbcDAO.queryForList(sqlText.toString());
+
+		List<Response> responseList = new ArrayList<Response>();
+
+		for (Map<String, Object> map : resultList) {
+			Response response = new Response();
+			response.setRecordId((Integer) map.get("responseid"));
+			response.setIsComplete((Boolean) map.get("iscomplete"));
+			response.setStartDate((String) map.get("startdate"));
+			response.setAnswer((String) map.get("answer"));
+			response.setIsDelete((Boolean) map.get("isdelete"));
+			response.setChoosedItem((String) map.get("chooseditem"));
+
+			response.settScore((String) map.get("tscore"));
+			response.setSe((String) map.get("se"));
+			response.setUpper95((String) map.get("upper95"));
+			response.setLower95((String) map.get("lower95"));
+			response.setReliability((String) map.get("reliability"));
+			response.setExamType((String) map.get("examtype"));
+			response.setPercentileLevel((String) map.get("percentilelevel"));
+			response.setAbility((String) map.get("ability"));
+
+			subject.setSubjectId((Integer) map.get("subjectid"));
+			subject.setMedicalNumber((Integer) map.get("medicalnumber"));
+			subject.setSubjectName((String) map.get("subjectname"));
+			subject.setOrganizationId((Integer) map.get("organizationid"));
+			subject.setGender((String) map.get("gender"));
+			subject.setBirthday((String) map.get("birthday"));
+			response.setSubject(subject);
+
+			Organization organization = new Organization();
+			organization.setOrganizationid((Integer) map.get("organizationid"));
+			organization.setName((String) map.get("organizationName"));
+			
+			Member member = new Member();
+			member.setMemberId((Integer) map.get("examinerid"));
+			member.setOrganization(organization);
+			member.setName((String) map.get("examinerName"));
+			response.setExaminer(member);
+
+			responseList.add(response);
+		}
+
+		return responseList;
+	}
+	
 	@Override
 	public List<Response> getResponseBySubjectId(Subject subject) {
 		Integer subjectId = subject.getSubjectId();

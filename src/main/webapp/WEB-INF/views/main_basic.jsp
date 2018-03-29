@@ -81,8 +81,6 @@
 						<p class="card-text">新增、編輯、刪除受試者。進行測驗、觀看結果。</p>
 						<button onclick="showDataManagement()"
 							class="btn btn-primary marginButton">進入</button>
-						<button onclick="" class="btn btn-info marginButton">More
-							Info</button>
 					</div>
 				</div>
 			</div>

@@ -27,6 +27,25 @@ public class ResponseServiceImplTest extends SpringTest {
 			System.out.println(result.get(i));
 		}
 	}
+	
+	@Test
+	public void testGetAllCompletedResponse() {
+		List<Response> result = responseService.getAllCompletedResponse();
+		for (int i = 0; i < result.size(); i++) {
+			System.out.println(result.get(i));
+		}
+	}
+	
+	@Test
+	public void testGetAllCompleteResponseByExaminerId() {
+		Subject subject = new Subject();
+		subject.setCreateMemberId(3);
+		List<Response> result = responseService.getAllCompletedResponseByExaminerId(subject);
+		
+		for (int i = 0; i < result.size(); i++) {
+			System.out.println(result.get(i));
+		}
+	}
 
 	@Test
 	public void testGetResponseBySubjectId() {

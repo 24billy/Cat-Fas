@@ -17,7 +17,7 @@
 			<div class="card">
 				<div class="card-body">
 					<button class="btn btn-primary" onclick="addExam()">新增測驗</button>
-					<button class="btn btn-info" onclick="exportDataBySubject()">資料匯出</button>
+					<button class="btn btn-info" onclick="exportDataBySubject()">受試者資料匯出</button>
 				</div>
 				<div class="card-body">
 					<div class="table-responsive">
@@ -83,7 +83,11 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">測驗結果</h5>
+				<h5 class="modal-title">
+					<span>測驗結果</span>
+					<span id="examType"></span>
+					<span id="itemLength"></span>
+				</h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -222,7 +226,7 @@
 			$td += '<td>' + startDate + '</td>';
 			$td += '<td>';
 
-			if (complete) {
+			if (complete || isDelete) {
 				$td += '<button class="btn-default marginButton" onclick="startHighReliabilityTest('
 						+ recordId + ')" disabled>高信度</button>';
 				$td += '<button class="btn-default marginButton" onclick="startHighValidityTest('
@@ -237,7 +241,7 @@
 			$td += '</td>';
 			$td += '<td>';
 
-			if (complete) {
+			if (complete && !isDelete) {
 				$td += '<button class="btn-info marginButton" onclick="showResult('
 						+ recordId + ')">結果</button>';
 			} else {
@@ -256,7 +260,9 @@
 			$td += '</td>';
 			$tr += $td + '</tr>';
 
-			$("#testProgressTable tbody").append($tr);
+			if (!isDelete) {
+				$("#testProgressTable tbody").append($tr);
+			}
 		},
 		insert : function() {
 			$.ajax({
@@ -321,21 +327,32 @@
 
 			},
 			success : function(data) {
-				var result = JSON.parse(data);
-
+				var resultMap = JSON.parse(data);
+				var result  = resultMap.abilityVO;
+				var examType = resultMap.examType;
+				var itemLength = resultMap.itemLength;
+				
+				if ("hv" == examType) {
+					$("#examType").html("高效度測驗");	
+				} else if ("hr" == examType) {
+					$("#examType").html("高信度測驗");	
+				}
+				
+				$("#itemLength").html(itemLength + "題");
+				
 				for (var i = 1; i <= 4; i++) {
 					// TScore
 					var tscore = new Number(result.tScore[i - 1]);
 					$("tr#category" + i + " td:nth-child(2)").html(
-							tscore.toFixed(3));
+							tscore.toFixed(2));
 					// 95%信賴區間上限
 					var criUpper = new Number(result.criUpper[i - 1]);
 					$("tr#category" + i + " td:nth-child(3)").html(
-							criUpper.toFixed(5));
+							criUpper.toFixed(2));
 					// 95%信賴區間下限
 					var criLower = new Number(result.criLower[i - 1]);
 					$("tr#category" + i + " td:nth-child(4)").html(
-							criLower.toFixed(5));
+							criLower.toFixed(2));
 					// 百分等級
 					var percentileLevel = new Number(
 							result.percentileLevel[i - 1]);
@@ -344,7 +361,7 @@
 					// 信度
 					var reliability = new Number(result.reliability[i - 1]);
 					$("tr#category" + i + " td:nth-child(6)").html(
-							reliability.toFixed(3));
+							reliability.toFixed(2));
 				}
 
 				$("#resultButton").trigger("click");
@@ -356,10 +373,8 @@
 
 	function exportDataBySubject() {
 		console.log("匯出Excel : " + subjectId);
-		/*
 		$('<form action="dataManagement/downloadExcelBySubject.do" method="get"><input type="text" name="subjectId" value="' + subjectId +'"/></form>')
 				.appendTo('body').submit().remove();
-		 */
 	}
 
 	function transferDate(input) {

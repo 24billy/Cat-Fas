@@ -4,7 +4,9 @@
 <!-- Begin Content -->
 <div class="row">
 	<div class="card col-md-12">
-		<div class="card-header bg-info text-white text-center">測驗結果</div>
+		<div class="card-header bg-info text-white text-center">
+			<span>測驗結果</span> <span id="examType"></span> <span id="itemLength"></span><span id="elapsedTime"></span>
+		</div>
 		<div class="card-body">
 			<div class="table-responsive">
 				<table id="resultTable" class="table table-bordered table-hover"
@@ -66,10 +68,27 @@
 <script>
 	var recordStr = '${record}';
 	var abilityVO = '${abilityVO}';
-
+	var itemLength = '${itemLength}';
+	var elapsedTime = '${elapsedTime}';
 	$(document).ready(function() {
 		generateResult(abilityVO);
-		console.log(JSON.parse(recordStr));
+
+		var record = JSON.parse(recordStr);
+		var examType = record.examType;
+
+		if (examType && "hv" == examType) {
+			$("#examType").html("高效率測驗");
+		} else if (examType && "hr" == examType) {
+			$("#examType").html("高信度測驗");
+		}
+
+		if (itemLength && itemLength != "") {
+			$("#itemLength").html(itemLength + " 題");
+		}
+		
+		if (elapsedTime && elapsedTime != "") {
+			$("#elapsedTime").html(" 測驗時間：" + elapsedTime + "毫秒");
+		}
 	});
 
 	function generateResult(abilityVO) {
@@ -77,20 +96,21 @@
 
 		for (var i = 1; i <= 4; i++) {
 			// TScore
-			$("tr#category" + i + " td:nth-child(2)")
-					.html(result.tScore[i - 1]);
+			var tscore = new Number(result.tScore[i - 1]);
+			$("tr#category" + i + " td:nth-child(2)").html(tscore.toFixed(2));
 			// 95%信賴區間上限
-			$("tr#category" + i + " td:nth-child(3)").html(
-					result.criUpper[i - 1]);
+			var criUpper = new Number(result.criUpper[i - 1]);
+			$("tr#category" + i + " td:nth-child(3)").html(criUpper.toFixed(2));
 			// 95%信賴區間下限
-			$("tr#category" + i + " td:nth-child(4)").html(
-					result.criLower[i - 1]);
+			var criLower = new Number(result.criLower[i - 1]);
+			$("tr#category" + i + " td:nth-child(4)").html(criLower.toFixed(2));
 			// 百分等級
-			$("tr#category" + i + " td:nth-child(5)").html(
-					result.percentileLevel[i - 1]);
+			var percentileLevel = new Number(result.percentileLevel[i - 1]);
+			$("tr#category" + i + " td:nth-child(5)").html(percentileLevel);
 			// 信度
+			var reliability = new Number(result.reliability[i - 1]);
 			$("tr#category" + i + " td:nth-child(6)").html(
-					result.reliability[i - 1]);
+					reliability.toFixed(2));
 		}
 
 	}
@@ -100,4 +120,5 @@
 
 		showProgressManagement(record.subject.subjectId);
 	}
+	
 </script>
