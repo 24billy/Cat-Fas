@@ -125,9 +125,8 @@ public class ResponseServiceImplTest extends SpringTest {
 
 		System.out.println(response);
 
-		ArrayList<Double> ability = JsonUtil.fromJson(response.getLower95(), ArrayList.class);
+		ArrayList<Double> lower95 = JsonUtil.fromJson(response.getLower95(), ArrayList.class);
 
-		System.out.println(ability.get(0));
 	}
 
 }

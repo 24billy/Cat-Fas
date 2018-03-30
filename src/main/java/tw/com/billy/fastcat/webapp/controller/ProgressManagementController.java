@@ -113,6 +113,7 @@ public class ProgressManagementController {
 		List<Integer> percentileLevel = JsonUtil.fromJson(response.getPercentileLevel(), List.class);
 		List<Integer> selectedItemList = JsonUtil.fromJson(response.getChoosedItem(), List.class);
 		String examType = response.getExamType();
+		Long reactionTime = response.getReactionTime();
 
 		abilityVO.settScore(tScore);
 		abilityVO.setCriLower(criLower);
@@ -124,6 +125,7 @@ public class ProgressManagementController {
 		resultMap.put("abilityVO", abilityVO);
 		resultMap.put("itemLength", selectedItemList.size());
 		resultMap.put("examType", examType);
+		resultMap.put("reactionTime", reactionTime);
 
 		String result = JsonUtil.toJson(resultMap);
 

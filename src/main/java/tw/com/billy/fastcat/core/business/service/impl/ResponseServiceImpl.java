@@ -49,6 +49,7 @@ public class ResponseServiceImpl implements IResponseService {
 		sqlText.append("T1.ability,");
 		sqlText.append("T1.examtype,");
 		sqlText.append("T1.percentilelevel,");
+		sqlText.append("T1.reactiontime,");
 
 		sqlText.append("T2.medicalnumber,");
 		sqlText.append("T2.subjectname,");
@@ -87,6 +88,7 @@ public class ResponseServiceImpl implements IResponseService {
 			response.setExamType((String) map.get("examtype"));
 			response.setPercentileLevel((String) map.get("percentilelevel"));
 			response.setAbility((String) map.get("ability"));
+			response.setReactionTime((Long) map.get("reactiontime"));
 
 			Subject subject = new Subject();
 			subject.setSubjectId((Integer) map.get("subjectid"));
@@ -100,7 +102,7 @@ public class ResponseServiceImpl implements IResponseService {
 			Organization organization = new Organization();
 			organization.setOrganizationid((Integer) map.get("organizationid"));
 			organization.setName((String) map.get("organizationName"));
-			
+
 			Member member = new Member();
 			member.setMemberId((Integer) map.get("examinerid"));
 			member.setOrganization(organization);
@@ -112,7 +114,6 @@ public class ResponseServiceImpl implements IResponseService {
 
 		return responseList;
 	}
-	
 
 	@Override
 	public List<Response> getAllCompletedResponse() {
@@ -135,6 +136,7 @@ public class ResponseServiceImpl implements IResponseService {
 		sqlText.append("T1.ability,");
 		sqlText.append("T1.examtype,");
 		sqlText.append("T1.percentilelevel,");
+		sqlText.append("T1.reactiontime,");
 
 		sqlText.append("T2.medicalnumber,");
 		sqlText.append("T2.subjectname,");
@@ -174,6 +176,7 @@ public class ResponseServiceImpl implements IResponseService {
 			response.setExamType((String) map.get("examtype"));
 			response.setPercentileLevel((String) map.get("percentilelevel"));
 			response.setAbility((String) map.get("ability"));
+			response.setReactionTime((Long) map.get("reactiontime"));
 
 			Subject subject = new Subject();
 			subject.setSubjectId((Integer) map.get("subjectid"));
@@ -187,7 +190,7 @@ public class ResponseServiceImpl implements IResponseService {
 			Organization organization = new Organization();
 			organization.setOrganizationid((Integer) map.get("organizationid"));
 			organization.setName((String) map.get("organizationName"));
-			
+
 			Member member = new Member();
 			member.setMemberId((Integer) map.get("examinerid"));
 			member.setOrganization(organization);
@@ -199,7 +202,7 @@ public class ResponseServiceImpl implements IResponseService {
 
 		return responseList;
 	}
-	
+
 	@Override
 	public List<Response> getAllCompletedResponseByExaminerId(Subject subject) {
 		Integer examinerId = subject.getCreateMemberId();
@@ -222,6 +225,7 @@ public class ResponseServiceImpl implements IResponseService {
 		sqlText.append("T1.ability,");
 		sqlText.append("T1.examtype,");
 		sqlText.append("T1.percentilelevel,");
+		sqlText.append("T1.reactiontime,");
 
 		sqlText.append("T2.medicalnumber,");
 		sqlText.append("T2.subjectname,");
@@ -262,6 +266,7 @@ public class ResponseServiceImpl implements IResponseService {
 			response.setExamType((String) map.get("examtype"));
 			response.setPercentileLevel((String) map.get("percentilelevel"));
 			response.setAbility((String) map.get("ability"));
+			response.setReactionTime((Long) map.get("reactiontime"));
 
 			subject.setSubjectId((Integer) map.get("subjectid"));
 			subject.setMedicalNumber((Integer) map.get("medicalnumber"));
@@ -274,7 +279,7 @@ public class ResponseServiceImpl implements IResponseService {
 			Organization organization = new Organization();
 			organization.setOrganizationid((Integer) map.get("organizationid"));
 			organization.setName((String) map.get("organizationName"));
-			
+
 			Member member = new Member();
 			member.setMemberId((Integer) map.get("examinerid"));
 			member.setOrganization(organization);
@@ -309,6 +314,7 @@ public class ResponseServiceImpl implements IResponseService {
 		sqlText.append("T1.ability,");
 		sqlText.append("T1.examtype,");
 		sqlText.append("T1.percentilelevel,");
+		sqlText.append("T1.reactiontime,");
 
 		sqlText.append("T2.medicalnumber,");
 		sqlText.append("T2.subjectname,");
@@ -349,6 +355,7 @@ public class ResponseServiceImpl implements IResponseService {
 			response.setExamType((String) map.get("examtype"));
 			response.setPercentileLevel((String) map.get("percentilelevel"));
 			response.setAbility((String) map.get("ability"));
+			response.setReactionTime((Long) map.get("reactiontime"));
 
 			subject.setSubjectId((Integer) map.get("subjectid"));
 			subject.setMedicalNumber((Integer) map.get("medicalnumber"));
@@ -361,7 +368,7 @@ public class ResponseServiceImpl implements IResponseService {
 			Organization organization = new Organization();
 			organization.setOrganizationid((Integer) map.get("organizationid"));
 			organization.setName((String) map.get("organizationName"));
-			
+
 			Member member = new Member();
 			member.setMemberId((Integer) map.get("examinerid"));
 			member.setOrganization(organization);
@@ -373,7 +380,7 @@ public class ResponseServiceImpl implements IResponseService {
 
 		return responseList;
 	}
-	
+
 	@Override
 	public List<Response> getResponseBySubjectId(Subject subject) {
 		Integer subjectId = subject.getSubjectId();
@@ -396,6 +403,7 @@ public class ResponseServiceImpl implements IResponseService {
 		sqlText.append("T1.ability,");
 		sqlText.append("T1.examtype,");
 		sqlText.append("T1.percentilelevel,");
+		sqlText.append("T1.reactiontime,");
 
 		sqlText.append("T2.medicalnumber,");
 		sqlText.append("T2.subjectname,");
@@ -436,6 +444,7 @@ public class ResponseServiceImpl implements IResponseService {
 			response.setExamType((String) map.get("examtype"));
 			response.setPercentileLevel((String) map.get("percentilelevel"));
 			response.setAbility((String) map.get("ability"));
+			response.setReactionTime((Long) map.get("reactiontime"));
 
 			subject.setMedicalNumber((Integer) map.get("medicalnumber"));
 			subject.setSubjectName((String) map.get("subjectname"));
@@ -447,7 +456,7 @@ public class ResponseServiceImpl implements IResponseService {
 			Organization organization = new Organization();
 			organization.setOrganizationid((Integer) map.get("organizationid"));
 			organization.setName((String) map.get("organizationName"));
-			
+
 			Member member = new Member();
 			member.setMemberId((Integer) map.get("examinerid"));
 			member.setOrganization(organization);
@@ -518,6 +527,7 @@ public class ResponseServiceImpl implements IResponseService {
 		String ability = response.getAbility();
 		String examType = response.getExamType();
 		String percentileLevel = response.getPercentileLevel();
+		Long reactionTime = response.getReactionTime();
 
 		StringBuilder sqlText = new StringBuilder();
 		sqlText.append("UPDATE RESPONSE SET ");
@@ -552,8 +562,10 @@ public class ResponseServiceImpl implements IResponseService {
 		sqlText.append(examType);
 		sqlText.append("', percentilelevel = '");
 		sqlText.append(percentileLevel);
+		sqlText.append("', reactiontime = ");
+		sqlText.append(reactionTime);
 
-		sqlText.append("' WHERE responseid = ");
+		sqlText.append(" WHERE responseid = ");
 		sqlText.append(recordId);
 
 		Integer updateCount = jdbcDAO.update(sqlText.toString());
@@ -600,6 +612,7 @@ public class ResponseServiceImpl implements IResponseService {
 		sqlText.append("T1.ability,");
 		sqlText.append("T1.examtype,");
 		sqlText.append("T1.percentilelevel,");
+		sqlText.append("T1.reactiontime,");
 
 		sqlText.append("T2.subjectid,");
 		sqlText.append("T2.medicalnumber,");
@@ -639,6 +652,7 @@ public class ResponseServiceImpl implements IResponseService {
 		response.setExamType((String) map.get("examtype"));
 		response.setPercentileLevel((String) map.get("percentilelevel"));
 		response.setAbility((String) map.get("ability"));
+		response.setReactionTime((Long) map.get("reactiontime"));
 
 		Subject subject = new Subject();
 		subject.setSubjectId((Integer) map.get("subjectid"));
@@ -648,11 +662,11 @@ public class ResponseServiceImpl implements IResponseService {
 		subject.setGender((String) map.get("gender"));
 		subject.setBirthday((String) map.get("birthday"));
 		response.setSubject(subject);
-		
+
 		Organization organization = new Organization();
 		organization.setOrganizationid((Integer) map.get("organizationid"));
 		organization.setName((String) map.get("organizationName"));
-		
+
 		Member member = new Member();
 		member.setMemberId((Integer) map.get("examinerid"));
 		member.setOrganization(organization);

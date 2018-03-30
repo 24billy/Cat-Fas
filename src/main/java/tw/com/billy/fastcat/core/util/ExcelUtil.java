@@ -136,6 +136,12 @@ public class ExcelUtil {
 				row.createCell(rowPosition).setCellValue(answer.get(itemIndex).intValue());
 			}
 
+			boolean isDelete = (boolean) data.get(i).getIsDelete();
+			
+			if (isDelete) {
+				row.createCell(91).setCellValue("已刪除");
+			}
+			
 			rowCount++;
 		}
 

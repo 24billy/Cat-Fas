@@ -22,6 +22,7 @@ public class Response {
 	String ability;
 	Boolean isComplete;
 	Boolean isDelete;
+	Long reactionTime;
 
 	Member examiner;
 	Subject subject;
@@ -154,13 +155,21 @@ public class Response {
 		this.ability = ability;
 	}
 
+	public Long getReactionTime() {
+		return reactionTime;
+	}
+
+	public void setReactionTime(Long reactionTime) {
+		this.reactionTime = reactionTime;
+	}
+
 	@Override
 	public String toString() {
 		return "Response [recordId=" + recordId + ", startDate=" + startDate + ", answer=" + answer + ", choosedItem="
 				+ choosedItem + ", tScore=" + tScore + ", se=" + se + ", upper95=" + upper95 + ", lower95=" + lower95
 				+ ", reliability=" + reliability + ", examType=" + examType + ", percentileLevel=" + percentileLevel
 				+ ", ability=" + ability + ", isComplete=" + isComplete + ", isDelete=" + isDelete + ", examiner="
-				+ examiner + ", subject=" + subject + "]";
+				+ examiner + ", subject=" + subject + ", reactionTime=" + reactionTime + "]";
 	}
 
 }

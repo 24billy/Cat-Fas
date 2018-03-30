@@ -87,6 +87,7 @@
 					<span>測驗結果</span>
 					<span id="examType"></span>
 					<span id="itemLength"></span>
+					<span id="reactionTime"></span>
 				</h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
@@ -331,11 +332,16 @@
 				var result  = resultMap.abilityVO;
 				var examType = resultMap.examType;
 				var itemLength = resultMap.itemLength;
+				var reactionTime = resultMap.reactionTime;
 				
 				if ("hv" == examType) {
 					$("#examType").html("高效度測驗");	
 				} else if ("hr" == examType) {
 					$("#examType").html("高信度測驗");	
+				}
+				
+				if (reactionTime && reactionTime != "") {
+					$("#reactionTime").html(" 測驗時間：" + reactionTime + "毫秒");
 				}
 				
 				$("#itemLength").html(itemLength + "題");

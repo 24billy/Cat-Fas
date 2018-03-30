@@ -122,6 +122,7 @@ public class CatController {
 			long startTime = (long)request.getSession().getAttribute("startTime");
 			long endTime = System.currentTimeMillis();
 			long elapsedTime = endTime - startTime;
+			record.setReactionTime(elapsedTime);
 			
 			responseService.updateResponse(record);
 
