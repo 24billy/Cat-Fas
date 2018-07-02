@@ -41,7 +41,7 @@
 			<div class="col-sm-12">
 				<h1 class="text-center">
 					<div class="text-light">
-						<i class="fa fa-fw fa-bolt"></i> 登入Cat-Fas
+						<i class="fa fa-fw fa-bolt"></i>Cat-Fas
 					</div>
 				</h1>
 			</div>
@@ -68,7 +68,7 @@
 					</div>
 
 					<button class="btn btn-success pull-right">
-						<i class="fa fa-fw fa-sign-in"></i> 登入
+						<i class="fa fa-fw fa-sign-in"></i> 登入(Login)
 					</button>
 				</form>
 			</div>
@@ -84,7 +84,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">錯誤</h5>
+					<h5 class="modal-title">錯誤(Warning)</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -92,10 +92,11 @@
 				</div>
 				<div class="modal-body">
 					<p id="messageText">登入失敗，請檢查帳號密碼是否正確。</p>
+					<p>Please Check your username and password</p>
 				</div>
 				<div class="modal-footer">
 					<div>
-						<button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+						<button type="button" class="btn btn-primary" data-dismiss="modal">確定(Confirm)</button>
 					</div>
 				</div>
 			</div>

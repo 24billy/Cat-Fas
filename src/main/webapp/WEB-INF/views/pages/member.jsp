@@ -6,14 +6,19 @@
 <div class="row">
 	<div class="col-md-12">
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item active">訪員管理</li>
+			<li class="breadcrumb-item active"><span class="cht-lan">訪員管理</span>
+				<span class="en-lan" style="display: none;">User Management</span>
+			</li>
 		</ol>
 	</div>
 
 	<div class="col-md-12">
 		<div class="card">
 			<div class="card-body">
-				<button class="btn btn-primary" onclick="showInsert()">新增訪員</button>
+				<button class="btn btn-primary" onclick="showInsert()">
+					<span class="cht-lan">新增訪員</span> <span class="en-lan"
+						style="display: none;">New User</span>
+				</button>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">
@@ -21,14 +26,22 @@
 						style="width: 100%;">
 						<thead>
 							<tr>
-								<td>代碼</td>
-								<td>帳號</td>
-								<td>姓名</td>
-								<td>所屬單位</td>
-								<td>身份</td>
-								<td>角色</td>
-								<td>密碼</td>
-								<td>功能</td>
+								<td><span class="cht-lan">代碼</span> <span class="en-lan"
+									style="display: none;"> ID</span></td>
+								<td><span class="cht-lan">帳號</span> <span class="en-lan"
+									style="display: none;">User Name</span></td>
+								<td><span class="cht-lan">姓名</span><span class="en-lan"
+									style="display: none;">Full Name</span></td>
+								<td><span class="cht-lan">所屬單位</span><span class="en-lan"
+									style="display: none;">Unit</span></td>
+								<td><span class="cht-lan">身份</span><span class="en-lan"
+									style="display: none;">Title</span></td>
+								<td><span class="cht-lan">角色</span><span class="en-lan"
+									style="display: none;">Role</span></td>
+								<td><span class="cht-lan">密碼</span><span class="en-lan"
+									style="display: none;">Password</span></td>
+								<td><span class="cht-lan">功能</span><span class="en-lan"
+									style="display: none;"></span></td>
 							</tr>
 						</thead>
 						<tbody>
@@ -45,14 +58,20 @@
 
 <!-- insert Modal Start -->
 <button class="btn btn-primary" data-toggle="modal"
-	data-target="#insertMember" id="insertButton">新增訪員</button>
+	data-target="#insertMember" id="insertButton">
+	<span class="cht-lan">新增訪員</span> <span class="en-lan"
+		style="display: none;">New User</span>
+</button>
 
 <div class="modal fade" id="insertMember" tabindex="-1" role="dialog"
 	aria-labelledby="insertMemberLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="insertMemberLabel">新增訪員</h5>
+				<h5 class="modal-title" id="insertMemberLabel">
+					<span class="cht-lan">新增訪員</span> <span class="en-lan"
+						style="display: none;">New User</span>
+				</h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -62,41 +81,64 @@
 				<form class="row">
 					<div id="memberId" style="display: none;"></div>
 					<div class="form-group col-md-6">
-						<label for="account" class="form-control-label">帳號:</label> <input
-							type="text" class="form-control" id="account">
+						<label for="account" class="form-control-label"><span
+							class="cht-lan">帳號:</span> <span class="en-lan"
+							style="display: none;">UserName:</span></label> <input type="text"
+							class="form-control" id="account">
 					</div>
 					<div class="form-group col-md-6">
-						<label for="name" class="form-control-label">姓名:</label> <input
-							type="text" class="form-control" id="name">
+						<label for="name" class="form-control-label">
+							<span class="cht-lan">姓名:</span> <span class="en-lan"
+							style="display: none;">Full Name</span>
+						</label> 
+						<input type="text" class="form-control" id="name">
 					</div>
 					<div class="form-group col-md-6">
-						<label for="organization" class="form-control-label">所屬單位:</label>
-						<select class="form-control" id="organization">
+						<label for="organization" class="form-control-label"><span
+							class="cht-lan">所屬單位:</span> <span class="en-lan"
+							style="display: none;">Unit</span></label> <select
+							class="form-control" id="organization">
 						</select>
 					</div>
 
 					<div class="form-group col-md-6">
-						<label for="identity" class="form-control-label">身份:</label> <input
-							type="text" class="form-control" id="identity">
+						<label for="identity" class="form-control-label"><span
+							class="cht-lan">身份:</span> <span class="en-lan"
+							style="display: none;">Title:</span></label> <input type="text"
+							class="form-control" id="identity">
 					</div>
 					<div class="form-group col-md-6">
-						<label for="role" class="form-control-label">角色:</label> <select
-							class="form-control" id="role">
-							<option value="2">主試者</option>
-							<option value="1">管理員</option>
+						<label for="role" class="form-control-label"><span
+							class="cht-lan">角色:</span> <span class="en-lan"
+							style="display: none;">Role:</span></label> 
+						<select class="form-control"
+							id="role">
+							<option class="cht-lan" value="2">主試者</option> 
+							<option class="cht-lan" value="1">管理員</option>
+							<option class="en-lan" style="display: none;" value="2">Administator</option> 
+							<option class="en-lan" style="display: none;" value="1">Manager</option>
 						</select>
 
 					</div>
 					<div class="form-group col-md-6">
-						<label for="verifyCode" class="form-control-label">密碼:</label> <input
-							type="password" class="form-control" id="verifyCode">
+						<label for="verifyCode" class="form-control-label">
+							<span class="cht-lan">密碼:</span> <span class="en-lan"
+							style="display: none;">Password:</span>
+							</label> <input type="password"
+							class="form-control" id="verifyCode">
 					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">
+					<span class="cht-lan">取消</span> <span class="en-lan"
+						style="display: none;">Cancel</span>
+				</button>
 				<button type="button" class="btn btn-primary"
-					onclick="member.insert()">儲存</button>
+					onclick="member.insert()">
+					<span class="cht-lan">儲存</span> <span class="en-lan"
+						style="display: none;">Save</span>
+				</button>
 			</div>
 		</div>
 	</div>
@@ -111,7 +153,10 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="updateMemberLabel">編輯訪員</h5>
+				<h5 class="modal-title" id="updateMemberLabel">
+				<span class="cht-lan">編輯訪員:</span> <span class="en-lan"
+							style="display: none;">Edit User Information</span>
+				</h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -122,42 +167,69 @@
 
 					<div class="form-group col-md-6">
 						<div id="updateMemberId" style="display: none;"></div>
-						<label for="updateAccount" class="form-control-label">帳號:</label>
+						<label for="updateAccount" class="form-control-label">
+							<span class="cht-lan">帳號:</span> <span class="en-lan"
+							style="display: none;">UserName:</span>
+						</label>
 						<input type="text" class="form-control" id="updateAccount"
 							readonly>
 					</div>
 					<div class="form-group col-md-6">
-						<label for="updateName" class="form-control-label">姓名:</label> <input
-							type="text" class="form-control" id="updateName">
+						<label for="updateName" class="form-control-label">
+							<span class="cht-lan">姓名:</span> <span class="en-lan"
+							style="display: none;">Full Name</span>
+						</label> 
+						<input type="text" class="form-control" id="updateName">
 					</div>
 					<div class="form-group col-md-6">
-						<label for="updateOrganization" class="form-control-label">所屬單位:</label>
+						<label for="updateOrganization" class="form-control-label">
+							<span class="cht-lan">所屬單位:</span> <span class="en-lan"
+							style="display: none;">Unit</span>
+						</label>
 						<select class="form-control" id="updateOrganization">
 						</select>
 					</div>
 
 					<div class="form-group col-md-6">
-						<label for="updateIdentity" class="form-control-label">身份:</label>
+						<label for="updateIdentity" class="form-control-label">
+							<span class="cht-lan">身份:</span> <span class="en-lan"
+							style="display: none;">Title:</span>
+						</label>
 						<input type="text" class="form-control" id="updateIdentity">
 					</div>
 					<div class="form-group col-md-6">
-						<label for="updateRole" class="form-control-label">角色:</label> <select
+						<label for="updateRole" class="form-control-label">
+							<span class="cht-lan">角色:</span> <span class="en-lan"
+							style="display: none;">Role:</span>
+						</label> 
+						<select
 							class="form-control" id="updateRole">
-							<option value="2">主試者</option>
-							<option value="1">管理員</option>
+							<option class="cht-lan" value="2">主試者</option> 
+							<option class="cht-lan" value="1">管理員</option>
+							<option class="en-lan" style="display: none;" value="2">Administator</option> 
+							<option class="en-lan" style="display: none;" value="1">Manager</option>
 						</select>
 
 					</div>
 					<div class="form-group col-md-6">
-						<label for="updateVerifyCode" class="form-control-label">密碼:</label> <input
-							type="password" class="form-control" id="updateVerifyCode">
+						<label for="updateVerifyCode" class="form-control-label">
+							<span class="cht-lan">密碼:</span> <span class="en-lan"
+							style="display: none;">Password:</span>
+						</label>
+						<input type="password" class="form-control" id="updateVerifyCode">
 					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">
+					<span class="cht-lan">取消</span> <span class="en-lan"
+						style="display: none;">Cancel</span>
+				</button>
 				<button type="button" class="btn btn-primary"
-					onclick="member.update()">儲存</button>
+					onclick="member.update()">
+					<span class="cht-lan">儲存</span> <span class="en-lan"
+						style="display: none;">Save</span>
+				</button>
 			</div>
 		</div>
 	</div>
@@ -173,20 +245,32 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">即將刪除</h5>
+				<h5 class="modal-title">
+					<span class="cht-lan">即將刪除</span> <span class="en-lan"
+						style="display: none;">Delete User</span>				
+				</h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
-				<p>確定要刪除此資料？</p>
+				<p>
+					<span class="cht-lan">確定要刪除此資料？</span> <span class="en-lan"
+						style="display: none;">Delete this User？</span>				
+				</p>
 				<div style="display: none;" id="deleteId"></div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">
+				<span class="cht-lan">取消</span> <span class="en-lan"
+						style="display: none;">Cancel</span>
+				</button>
 				<button type="button" class="btn btn-primary"
-					onclick="member.remove()">確定</button>
+					onclick="member.remove()">
+					<span class="cht-lan">確定</span> <span class="en-lan"
+						style="display: none;">Confirm</span>	
+				</button>
 			</div>
 		</div>
 	</div>
@@ -201,7 +285,10 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">錯誤</h5>
+				<h5 class="modal-title">
+					<span class="cht-lan">錯誤</span> 
+					<span class="en-lan" style="display: none;">Warning</span>
+				</h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -212,7 +299,10 @@
 			</div>
 			<div class="modal-footer">
 				<div>
-					<button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">
+						<span class="cht-lan">確定</span> 
+						<span class="en-lan" style="display: none;">Close</span>
+					</button>
 				</div>
 			</div>
 		</div>
@@ -222,21 +312,47 @@
 <script type="text/javascript">
 	var data = '${memberList}';
 	var organizationData = '${organizationList}';
-	
+
 	$(document).ready(function() {
 		member.dataList = JSON.parse(data);
 
 		for (key in member.dataList) {
 			member.renderHtml(member.dataList[key]);
 		}
+
+		var lengMenuStr = '<span class="cht-lan">顯示</span> <span class="en-lan" style="display: none;">Display</span> _MENU_ <span class="cht-lan">筆資料</span> <span class="en-lan" style="display: none;">records per page</span>';
+		var zeroRecordsStr = '<span class="cht-lan">查無資料</span> <span class="en-lan" style="display: none;">Nothing found - sorry</span>';
+		var infoStr = '<span class="cht-lan">顯示第 _START_ 至 _END_ 筆資料，總共 _TOTAL_ 筆資料</span> <span class="en-lan" style="display: none;">Showing _START_ to _END_ of _TOTAL_</span>';
+		var ifoEmptyStr = '<span class="cht-lan">無顯示資料</span> <span class="en-lan" style="display: none;">No records available</span>';
+		var searchStr = '<span class="cht-lan">搜尋</span> <span class="en-lan" style="display: none;">Search</span>';
+		var perviousStr = '<span class="cht-lan">上一頁</span> <span class="en-lan" style="display: none;">Prev</span>';
+		var nextStr = '<span class="cht-lan">下一頁</span> <span class="en-lan" style="display: none;">Next</span>';
 		
 		$("#examinerTable").DataTable({
-			responsive : true
+			responsive : true,
+			"language" : {
+				"lengthMenu" : lengMenuStr,
+				"zeroRecords" : zeroRecordsStr,
+				"info" : infoStr,
+				"infoEmpty" : ifoEmptyStr,
+				"infoFiltered" : '(filtered from _MAX_ total records)',
+				"search" : searchStr,
+				"paginate" : {
+					"previous" : perviousStr,
+					"next" : nextStr 
+				}
+			}
 		});
-		
+
+		showCurrentLan();
+
 		generateOrganization();
+		
+		$('input[type="search"]').on("keyup", function(){
+			showCurrentLan();	
+		});
 	});
-	
+
 	function generateOrganization() {
 		var organizationList = JSON.parse(organizationData);
 
@@ -248,14 +364,15 @@
 			var $option = '<option value=' + organizationid + '>';
 			$option += name;
 			$option += '</option>';
-			
+
 			if (isVisible) {
 				$('#organization').append($option); // 新增
-				$('#updateOrganization').append($option);; // 編輯				
+				$('#updateOrganization').append($option);
+				; // 編輯				
 			}
 		}
 	}
-	
+
 	var currentId = 5;
 	var member = {
 		dataList : [],
@@ -292,6 +409,7 @@
 			}
 		},
 		renderHtml : function(memberObject) {
+			console.log(memberObject);
 			var id = memberObject.memberId;
 			var account = memberObject.account;
 			var name = memberObject.name;
@@ -299,8 +417,16 @@
 			var organization = memberObject.organization.name;
 			var identity = memberObject.identity;
 			var verifyCode = memberObject.verifyCode;
+			var roleId = memberObject.role.roleId;
 			var role = memberObject.role.roleName;
 
+			var roleObject ='';
+			if (2 == roleId) {
+				roleObject = '<span class="cht-lan">主試者</span> <span class="en-lan" style="display: none;">Administrator</span>';
+			} else if (1 == roleId) {
+				roleObject = '<span class="cht-lan">管理者</span> <span class="en-lan" style="display: none;">Manager</span>';
+			}
+			
 			var $tr = '<tr id="data-' + id + '" organizationid="' + organizationId +  '">';
 			var $td = '<td>';
 			$td += id + '</td>';
@@ -308,11 +434,13 @@
 			$td += '<td>' + name + '</td>';
 			$td += '<td>' + organization + '</td>';
 			$td += '<td>' + identity + '</td>';
-			$td += '<td>' + role + '</td>';
+			$td += '<td>' + roleObject + '</td>';
 			$td += '<td>' + verifyCode + '</td>';
 			$td += '<td>';
-			$td += '<button class="btn-warning marginButton" onclick="showUpdateRow(this)">編輯</button> ';
-			$td += '<button class="btn-danger marginButton" onclick="showDeleteRow(this)">刪除</button>';
+			$td += '<button class="btn-warning marginButton" onclick="showUpdateRow(this)"><span class="cht-lan">編輯</span>';
+			$td += '<span class="en-lan" style="display: none;">Edit</span></button>';
+			$td += '<button class="btn-danger marginButton" onclick="showDeleteRow(this)"><span class="cht-lan">刪除</span>';
+			$td += '<span class="en-lan" style="display: none;">Delete</span></button>';
 			$td += '</td>';
 			$tr += $td + '</tr>';
 
@@ -328,26 +456,29 @@
 				var verifyCode = $("#verifyCode").val();
 				var errorMessage = "";
 				var hasError = false;
-				
+
 				if (account == "") {
-					errorMessage += "<p>帳號不得為空</p>";
+					errorMessage += '<p><span class="cht-lan">帳號不得為空</span>';
+					errorMessage += '<span class="en-lan" style="display: none;">Account cannot be empty</span></p>';
 					hasError = true;
 				}
 				if (name == "") {
-					errorMessage += "<p>姓名不得為空</p>";
+					errorMessage += '<p><span class="cht-lan">姓名不得為空</span>';
+					errorMessage += '<span class="en-lan" style="display: none;">Name cannot be empty</span></p>';
 					hasError = true;
 				}
 				if (verifyCode == "") {
-					errorMessage += "<p>密碼不得為空</p>";
+					errorMessage += '<p><span class="cht-lan">密碼不得為空</span>';
+					errorMessage += '<span class="en-lan" style="display: none;">Password cannot be empty</span></p>';
 					hasError = true;
 				}
-				
+
 				if (hasError) {
 					showMessage(errorMessage);
-					
+
 					return false;
 				}
-				
+
 				return true;
 			}
 			if ("update" == source) {
@@ -355,27 +486,27 @@
 				var updateVerifyCode = $("#updateVerifyCode").val();
 				var errorMessage = "";
 				var hasError = false;
-				
+
 				if (updateName == "") {
-					errorMessage += "<p>姓名不得為空</p>";
+					errorMessage += '<p><span class="cht-lan">姓名不得為空</span>';
+					errorMessage += '<span class="en-lan" style="display: none;">Name cannot be empty</span></p>';
 					hasError = true;
 				}
-				
+
 				if (updateVerifyCode == "") {
 					//errorMessage += "<p>密碼不得為空</p>";
 					//hasError = true;
 				}
-				
+
 				if (hasError) {
 					showMessage(errorMessage);
-					
+
 					return false;
 				}
-				
+
 				return true;
 			}
-			
-			
+
 			return true;
 		},
 		insert : function() {
@@ -389,7 +520,7 @@
 			if (!member.validate("insert")) {
 				return;
 			}
-			
+
 			$("#insertMember").modal("hide");
 
 			$.ajax({
@@ -422,9 +553,9 @@
 			if (!member.validate("update")) {
 				return;
 			}
-			
+
 			$("#updateMember").modal("hide");
-			
+
 			$.ajax({
 				url : "member/updateMember",
 				type : "POST",
@@ -463,11 +594,18 @@
 			});
 		}
 	};
-	
+
 	function showInsert() {
 		$("#account").val("");
 		$("#name").val("");
 		$("#identity").val("");
+		$("#verifyCode").val("");
+		
+		if ("cht" == currentLanguage) {
+			$("#role").prop("selectedIndex", 0);
+		} else if ("en" == currentLanguage) {
+			$("#role").prop("selectedIndex", 2);
+		}
 
 		$("#insertButton").trigger("click");
 	}
@@ -481,15 +619,21 @@
 		var role = memberRow.find('td:nth-child(6)').html();
 		var verifyCode = memberRow.find('td:nth-child(7)').html();
 		var organization = memberRow.attr("organizationid");
-		
+
 		$("#updateMemberId").val(id);
 		$("#updateAccount").val(account);
 		$("#updateName").val(name);
 		$("#updateOrganization").val(organization);
 		$("#updateIdentity").val(identity);
-		$("#updateIRole").val(role);
+		//$("#updateRole").val(role);
 		$("#updateIverifyCode").val(verifyCode);
 
+		if ("cht" == currentLanguage) {
+			$("#updateRole").prop("selectedIndex", 0);
+		} else if ("en" == currentLanguage) {
+			$("#updateRole").prop("selectedIndex", 2);
+		}
+		
 		$("#updateButton").trigger("click");
 	}
 
@@ -502,6 +646,7 @@
 
 	function showMessage(message) {
 		$("div#messageText").html(message);
+		showCurrentLan();
 		$('#messageButton').trigger("click");
 	}
 </script>

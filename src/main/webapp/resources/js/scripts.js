@@ -1,3 +1,29 @@
+var currentLanguage = "cht";
+
+function showCurrentLan() {
+	if ("cht" == currentLanguage) {
+		$(".cht-lan").show();
+		$(".en-lan").hide();
+	} else if ("en" == currentLanguage) {
+		$(".en-lan").show();
+		$(".cht-lan").hide();
+	}
+}
+
+function switchLan(){
+	if ("cht" == currentLanguage) {
+		$(".cht-lan").hide();
+		$(".en-lan").show();
+
+		currentLanguage = "en";
+	} else if ("en" == currentLanguage) {
+		$(".en-lan").hide();
+		$(".cht-lan").show();
+		
+		currentLanguage = "cht";	
+	}
+}
+
 function logout() {
 	window.location.href = "login/logout";
 }

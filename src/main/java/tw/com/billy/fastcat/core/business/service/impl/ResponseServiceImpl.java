@@ -92,7 +92,7 @@ public class ResponseServiceImpl implements IResponseService {
 
 			Subject subject = new Subject();
 			subject.setSubjectId((Integer) map.get("subjectid"));
-			subject.setMedicalNumber((Integer) map.get("medicalnumber"));
+			subject.setMedicalNumber((String) map.get("medicalnumber"));
 			subject.setSubjectName((String) map.get("subjectname"));
 			subject.setOrganizationId((Integer) map.get("organizationid"));
 			subject.setGender((String) map.get("gender"));
@@ -180,7 +180,7 @@ public class ResponseServiceImpl implements IResponseService {
 
 			Subject subject = new Subject();
 			subject.setSubjectId((Integer) map.get("subjectid"));
-			subject.setMedicalNumber((Integer) map.get("medicalnumber"));
+			subject.setMedicalNumber((String) map.get("medicalnumber"));
 			subject.setSubjectName((String) map.get("subjectname"));
 			subject.setOrganizationId((Integer) map.get("organizationid"));
 			subject.setGender((String) map.get("gender"));
@@ -269,7 +269,7 @@ public class ResponseServiceImpl implements IResponseService {
 			response.setReactionTime((Long) map.get("reactiontime"));
 
 			subject.setSubjectId((Integer) map.get("subjectid"));
-			subject.setMedicalNumber((Integer) map.get("medicalnumber"));
+			subject.setMedicalNumber((String) map.get("medicalnumber"));
 			subject.setSubjectName((String) map.get("subjectname"));
 			subject.setOrganizationId((Integer) map.get("organizationid"));
 			subject.setGender((String) map.get("gender"));
@@ -358,7 +358,7 @@ public class ResponseServiceImpl implements IResponseService {
 			response.setReactionTime((Long) map.get("reactiontime"));
 
 			subject.setSubjectId((Integer) map.get("subjectid"));
-			subject.setMedicalNumber((Integer) map.get("medicalnumber"));
+			subject.setMedicalNumber((String) map.get("medicalnumber"));
 			subject.setSubjectName((String) map.get("subjectname"));
 			subject.setOrganizationId((Integer) map.get("organizationid"));
 			subject.setGender((String) map.get("gender"));
@@ -446,7 +446,7 @@ public class ResponseServiceImpl implements IResponseService {
 			response.setAbility((String) map.get("ability"));
 			response.setReactionTime((Long) map.get("reactiontime"));
 
-			subject.setMedicalNumber((Integer) map.get("medicalnumber"));
+			subject.setMedicalNumber((String) map.get("medicalnumber"));
 			subject.setSubjectName((String) map.get("subjectname"));
 			subject.setOrganizationId((Integer) map.get("organizationid"));
 			subject.setGender((String) map.get("gender"));
@@ -656,7 +656,7 @@ public class ResponseServiceImpl implements IResponseService {
 
 		Subject subject = new Subject();
 		subject.setSubjectId((Integer) map.get("subjectid"));
-		subject.setMedicalNumber((Integer) map.get("medicalnumber"));
+		subject.setMedicalNumber((String) map.get("medicalnumber"));
 		subject.setSubjectName((String) map.get("subjectname"));
 		subject.setOrganizationId((Integer) map.get("organizationid"));
 		subject.setGender((String) map.get("gender"));

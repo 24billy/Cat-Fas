@@ -5,7 +5,21 @@
 <div class="row">
 	<div class="card col-md-12">
 		<div class="card-header bg-info text-white text-center">
-			<span>測驗結果</span> <span id="examType"></span> <span id="itemLength"></span><span id="elapsedTime"></span>
+			<h5 class="modal-title cht-lan">
+				<span>測驗結果</span> 
+				<span id="examType"></span> 
+				<span id="itemLength"></span>
+				<span id="elapsedTime"></span>
+			</h5>
+			<h5 class="modal-title en-lan" style="display:none;">
+				<span>
+					Result
+				</span>
+				<span id="examTypeEn"></span>
+				<br>
+				<span id="itemLengthEn"></span>
+				<span id="elapsedTimeEn"></span>
+			</h5>
 		</div>
 		<div class="card-body">
 			<div class="table-responsive">
@@ -13,17 +27,43 @@
 					style="width: 100%;">
 					<thead class="table-primary">
 						<tr>
-							<th>向度</th>
-							<th>T分數</th>
-							<th>95%信賴區間上限</th>
-							<th>95%信賴區間下限</th>
-							<th>百分等級</th>
-							<th>信度</th>
+							<th>
+							<span class="cht-lan">向度</span> <span class="en-lan"
+								style="display: none;">Function</span>
+							</th>
+							
+							<th>
+							<span class="cht-lan">T分數</span> <span class="en-lan"
+								style="display: none;">T-score</span>
+							</th>
+							
+							<th>
+							<span class="cht-lan">95%信賴區間上限</span> <span class="en-lan"
+								style="display: none;">95% CI(upper limit)</span>
+							</th>
+							
+							<th>
+							<span class="cht-lan">95%信賴區間下限</span> <span class="en-lan"
+								style="display: none;">95% CI(lower limit)</span>
+							</th>
+							
+							<th>
+							<span class="cht-lan">百分等級</span> <span class="en-lan"
+								style="display: none;">Percentile Rank</span>
+							</th>
+							
+							<th>
+							<span class="cht-lan">信度</span> <span class="en-lan"
+								style="display: none;">Reliability</span>
+							</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr id="category1">
-							<td class="table-info">上肢動作</td>
+							<td class="table-info">
+								<span class="cht-lan">上肢動作</span> <span class="en-lan"
+									style="display: none;">UE motor </span>
+							</td>
 							<td></td>
 							<td></td>
 							<td></td>
@@ -31,7 +71,10 @@
 							<td></td>
 						</tr>
 						<tr id="category2">
-							<td class="table-info">下肢動作</td>
+							<td class="table-info">
+								<span class="cht-lan">下肢動作</span> <span class="en-lan"
+									style="display: none;">LE motor </span>
+							</td>
 							<td></td>
 							<td></td>
 							<td></td>
@@ -39,7 +82,10 @@
 							<td></td>
 						</tr>
 						<tr id="category3">
-							<td class="table-info">平衡</td>
+							<td class="table-info">
+								<span class="cht-lan">平衡</span> <span class="en-lan"
+									style="display: none;">Postural control </span>
+							</td>
 							<td></td>
 							<td></td>
 							<td></td>
@@ -47,7 +93,11 @@
 							<td></td>
 						</tr>
 						<tr id="category4">
-							<td class="table-info">日常生活活動</td>
+							<td class="table-info">
+								<span class="cht-lan">日常生活活動</span> <span class="en-lan"
+									style="display: none;">Basic activities of daily living
+</span>
+							</td>
 							<td></td>
 							<td></td>
 							<td></td>
@@ -59,7 +109,10 @@
 			</div>
 		</div>
 		<div class="card-body text-center">
-			<button class="btn-success btn-lg" onclick="finish()">完成，回到歷程管理</button>
+			<button class="btn-success btn-lg" onclick="finish()">
+				<span class="cht-lan">完成，回到歷程管理</span> <span class="en-lan"
+									style="display: none;">Finish</span>
+			</button>
 		</div>
 	</div>
 </div>
@@ -78,17 +131,23 @@
 
 		if (examType && "hv" == examType) {
 			$("#examType").html("高效率測驗");
+			$("#examTypeEn").html("(Mode: high efficiency)");
 		} else if (examType && "hr" == examType) {
 			$("#examType").html("高信度測驗");
+			$("#examTypeEn").html("(Mode: high reliability)");
 		}
 
 		if (itemLength && itemLength != "") {
 			$("#itemLength").html(itemLength + " 題");
+			$("#itemLengthEn").html(" Number of items：" + itemLength + "；");
 		}
 		
 		if (elapsedTime && elapsedTime != "") {
 			$("#elapsedTime").html(" 測驗時間：" + elapsedTime + "毫秒");
+			$("#elapsedTimeEn").html(" Time of assessment：" + elapsedTime + " ms");
 		}
+		
+		showCurrentLan();
 	});
 
 	function generateResult(abilityVO) {

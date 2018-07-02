@@ -6,7 +6,8 @@
 <div class="row">
 	<div class="col-md-12 text-center">
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item active">單位管理</li>
+			<li class="breadcrumb-item active"><span class="cht-lan">單位管理</span>
+				<span class="en-lan" style="display: none;">Unit Management</span></li>
 		</ol>
 	</div>
 
@@ -18,13 +19,19 @@
 					<div class="form-row">
 						<div class="col-auto">
 							<div class="input-group">
-								<div class="input-group-addon">新增單位</div>
+								<div class="input-group-addon">
+									<span class="cht-lan">新增單位</span> <span class="en-lan"
+										style="display: none;">New Unit</span>
+								</div>
 								<input type="text" class="form-control" id="addOrganization"
 									required>
 							</div>
 						</div>
 						<div class="col-auto">
-							<button class="btn btn-primary marginButton">新增</button>
+							<button class="btn btn-primary marginButton">
+								<span class="cht-lan">新增</span> <span class="en-lan"
+									style="display: none;">Add</span>
+							</button>
 						</div>
 					</div>
 				</form>
@@ -36,9 +43,12 @@
 						style="width: 100%;">
 						<thead>
 							<tr>
-								<td>單位代碼</td>
-								<td>單位名稱</td>
-								<td>功能</td>
+								<td><span class="cht-lan">單位代碼</span> <span class="en-lan"
+									style="display: none;">ID</span></td>
+								<td><span class="cht-lan">單位名稱</span> <span class="en-lan"
+									style="display: none;">Unit</span></td>
+								<td><span class="cht-lan">功能</span> <span class="en-lan"
+									style="display: none;"></span></td>
 							</tr>
 						</thead>
 						<tbody>
@@ -63,7 +73,8 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="updateMemberLabel">編輯單位</h5>
+				<h5 class="modal-title" id="updateMemberLabel"><span class="cht-lan">編輯單位</span> <span class="en-lan"
+									style="display: none;">Edit unit information</span></h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -80,7 +91,8 @@
 					<form>
 						<div style="display: none;" id="updateId"></div>
 						<div class="form-row form-group">
-							<label for="name" class="form-control-label">單位名稱:</label> <input
+							<label for="name" class="form-control-label"><span class="cht-lan">單位名稱:</span> <span class="en-lan"
+									style="display: none;">unit name</span></label> <input
 								type="text" class="form-control" id="updateName" required>
 						</div>
 
@@ -88,9 +100,11 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal"><span class="cht-lan">取消</span> <span class="en-lan"
+									style="display: none;">Cancel</span></button>
 				<button type="button" class="btn btn-primary"
-					onclick="organization.updateRow()">儲存</button>
+					onclick="organization.updateRow()"><span class="cht-lan">儲存</span> <span class="en-lan"
+									style="display: none;">Save</span></button>
 			</div>
 		</div>
 	</div>
@@ -106,20 +120,24 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">即將刪除</h5>
+				<h5 class="modal-title"><span class="cht-lan">即將刪除</span> <span class="en-lan"
+									style="display: none;">Delete Unit</span></h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
-				<p>確定要刪除此資料？</p>
+				<p><span class="cht-lan">確定要刪除此資料？</span> <span class="en-lan"
+									style="display: none;">Delete this Unit?</span></p>
 				<div style="display: none;" id="deleteId"></div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal"><span class="cht-lan">取消</span> <span class="en-lan"
+									style="display: none;">Cancel</span></button>
 				<button type="button" class="btn btn-primary"
-					onclick="organization.deleteRow()">確定</button>
+					onclick="organization.deleteRow()"><span class="cht-lan">確定</span> <span class="en-lan"
+									style="display: none;">Confirm</span></button>
 			</div>
 		</div>
 	</div>
@@ -155,16 +173,45 @@
 <script type="text/javascript">
 	var data = '${organizationList}';
 	var form = document.getElementById("organizationForm");
-	var count = 0;
 
 	$(document).ready(function() {
+		showCurrentLan();
+
 		organization.dataList = JSON.parse(data);
 
 		for (key in organization.dataList) {
 			organization.renderHtml(organization.dataList[key]);
 		}
 
-		var table = $("#organizationTable").DataTable();
+		var lengMenuStr = '<span class="cht-lan">顯示</span> <span class="en-lan" style="display: none;">Display</span> _MENU_ <span class="cht-lan">筆資料</span> <span class="en-lan" style="display: none;">records per page</span>';
+		var zeroRecordsStr = '<span class="cht-lan">查無資料</span> <span class="en-lan" style="display: none;">Nothing found - sorry</span>';
+		var infoStr = '<span class="cht-lan">顯示第 _START_ 至 _END_ 筆資料，總共 _TOTAL_ 筆資料</span> <span class="en-lan" style="display: none;">Showing _START_ to _END_ of _TOTAL_</span>';
+		var ifoEmptyStr = '<span class="cht-lan">無顯示資料</span> <span class="en-lan" style="display: none;">No records available</span>';
+		var searchStr = '<span class="cht-lan">搜尋</span> <span class="en-lan" style="display: none;">Search</span>';
+		var perviousStr = '<span class="cht-lan">上一頁</span> <span class="en-lan" style="display: none;">Prev</span>';
+		var nextStr = '<span class="cht-lan">下一頁</span> <span class="en-lan" style="display: none;">Next</span>';
+
+		var table = $("#organizationTable").DataTable({
+			responsive : true,
+			"language" : {
+				"lengthMenu" : lengMenuStr,
+				"zeroRecords" : zeroRecordsStr,
+				"info" : infoStr,
+				"infoEmpty" : ifoEmptyStr,
+				"infoFiltered" : '(filtered from _MAX_ total records)',
+				"search" : searchStr,
+				"paginate" : {
+					"previous" : perviousStr,
+					"next" : nextStr
+				}
+			}
+		})
+		
+		$('input[type="search"]').on("keyup", function(){
+			showCurrentLan();	
+		});
+		
+		showCurrentLan();
 	});
 
 	form.addEventListener("submit", function(event) {
@@ -280,8 +327,10 @@
 			$td += '<td>' + name + '</td>';
 
 			$td += '<td>';
-			$td += '<button class="btn-warning marginButton" onclick="showUpdateRow(this)">編輯</button> ';
-			$td += '<button class="btn-danger marginButton" onclick="showDeleteRow(this)">刪除</button>';
+			$td += '<button class="btn-warning marginButton" onclick="showUpdateRow(this)"><span class="cht-lan">編輯</span> ';
+			$td += '<span class="en-lan" style="display: none;">Edit</span></button> ';
+			$td += '<button class="btn-danger marginButton" onclick="showDeleteRow(this)"><span class="cht-lan">刪除</span> ';
+			$td += '<span class="en-lan" style="display: none;">Delete</span></button> ';
 			$td += '</td>';
 			$tr += $td + '</tr>';
 

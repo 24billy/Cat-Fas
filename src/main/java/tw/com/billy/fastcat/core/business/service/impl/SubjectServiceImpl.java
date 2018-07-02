@@ -34,7 +34,7 @@ public class SubjectServiceImpl implements ISubjectService {
 			subject.setSubjectId((Integer) map.get("subjectid"));
 			subject.setOrganizationId((Integer) map.get("organizationid"));
 			subject.setSubjectName((String) map.get("subjectname"));
-			subject.setMedicalNumber((Integer) map.get("medicalnumber"));
+			subject.setMedicalNumber((String) map.get("medicalnumber"));
 			subject.setCreatedate((String) map.get("createdate"));
 			subject.setBirthday((String) map.get("birthday"));
 			subject.setGender((String) map.get("gender"));
@@ -64,7 +64,7 @@ public class SubjectServiceImpl implements ISubjectService {
 			subject.setSubjectId((Integer) map.get("subjectid"));
 			subject.setOrganizationId((Integer) map.get("organizationid"));
 			subject.setSubjectName((String) map.get("subjectname"));
-			subject.setMedicalNumber((Integer) map.get("medicalnumber"));
+			subject.setMedicalNumber((String) map.get("medicalnumber"));
 			subject.setCreatedate((String) map.get("createdate"));
 			subject.setBirthday((String) map.get("birthday"));
 			subject.setGender((String) map.get("gender"));
@@ -98,7 +98,7 @@ public class SubjectServiceImpl implements ISubjectService {
 	public Integer updateSubject(Subject subject) {
 		Integer subjectId = subject.getSubjectId();
 		String subjectName = subject.getSubjectName();
-		Integer medicalNumber = subject.getMedicalNumber();
+		String medicalNumber = subject.getMedicalNumber();
 		Integer organizationId = subject.getOrganizationId();
 		String gender = subject.getGender();
 		String birthday = subject.getBirthday();

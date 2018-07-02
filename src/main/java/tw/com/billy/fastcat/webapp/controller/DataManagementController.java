@@ -67,7 +67,7 @@ public class DataManagementController {
 
 	@RequestMapping("/addSubject")
 	public String addSubject(HttpServletRequest request,
-			@RequestParam(value = "medicalNumber", required = true) Integer medicalNumber,
+			@RequestParam(value = "medicalNumber", required = true) String medicalNumber,
 			@RequestParam(value = "name", required = true) String name,
 			@RequestParam(value = "gender", required = true) String gender,
 			@RequestParam(value = "birthday", required = true) String birthday) {
@@ -105,7 +105,7 @@ public class DataManagementController {
 	@RequestMapping("/updateSubject")
 	public String updateSubject(HttpServletRequest request,
 			@RequestParam(value = "subjectId", required = true) Integer subjectId,
-			@RequestParam(value = "medicalNumber", required = true) Integer medicalNumber,
+			@RequestParam(value = "medicalNumber", required = true) String medicalNumber,
 			@RequestParam(value = "name", required = true) String name,
 			@RequestParam(value = "gender", required = true) String gender,
 			@RequestParam(value = "birthday", required = true) String birthday) {

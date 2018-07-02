@@ -10,7 +10,7 @@ public class Subject {
 
 	private Integer subjectId;
 	private Integer organizationId;
-	private Integer medicalNumber;
+	private String medicalNumber;
 	private String subjectName;
 	private String birthday;
 	private String gender;
@@ -33,11 +33,11 @@ public class Subject {
 		this.organizationId = organizationId;
 	}
 
-	public Integer getMedicalNumber() {
+	public String getMedicalNumber() {
 		return medicalNumber;
 	}
 
-	public void setMedicalNumber(Integer medicalNumber) {
+	public void setMedicalNumber(String medicalNumber) {
 		this.medicalNumber = medicalNumber;
 	}
 

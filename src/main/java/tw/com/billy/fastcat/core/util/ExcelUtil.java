@@ -52,8 +52,12 @@ public class ExcelUtil {
 
 		for (int i = 0; i < recordTitle.length; i++) {
 			head.createCell(i + 32).setCellValue(recordTitle[i]);
+			
 		}
 
+		head.createCell(91).setCellValue("刪除與否");
+		head.createCell(92).setCellValue("作答總時間(毫秒)");
+		
 		int rowCount = 1;
 
 		for (int i = 0; i < data.size(); i++) {
@@ -140,6 +144,13 @@ public class ExcelUtil {
 			
 			if (isDelete) {
 				row.createCell(91).setCellValue("已刪除");
+			}
+			
+			Long reactionTime = data.get(i).getReactionTime();
+System.out.println(reactionTime);
+
+			if (data.get(i).getReactionTime() != null && reactionTime != 0) {
+				row.createCell(92).setCellValue(reactionTime.intValue());
 			}
 			
 			rowCount++;

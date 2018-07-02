@@ -7,17 +7,25 @@
 	<div class="row">
 		<div class="col-md-12 text-center">
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a onclick="showDataManagement()">資料管理</a>
+				<li class="breadcrumb-item"><a onclick="showDataManagement()"><span class="cht-lan">資料管理</span> <span class="en-lan"
+									style="display: none;">Data management</span></a>
 				</li>
-				<li class="breadcrumb-item active">測驗歷程管理</li>
+				<li class="breadcrumb-item active"><span class="cht-lan">測驗歷程管理</span> <span class="en-lan"
+									style="display: none;">Unit management</span></li>
 			</ol>
 		</div>
 
 		<div class="col-md-12">
 			<div class="card">
 				<div class="card-body">
-					<button class="btn btn-primary" onclick="addExam()">新增測驗</button>
-					<button class="btn btn-info" onclick="exportDataBySubject()">受試者資料匯出</button>
+					<button class="btn btn-primary" onclick="addExam()">
+					<span class="cht-lan">新增測驗</span> <span class="en-lan"
+									style="display: none;">New Unit</span>
+					</button>
+					<button class="btn btn-info" onclick="exportDataBySubject()">
+					<span class="cht-lan">受試者資料匯出</span> <span class="en-lan"
+									style="display: none;">Export data</span>
+					</button>
 				</div>
 				<div class="card-body">
 					<div class="table-responsive">
@@ -25,13 +33,40 @@
 							class="table table-bordered table-hover" style="width: 100%;">
 							<thead>
 								<tr>
-									<td>recordId</td>
-									<td>病歷號碼</td>
-									<td>姓名</td>
-									<td>建立日期</td>
-									<td>進行測驗</td>
-									<td>測驗結果</td>
-									<td>刪除紀錄</td>
+									<td>
+									<span class="cht-lan">recordId</span> <span class="en-lan"
+									style="display: none;"> ID</span>
+									</td>
+									
+									<td>
+									<span class="cht-lan">病歷號碼</span> <span class="en-lan"
+									style="display: none;">Chart Number</span>
+									</td>
+									
+									<td>
+									<span class="cht-lan">姓名</span> <span class="en-lan"
+									style="display: none;">Full name</span>
+									</td>
+									
+									<td>
+									<span class="cht-lan">建立日期</span> <span class="en-lan"
+									style="display: none;">Date</span>
+									</td>
+									
+									<td>
+									<span class="cht-lan">進行測驗</span> <span class="en-lan"
+									style="display: none;">Mode of administation</span>
+									</td>
+									
+									<td>
+									<span class="cht-lan">測驗結果</span> <span class="en-lan"
+									style="display: none;"></span>
+									</td>
+									
+									<td>
+									<span class="cht-lan">刪除紀錄</span> <span class="en-lan"
+									style="display: none;"></span>
+									</td>
 								</tr>
 							</thead>
 							<tbody>
@@ -55,20 +90,32 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">即將刪除</h5>
+				<h5 class="modal-title">
+				<span class="cht-lan">即將刪除</span> <span class="en-lan"
+									style="display: none;">Delete unit</span>
+				</h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
-				<p>確定要刪除此資料？</p>
+				<p>
+				<span class="cht-lan">確定要刪除此資料？</span> <span class="en-lan"
+									style="display: none;">Delete this unit?</span>
+				</p>
 				<div style="display: none;" id="deleteId"></div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">
+				<span class="cht-lan">取消</span> <span class="en-lan"
+									style="display: none;">Cancel</span>
+				</button>
 				<button type="button" class="btn btn-primary"
-					onclick="testProgress.remove()">確定</button>
+					onclick="testProgress.remove()">
+					<span class="cht-lan">確定</span> <span class="en-lan"
+									style="display: none;">Delete</span>
+					</button>
 			</div>
 		</div>
 	</div>
@@ -83,11 +130,22 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">
-					<span>測驗結果</span>
+				<h5 class="modal-title cht-lan">
+					<span>
+						測驗結果
+					</span>
 					<span id="examType"></span>
 					<span id="itemLength"></span>
 					<span id="reactionTime"></span>
+				</h5>
+				<h5 class="modal-title en-lan" style="display:none;">
+					<span>
+						Result
+					</span>
+					<span id="examTypeEn"></span>
+					<br>
+					<span id="itemLengthEn"></span>
+					<span id="reactionTimeEn"></span>
 				</h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
@@ -100,17 +158,43 @@
 						style="width: 100%;">
 						<thead class="table-primary">
 							<tr>
-								<th>向度</th>
-								<th>T分數</th>
-								<th>95%信賴區間上限</th>
-								<th>95%信賴區間下限</th>
-								<th>百分等級</th>
-								<th>信度</th>
+								<th>
+								<span class="cht-lan">向度</span> <span class="en-lan"
+									style="display: none;">Function</span>
+								</th>
+								
+								<th>
+								<span class="cht-lan">T分數</span> <span class="en-lan"
+									style="display: none;">T-score</span>
+								</th>
+								
+								<th>
+								<span class="cht-lan">95%信賴區間上限</span> <span class="en-lan"
+									style="display: none;">95% CI(upper limit)</span>
+								</th>
+								
+								<th>
+								<span class="cht-lan">95%信賴區間下限</span> <span class="en-lan"
+									style="display: none;">95% CI(lower limit)</span>
+								</th>
+								
+								<th>
+								<span class="cht-lan">百分等級</span> <span class="en-lan"
+									style="display: none;">Percentile Rank</span>
+								</th>
+								
+								<th>
+								<span class="cht-lan">信度</span> <span class="en-lan"
+									style="display: none;">Reliability</span>
+								</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr id="category1">
-								<td class="table-info">上肢動作</td>
+								<td class="table-info">
+								<span class="cht-lan">上肢動作</span> <span class="en-lan"
+									style="display: none;">UE motor </span>
+								</td>
 								<td></td>
 								<td></td>
 								<td></td>
@@ -118,7 +202,10 @@
 								<td></td>
 							</tr>
 							<tr id="category2">
-								<td class="table-info">下肢動作</td>
+								<td class="table-info">
+								<span class="cht-lan">下肢動作</span> <span class="en-lan"
+									style="display: none;">LE motor </span>
+								</td>
 								<td></td>
 								<td></td>
 								<td></td>
@@ -126,7 +213,10 @@
 								<td></td>
 							</tr>
 							<tr id="category3">
-								<td class="table-info">平衡</td>
+								<td class="table-info">
+								<span class="cht-lan">平衡</span> <span class="en-lan"
+									style="display: none;">Postural control </span>
+								</td>
 								<td></td>
 								<td></td>
 								<td></td>
@@ -134,7 +224,11 @@
 								<td></td>
 							</tr>
 							<tr id="category4">
-								<td class="table-info">日常生活活動</td>
+								<td class="table-info">
+								<span class="cht-lan">日常生活活動</span> <span class="en-lan"
+									style="display: none;">Basic activities of daily living
+</span>
+								</td>
 								<td></td>
 								<td></td>
 								<td></td>
@@ -147,7 +241,10 @@
 			</div>
 			<div class="modal-footer">
 				<div class="text-center">
-					<button type="button" class="btn btn-primary" data-dismiss="modal">回到歷程管理</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">
+					<span class="cht-lan">回到歷程管理</span> <span class="en-lan"
+									style="display: none;">Back</span>
+					</button>
 				</div>
 			</div>
 		</div>
@@ -163,7 +260,10 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">錯誤</h5>
+				<h5 class="modal-title">
+				<span class="cht-lan">錯誤</span> <span class="en-lan"
+									style="display: none;">Warning</span>
+				</h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -174,7 +274,10 @@
 			</div>
 			<div class="modal-footer">
 				<div>
-					<button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">
+					<span class="cht-lan">確定</span> <span class="en-lan"
+									style="display: none;">Confirm</span>
+					</button>
 				</div>
 			</div>
 		</div>
@@ -192,7 +295,35 @@
 			testProgress.renderHtml(testProgress.dataList[key]);
 		}
 
-		var table = $("#testProgressTable").DataTable();
+		var lengMenuStr = '<span class="cht-lan">顯示</span> <span class="en-lan" style="display: none;">Display</span> _MENU_ <span class="cht-lan">筆資料</span> <span class="en-lan" style="display: none;">records per page</span>';
+		var zeroRecordsStr = '<span class="cht-lan">查無資料</span> <span class="en-lan" style="display: none;">Nothing found - sorry</span>';
+		var infoStr = '<span class="cht-lan">顯示第 _START_ 至 _END_ 筆資料，總共 _TOTAL_ 筆資料</span> <span class="en-lan" style="display: none;">Showing _START_ to _END_ of _TOTAL_</span>';
+		var ifoEmptyStr = '<span class="cht-lan">無顯示資料</span> <span class="en-lan" style="display: none;">No records available</span>';
+		var searchStr = '<span class="cht-lan">搜尋</span> <span class="en-lan" style="display: none;">Search</span>';
+		var perviousStr = '<span class="cht-lan">上一頁</span> <span class="en-lan" style="display: none;">Prev</span>';
+		var nextStr = '<span class="cht-lan">下一頁</span> <span class="en-lan" style="display: none;">Next</span>';
+
+		var table = $("#testProgressTable").DataTable({
+			responsive : true,
+			"language" : {
+				"lengthMenu" : lengMenuStr,
+				"zeroRecords" : zeroRecordsStr,
+				"info" : infoStr,
+				"infoEmpty" : ifoEmptyStr,
+				"infoFiltered" : '(filtered from _MAX_ total records)',
+				"search" : searchStr,
+				"paginate" : {
+					"previous" : perviousStr,
+					"next" : nextStr
+				}
+			}
+		})
+		
+		$('input[type="search"]').on("keyup", function(){
+			showCurrentLan();	
+		});
+		
+		showCurrentLan();
 	});
 
 	var testProgress = {
@@ -227,35 +358,47 @@
 			$td += '<td>' + startDate + '</td>';
 			$td += '<td>';
 
+			var highReliabilityBtn = '<span class="cht-lan">高信度</span>';
+			highReliabilityBtn +='<span class="en-lan" style="display: none;">High reliability</span>';
+			var highValidityBtn = '<span class="cht-lan">高效度</span>';
+			highValidityBtn +='<span class="en-lan" style="display: none;">High efficiency</span>';
+			
 			if (complete || isDelete) {
 				$td += '<button class="btn-default marginButton" onclick="startHighReliabilityTest('
-						+ recordId + ')" disabled>高信度</button>';
+						+ recordId + ')" disabled>' + highReliabilityBtn + '</button>';
 				$td += '<button class="btn-default marginButton" onclick="startHighValidityTest('
-						+ recordId + ')" disabled>高效率</button>';
+						+ recordId + ')" disabled>' + highValidityBtn + '</button>';
 			} else {
 				$td += '<button class="btn-success marginButton" onclick="startHighReliabilityTest('
-						+ recordId + ')">高信度</button>';
+						+ recordId + ')">' + highReliabilityBtn + '</button>';
 				$td += '<button class="btn-success marginButton" onclick="startHighValidityTest('
-						+ recordId + ')">高效率</button>';
+						+ recordId + ')">' + highValidityBtn + '</button>';
 			}
 
 			$td += '</td>';
 			$td += '<td>';
 
+			var resultBtn = '<span class="cht-lan">結果</span>';
+			resultBtn +='<span class="en-lan" style="display: none;">Show result</span>';
+			
 			if (complete && !isDelete) {
 				$td += '<button class="btn-info marginButton" onclick="showResult('
-						+ recordId + ')">結果</button>';
+						+ recordId + ')">' + resultBtn + '</button>';
 			} else {
-				$td += '<button class="btn-default marginButton" disabled>結果</button>';
+				$td += '<button class="btn-default marginButton" disabled>' + resultBtn + '</button>';
 			}
 
 			$td += '</td>';
 			$td += '<td>';
 
+			var deleteBtn = '<span class="cht-lan">刪除</span>';
+			deleteBtn +='<span class="en-lan" style="display: none;">Delete</span>';
+			
+			
 			if (isDelete) {
-				$td += '<button class="btn-default marginButton" onclick="showDeleteRow(this)" disabled>刪除</button>';
+				$td += '<button class="btn-default marginButton" onclick="showDeleteRow(this)" disabled>' + deleteBtn + '</button>';
 			} else {
-				$td += '<button class="btn-danger marginButton" onclick="showDeleteRow(this)">刪除</button>';
+				$td += '<button class="btn-danger marginButton" onclick="showDeleteRow(this)">' + deleteBtn + '</button>';
 			}
 
 			$td += '</td>';
@@ -335,16 +478,20 @@
 				var reactionTime = resultMap.reactionTime;
 				
 				if ("hv" == examType) {
-					$("#examType").html("高效度測驗");	
+					$("#examType").html("高效度測驗");
+					$("#examTypeEn").html("(Mode: high efficiency)");
 				} else if ("hr" == examType) {
-					$("#examType").html("高信度測驗");	
+					$("#examType").html("高信度測驗");
+					$("#examTypeEn").html("(Mode: high reliability)");
 				}
 				
 				if (reactionTime && reactionTime != "") {
 					$("#reactionTime").html(" 測驗時間：" + reactionTime + "毫秒");
+					$("#reactionTimeEn").html(" Time of assessment：" + reactionTime + " ms");
 				}
 				
 				$("#itemLength").html(itemLength + "題");
+				$("#itemLengthEn").html(" Number of items：" + itemLength + "；");
 				
 				for (var i = 1; i <= 4; i++) {
 					// TScore

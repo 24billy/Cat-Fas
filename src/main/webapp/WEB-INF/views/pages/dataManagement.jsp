@@ -6,7 +6,8 @@
 <div class="row">
 	<div class="col-md-12 text-center">
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item active">資料管理</li>
+			<li class="breadcrumb-item active"><span class="cht-lan">資料管理</span> <span class="en-lan"
+									style="display: none;">Data management</span></li>
 			<!--<li class="breadcrumb-item active">測驗歷程管理</li>-->
 		</ol>
 	</div>
@@ -14,8 +15,14 @@
 	<div class="col-md-12">
 		<div class="card">
 			<div class="card-body">
-				<button class="btn btn-primary" onclick="addExaminee()">新增受試者</button>
-				<button class="btn btn-info" onclick="exportData()">資料匯出</button>
+				<button class="btn btn-primary" onclick="addExaminee()">
+				<span class="cht-lan">新增受試者</span> <span class="en-lan"
+									style="display: none;">New subject</span>
+				</button>
+				<button class="btn btn-info" onclick="exportData()">
+				<span class="cht-lan">資料匯出</span> <span class="en-lan"
+									style="display: none;">Export data</span>
+				</button>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">
@@ -23,13 +30,41 @@
 						style="width: 100%;">
 						<thead>
 							<tr>
-								<td>序號</td>
-								<td>病歷號碼</td>
-								<td>姓名</td>
-								<td>性別</td>
-								<td>生日</td>
-								<td>進行測驗</td>
-								<td>功能</td>
+								<td>
+								<span class="cht-lan">序號</span> <span class="en-lan"
+									style="display: none;"> ID</span>
+								</td>
+
+								<td>
+								<span class="cht-lan">病歷號碼</span> <span class="en-lan"
+									style="display: none;">Chart Number</span>
+								</td>
+								
+								<td>
+								<span class="cht-lan">姓名</span> <span class="en-lan"
+									style="display: none;">Full name</span>
+								</td>
+								
+								<td>
+								<span class="cht-lan">性別</span> <span class="en-lan"
+									style="display: none;">Gender</span>
+								</td>
+								
+								<td>
+								<span class="cht-lan">生日</span> <span class="en-lan"
+									style="display: none;">Date of birth</span>
+								</td>
+								
+								<td>
+								<span class="cht-lan">進行測驗</span> <span class="en-lan"
+									style="display: none;"></span>
+								</td>
+								
+								<td>
+								<span class="cht-lan">功能</span> <span class="en-lan"
+									style="display: none;"></span>
+								</td>
+								
 							</tr>
 						</thead>
 						<tbody>
@@ -45,14 +80,16 @@
 
 <!-- insert Modal Start -->
 <button class="btn btn-primary" data-toggle="modal"
-	data-target="#insertTestData" id="insertButton">新增訪員</button>
+	data-target="#insertTestData" id="insertButton"><span class="cht-lan">新增資料</span> <span class="en-lan"
+									style="display: none;">New subject</span></button>
 
 <div class="modal fade" id="insertTestData" tabindex="-1" role="dialog"
 	aria-labelledby="insertTestDataLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="insertTestDataLabel">新增資料</h5>
+				<h5 class="modal-title" id="insertTestDataLabel"><span class="cht-lan">新增資料</span> <span class="en-lan"
+									style="display: none;">New subject</span></h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -62,32 +99,52 @@
 				<form class="row">
 					<div id="" style="display: none;"></div>
 					<div class="form-group col-md-6">
-						<label for="medicalNumber" class="form-control-label">病歷號碼:</label>
+						<label for="medicalNumber" class="form-control-label">
+						<span class="cht-lan">病歷號碼:</span> <span class="en-lan"
+									style="display: none;">Chart Number</span>
+						</label>
 						<input type="text" class="form-control" id="medicalNumber">
 					</div>
 					<div class="form-group col-md-6">
-						<label for="name" class="form-control-label">姓名:</label> <input
+						<label for="name" class="form-control-label">
+						<span class="cht-lan">姓名:</span> <span class="en-lan"
+									style="display: none;">Full name</span>
+						</label> <input
 							type="text" class="form-control" id="name">
 
 					</div>
 					<div class="form-group col-md-6">
-						<label for="gender" class="form-control-label">性別:</label> <select
+						<label for="gender" class="form-control-label">
+						<span class="cht-lan">性別:</span> <span class="en-lan"
+									style="display: none;">Gender:</span>
+						</label> <select
 							class="form-control" id="gender">
-							<option value="男">男</option>
-							<option value="女">女</option>
+							<option class="cht-lan" value="男">男</option> 
+							<option class="cht-lan" value="女">女</option>
+							<option class="en-lan" style="display: none;" value="男">male</option> 
+							<option class="en-lan" style="display: none;" value="女">female</option>
 						</select>
 					</div>
 					<div class="form-group col-md-6">
-						<label for="birthday" class="form-control-label">生日:</label> <input
+						<label for="birthday" class="form-control-label">
+						<span class="cht-lan">生日:</span> <span class="en-lan"
+									style="display: none;">Date of birth:</span>
+						</label> <input
 							type="text" class="form-control" id="birthday" placeholder="(格式:YYYY-MM-DD)">
 
 					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">
+				<span class="cht-lan">取消</span> <span class="en-lan"
+									style="display: none;">Cancel</span>
+				</button>
 				<button type="button" class="btn btn-primary"
-					onclick="testData.insert()">儲存</button>
+					onclick="testData.insert()">
+					<span class="cht-lan">儲存</span> <span class="en-lan"
+									style="display: none;">Save</span>
+					</button>
 			</div>
 		</div>
 	</div>
@@ -102,7 +159,8 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="updateTestDataLabel">編輯資料</h5>
+				<h5 class="modal-title" id="updateTestDataLabel"><span class="cht-lan">編輯資料</span> <span class="en-lan"
+									style="display: none;">Edit subject information</span></h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -111,23 +169,37 @@
 			<div class="modal-body">
 				<form class="row">
 					<div class="form-group col-md-6">
-						<label for="updateMedicalNumber" class="form-control-label">病歷號碼:</label>
+						<label for="updateMedicalNumber" class="form-control-label">
+							<span class="cht-lan">病歷號碼:</span> <span class="en-lan"
+									style="display: none;">Chart Number</span>
+						</label>
 						<input type="text" class="form-control" id="updateMedicalNumber">
 					</div>
 					<div class="form-group col-md-6">
-						<label for="updateName" class="form-control-label">姓名:</label> <input
+						<label for="updateName" class="form-control-label">
+							<span class="cht-lan">姓名:</span> <span class="en-lan"
+									style="display: none;">Full name</span>
+						</label> <input
 							type="text" class="form-control" id="updateName">
 
 					</div>
 					<div class="form-group col-md-6">
-						<label for="updateGender" class="form-control-label">性別:</label> <select
+						<label for="updateGender" class="form-control-label">
+							<span class="cht-lan">性別:</span> <span class="en-lan"
+									style="display: none;">Gender:</span>
+						</label> <select
 							class="form-control" id="updateGender">
-							<option value="男">男</option>
-							<option value="女">女</option>
+							<option class="cht-lan" value="男">男</option> 
+							<option class="cht-lan" value="女">女</option>
+							<option class="en-lan" style="display: none;" value="male">male</option> 
+							<option class="en-lan" style="display: none;" value="female">female</option>
 						</select>
 					</div>
 					<div class="form-group col-md-6">
-						<label for="updateBirthday" class="form-control-label">生日:</label>
+						<label for="updateBirthday" class="form-control-label">
+							<span class="cht-lan">生日:</span> <span class="en-lan"
+									style="display: none;">Date of birth:</span>
+						</label>
 						<input type="text" class="form-control" id="updateBirthday" placeholder="(格式:YYYY-MM-DD)">
 
 					</div>
@@ -135,9 +207,15 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">
+					<span class="cht-lan">取消</span> <span class="en-lan"
+									style="display: none;">Cancel</span>
+				</button>
 				<button type="button" class="btn btn-primary"
-					onclick="testData.update()">儲存</button>
+					onclick="testData.update()">
+					<span class="cht-lan">確定</span> <span class="en-lan"
+									style="display: none;">Save</span>
+				</button>
 			</div>
 		</div>
 	</div>
@@ -153,20 +231,32 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">即將刪除</h5>
+				<h5 class="modal-title">
+					<span class="cht-lan">即將刪除</span> <span class="en-lan"
+									style="display: none;">Delete subject</span>
+				</h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
-				<p>確定要刪除此資料？</p>
+				<p>
+				<span class="cht-lan">確定要刪除此資料？</span> <span class="en-lan"
+									style="display: none;">Delete this subject?</span>
+				</p>
 				<div style="display: none;" id="deleteId"></div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">
+				<span class="cht-lan">取消</span> <span class="en-lan"
+									style="display: none;">Cancel</span>
+				</button>
 				<button type="button" class="btn btn-primary"
-					onclick="testData.deleteData()">確定</button>
+					onclick="testData.deleteData()">
+					<span class="cht-lan">確定</span> <span class="en-lan"
+									style="display: none;">Save</span>
+					</button>
 			</div>
 		</div>
 	</div>
@@ -181,7 +271,10 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">錯誤</h5>
+				<h5 class="modal-title">
+				<span class="cht-lan">錯誤</span> <span class="en-lan"
+									style="display: none;">Warning</span>
+				</h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -192,7 +285,10 @@
 			</div>
 			<div class="modal-footer">
 				<div>
-					<button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">
+					<span class="cht-lan">確定</span> <span class="en-lan"
+									style="display: none;">Confirm</span>
+					</button>
 				</div>
 			</div>
 		</div>
@@ -211,9 +307,35 @@
 
 		//testData.init();
 
+		var lengMenuStr = '<span class="cht-lan">顯示</span> <span class="en-lan" style="display: none;">Display</span> _MENU_ <span class="cht-lan">筆資料</span> <span class="en-lan" style="display: none;">records per page</span>';
+		var zeroRecordsStr = '<span class="cht-lan">查無資料</span> <span class="en-lan" style="display: none;">Nothing found - sorry</span>';
+		var infoStr = '<span class="cht-lan">顯示第 _START_ 至 _END_ 筆資料，總共 _TOTAL_ 筆資料</span> <span class="en-lan" style="display: none;">Showing _START_ to _END_ of _TOTAL_</span>';
+		var ifoEmptyStr = '<span class="cht-lan">無顯示資料</span> <span class="en-lan" style="display: none;">No records available</span>';
+		var searchStr = '<span class="cht-lan">搜尋</span> <span class="en-lan" style="display: none;">Search</span>';
+		var perviousStr = '<span class="cht-lan">上一頁</span> <span class="en-lan" style="display: none;">Prev</span>';
+		var nextStr = '<span class="cht-lan">下一頁</span> <span class="en-lan" style="display: none;">Next</span>';
+
 		var table = $("#testDataTable").DataTable({
-			responsive : true
+			responsive : true,
+			"language" : {
+				"lengthMenu" : lengMenuStr,
+				"zeroRecords" : zeroRecordsStr,
+				"info" : infoStr,
+				"infoEmpty" : ifoEmptyStr,
+				"infoFiltered" : '(filtered from _MAX_ total records)',
+				"search" : searchStr,
+				"paginate" : {
+					"previous" : perviousStr,
+					"next" : nextStr
+				}
+			}
+		})
+		
+		$('input[type="search"]').on("keyup", function(){
+			showCurrentLan();	
 		});
+		
+		showCurrentLan();
 	});
 
 	var currentId = 4;
@@ -253,6 +375,14 @@
 			var medicalNumber = testObject.medicalNumber;
 			var name = testObject.subjectName;
 			var gender = testObject.gender;
+			if (gender == '男') {
+				gender = '<span class="cht-lan">男</span>';
+				gender += '<span class="en-lan" style="display: none;">Male</span>';
+			} else {
+				gender = '<span class="cht-lan">女</span>';
+				gender += '<span class="en-lan" style="display: none;">Female</span>';
+			}
+			
 			var birthday = testObject.birthday;
 
 			var $tr = '<tr id="data-' + id + '">';
@@ -263,11 +393,14 @@
 			$td += '<td>' + birthday + '</td>';
 			$td += '<td>';
 			$td += '<button class="btn-success marginButton" onclick="showProgressManagement('
-					+ id + ')">開始</button> ';
+					+ id + ')"><span class="cht-lan">開始</span> <span class="en-lan" style="display: none;">Start</span></button> ';
 			$td += '</td>';
 			$td += '<td>';
-			$td += '<button class="btn-warning marginButton" onclick="showUpdateRow(this)">編輯</button> ';
-			$td += '<button class="btn-danger marginButton" onclick="showDeleteRow(this)">刪除</button>';
+			
+			var updateButton = '<span class="cht-lan">編輯</span> <span class="en-lan" style="display: none;">Edit</span>';
+			var deleteButton = '<span class="cht-lan">刪除</span> <span class="en-lan" style="display: none;">Delete</span>';
+			$td += '<button class="btn-warning marginButton" onclick="showUpdateRow(this)">' + updateButton + '</button> ';
+			$td += '<button class="btn-danger marginButton" onclick="showDeleteRow(this)">' + deleteButton + '</button>';
 			$td += '</td>';
 			$tr += $td + '</tr>';
 
@@ -307,6 +440,21 @@
 			var updateMedicalNumber = $("#updateMedicalNumber").val();
 			var updateName = $("#updateName").val();
 			var updateGender = $("#updateGender").val();
+			
+			if (currentLanguage == 'cht') {
+				if (updateGender == '男') {
+					updateGender = '男';
+				} else {
+					updateGender = '女';
+				}	
+			} else {
+				if (updateGender == 'male') {
+					updateGender = '男';
+				} else {
+					updateGender = '女';
+				}
+			}
+			
 			var updateBirthday = $("#updateBirthday").val();
 
 			if (!testData.validate("update")) {
@@ -360,11 +508,15 @@
 				var hasError = false;
 
 				if (medicalNumber == "") {
-					errorMessage += "<p>病歷號碼不得為空</p>";
+					errorMessage += '<p><span class="cht-lan">病歷號碼不得為空</span>';
+					errorMessage += '<span class="en-lan" style="display: none;">ChartNumber cannot be empty</span></p>';
+
 					hasError = true;
 				}
 				if (name == "") {
-					errorMessage += "<p>姓名不得為空</p>";
+					errorMessage += '<p><span class="cht-lan">姓名不得為空</span>';
+					errorMessage += '<span class="en-lan" style="display: none;">Name cannot be empty</span></p>';
+					
 					hasError = true;
 				}
 
@@ -379,11 +531,15 @@
 				var hasError = false;
 
 				if (updateMedicalNumber == "") {
-					errorMessage += "<p>病歷號碼不得為空</p>";
+					errorMessage += '<p><span class="cht-lan">病歷號碼不得為空</span>';
+					errorMessage += '<span class="en-lan" style="display: none;">ChartNumber cannot be empty</span></p>';
+					
 					hasError = true;
 				}
 				if (updateName == "") {
-					errorMessage += "<p>姓名不得為空</p>";
+					errorMessage += '<p><span class="cht-lan">姓名不得為空</span>';
+					errorMessage += '<span class="en-lan" style="display: none;">Name cannot be empty</span></p>';
+					
 					hasError = true;
 				}
 
@@ -400,7 +556,7 @@
 	function addExaminee() {
 		$("#medicalNumber").val("");
 		$("#name").val("");
-
+		
 		$("#insertButton").trigger("click");
 	}
 
@@ -409,9 +565,24 @@
 		var id = testDataRow.find('td:nth-child(1)').html();
 		var medicalNumber = testDataRow.find('td:nth-child(2)').html();
 		var name = testDataRow.find('td:nth-child(3)').html();
-		var gender = testDataRow.find('td:nth-child(4)').html();
+		var gender = testDataRow.find('td:nth-child(4) span').html();
 		var birthday = testDataRow.find('td:nth-child(5)').html();
 
+		if (currentLanguage == 'cht') {
+			if (gender == '男') {
+				gender = '男';
+			} else {
+				gender = '女';
+			}	
+		} else {
+			if (gender == '男') {
+				gender = 'male';
+			} else {
+				gender = 'female';
+			}
+		}
+		
+		
 		$("#updateId").val(id);
 		$("#updateMedicalNumber").val(medicalNumber);
 		$("#updateName").val(name);

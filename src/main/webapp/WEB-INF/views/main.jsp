@@ -47,15 +47,29 @@
 
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item"><a class="nav-link" onclick="showMember()">訪員管理</a>
-				</li>
+				<li class="nav-item"><a class="nav-link" onclick="showMember()">
+						<span class="cht-lan">訪員管理</span> <span class="en-lan"
+						style="display: none;">User Management</span>
+				</a></li>
 				<li class="nav-item"><a class="nav-link"
-					onclick="showOrganization()">單位管理</a></li>
+					onclick="showOrganization()"> <span class="cht-lan">單位管理</span>
+						<span class="en-lan" style="display: none;">Unit Management</span>
+				</a></li>
 				<li class="nav-item"><a class="nav-link"
-					onclick="showDataManagement()">資料管理</a></li>
+					onclick="showDataManagement()"> <span class="cht-lan">資料管理</span>
+						<span class="en-lan" style="display: none;">Data Management</span>
+				</a></li>
 			</ul>
 			<button class="btn btn-outline-success my-2 my-sm-0"
-				onclick="logout()">${userName}登出</button>
+				onclick="logout()">${userName}
+				<span class="cht-lan">登出</span> <span class="en-lan"
+					style="display: none;">Logout</span>
+			</button>
+			<button class="btn btn-outline-success my-2 my-sm-0"
+				onclick="switchLan()">
+				<div class="cht-lan">En</div>
+				<div class="en-lan" style="display: none;">中</div>
+			</button>
 		</div>
 	</nav>
 	<!-- End navbar -->
@@ -66,10 +80,19 @@
 			<div class="col col-md-12">
 				<div class="card text-center">
 					<div class="card-header text-white bg-secondary ">
-						<h4>網站說明</h4>
+						<h4>
+							<span class="cht-lan">網站說明</span> <span class="en-lan"
+								style="display: none;">Information</span>
+						</h4>
 					</div>
 					<div class="card-body">
-						<p class="card-text">中風患者重要功能測驗組。</p>
+						<p class="card-text">
+							<span class="cht-lan">中風患者重要功能測驗組。</span> <span class="en-lan"
+								style="display: none;">Simultaneously assess 4 functions
+								in patients with stroke, including motor functions of upper and
+								lower extremities, postural control, and basic activities of
+								daily living</span>
+						</p>
 					</div>
 				</div>
 			</div>
@@ -81,36 +104,63 @@
 			<div class="col col-md-4">
 				<div class="card text-center">
 					<div class="card-header text-white bg-secondary ">
-						<h4>訪員管理</h4>
+						<h4>
+							<span class="cht-lan">訪員管理</span> <span class="en-lan"
+								style="display: none;">User Management</span>
+						</h4>
 					</div>
 					<div class="card-body">
-						<p class="card-text">新增、編輯、刪除主試者</p>
+						<p class="card-text">
+							<span class="cht-lan">新增、編輯、刪除主試者</span> <span class="en-lan"
+								style="display: none;">Add, edit, and delete user/administrator</span>
+						</p>
 						<button onclick="showMember()"
-							class="btn btn-primary marginButton">進入</button>
+							class="btn btn-primary marginButton">
+							<span class="cht-lan">進入</span> <span class="en-lan"
+								style="display: none;">Enter</span>
+						</button>
 					</div>
 				</div>
 			</div>
 			<div class="col col-md-4">
 				<div class="card text-center">
 					<div class="card-header text-white bg-secondary ">
-						<h4>單位管理</h4>
+						<h4>
+							<span class="cht-lan">單位管理</span> <span class="en-lan"
+								style="display: none;">Unit Management</span>
+						</h4>
 					</div>
 					<div class="card-body">
-						<p class="card-text">新增、編輯、刪除單位</p>
+						<p class="card-text">
+							<span class="cht-lan">新增、編輯、刪除單位</span> <span class="en-lan"
+								style="display: none;">Add, edit, and delete unit of user</span>
+						</p>
 						<button onclick="showOrganization()"
-							class="btn btn-primary marginButton">進入</button>
+							class="btn btn-primary marginButton">
+							<span class="cht-lan">進入</span> <span class="en-lan"
+								style="display: none;">Enter</span>
+						</button>
 					</div>
 				</div>
 			</div>
 			<div class="col col-md-4">
 				<div class="card text-center">
 					<div class="card-header text-white bg-secondary ">
-						<h4>資料管理</h4>
+						<h4>
+							<span class="cht-lan">資料管理</span> <span class="en-lan"
+								style="display: none;">Data Management</span>
+						</h4>
 					</div>
 					<div class="card-body">
-						<p class="card-text">新增、編輯、刪除受試者。進行測驗、觀看結果。</p>
+						<p class="card-text">
+							<span class="cht-lan">新增、編輯、刪除受試者。進行測驗、觀看結果。</span> <span
+								class="en-lan" style="display: none;">Add, edit, delete, administer, and review data</span>
+						</p>
 						<button onclick="showDataManagement()"
-							class="btn btn-primary marginButton">進入</button>
+							class="btn btn-primary marginButton">
+							<span class="cht-lan">進入</span> <span class="en-lan"
+								style="display: none;">Enter</span>
+						</button>
 					</div>
 				</div>
 			</div>
@@ -129,6 +179,10 @@
 	<!-- END footer -->
 </body>
 <script>
+	$(document).ready(function() {
+		showCurrentLan();
+	});
+
 	$(".nav-link").on("click", function() {
 		$(".nav-link").removeClass("active");
 		$(this).addClass("active");
