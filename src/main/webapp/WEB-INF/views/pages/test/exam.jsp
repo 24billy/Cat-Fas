@@ -4,7 +4,11 @@
 <!-- Begin Content -->
 <div class="row">
 	<div class="card col-md-12">
-		<div class="card-header bg-info text-white text-center" id="itemIndex">第${itemIndex}題</div>
+		<div class="card-header bg-info text-white text-center" id="itemIndex">
+			<span class="cht-lan">第${itemIndex}題</span> <span class="en-lan"
+								style="display: none;">No. ${itemIndex}</span>
+			
+		</div>
 		<div class="card-body bg-dark">
 			<ul class="list-group">
 				<li class="list-group-item" id="itemDimension">向度：</li>
@@ -20,7 +24,10 @@
 			</form>
 		</div>
 		<div class="card-body text-center">
-			<button class="btn-success btn-lg" onclick="sendAnswer()">確定</button>
+			<button class="btn-success btn-lg" onclick="sendAnswer()">
+				<span class="cht-lan">確定</span> <span class="en-lan"
+								style="display: none;">Next ></span>
+			</button>
 		</div>
 	</div>
 </div>
@@ -35,17 +42,26 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">提醒</h5>
+				<h5 class="modal-title">
+					<span class="cht-lan">提醒</span> <span class="en-lan"
+								style="display: none;">Warning</span>
+				</h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
-				<h4 id="messageText">請選擇一個選項</h4>
+				<h4 id="messageText">
+					<span class="cht-lan">請選擇一個選項</span> <span class="en-lan"
+								style="display: none;">Please choose an option.</span>
+				</h4>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal">
+					<span class="cht-lan">確定</span> <span class="en-lan"
+								style="display: none;">Confirm</span>
+				</button>
 			</div>
 		</div>
 	</div>
@@ -64,44 +80,80 @@
 		}
 
 		generateItem(itemStr);
+		showCurrentLan();
 	});
 
 	function generateItem(itemStr) {
 		var item = JSON.parse(itemStr);
 		console.log(item);
-
+		
+		var startPose = item.startPose;
+		var title = '<span class="cht-lan">';
+			title += '題目：';
+			title += item.chtTitle || "";
+			title += '</span>';
+			title += '<span class="en-lan" style="display: none;">';
+			title += 'Item：';
+			title += item.engTitle || "";
+			title += '</span>';
+		$("#title").html(title);
+		
 		var dimension = item.dimension;
 		var dimensionStr = "";
-		var startPose = item.startPose;
-		var title = "";
-		if (item.chtTitle) {
-			title = item.chtTitle; 
-		} else if (item.engTitle) {
-			title = item.engTitle;
-		}
-		
 		if (1 == dimension) {
-			dimensionStr = "向度：上肢動作";
+			dimensionStr ='<span class="cht-lan">';
+			dimensionStr += "向度：上肢動作";
+			dimensionStr += '</span>';
+			dimensionStr +='<span class="en-lan" style="display: none;">';
+			dimensionStr += "Function：UE motor";
+			dimensionStr += '</span>';
 		} else if (2 == dimension) {
-			dimensionStr = "向度：下肢動作";
+			dimensionStr ='<span class="cht-lan">';
+			dimensionStr += "向度：下肢動作";
+			dimensionStr += '</span>';
+			dimensionStr +='<span class="en-lan" style="display: none;">';
+			dimensionStr += "Function：LE motor";
+			dimensionStr += '</span>';
 		} else if (3 == dimension) {
-			dimensionStr = "向度：平衡";
+			dimensionStr ='<span class="cht-lan">';
+			dimensionStr += "向度：平衡";
+			dimensionStr += '</span>';
+			dimensionStr +='<span class="en-lan" style="display: none;">';
+			dimensionStr += "Function：Postural control";
+			dimensionStr += '</span>';
 		} else if (4 == dimension) {
-			dimensionStr = "向度：日常生活活動";
+			dimensionStr ='<span class="cht-lan">';
+			dimensionStr += "向度：日常生活活動";
+			dimensionStr += '</span>';
+			dimensionStr +='<span class="en-lan" style="display: none;">';
+			dimensionStr += "Function：Basic activities of dialy living";
+			dimensionStr += '</span>';
 		}
 		
 		$("#itemDimension").html(dimensionStr);
-		$("#title").html("題目：" + title);
+		
 		
 		if (item.startPose) {
-			$("#itemStartPose").html("起始姿勢：" + startPose);	
+			var startPoseSpan = '<span class="cht-lan">';
+			startPoseSpan += '起始姿勢：' + item.startPose.split('|')[0];
+			startPoseSpan += '</span>';
+			startPoseSpan +='<span class="en-lan" style="display: none;">';
+			startPoseSpan += 'Start position：' + item.startPose.split('|')[1];
+			startPoseSpan += '</span>';
+			$("#itemStartPose").html(startPoseSpan);
 		} else {
 			$("#itemStartPose").html("");
 		}
 		
 		
 		if (item.introduction) {
-			$("#itemIntroduction").html("指導語：" + item.introduction);	
+			var introductionSpan = '<span class="cht-lan">';
+			introductionSpan += '指導語：' + item.introduction.split('|')[0];
+			introductionSpan += '</span>';
+			introductionSpan +='<span class="en-lan" style="display: none;">';
+			introductionSpan += 'Introduction/Note：' + item.introduction.split('|')[1];
+			introductionSpan += '</span>';
+			$("#itemIntroduction").html(introductionSpan);	
 		}
 		
 		$("#itemList").html("");
@@ -111,8 +163,10 @@
 			$option1 += '<label class="custom-control custom-radio">';
 			$option1 += '<input name="answer" type="radio" class="custom-control-input" id="option1" value="0">';
 			$option1 += '<span class="custom-control-indicator"></span>';
-			$option1 += '<span class="custom-control-description">'
-					+ item.option1 + '</span></label></li>'
+			$option1 += '<span class="custom-control-description"><span class="cht-lan">';
+			$option1 += item.option1.split("|")[0] + '</span><span class="en-lan" style="display: none;">';
+			$option1 += item.option1.split("|")[1] + '</span>';
+			$option1 += '</span></label></li>';
 
 			$("#itemList").append($option1);
 		}
@@ -122,8 +176,10 @@
 			$option2 += '<label class="custom-control custom-radio">';
 			$option2 += '<input name="answer" type="radio" class="custom-control-input" id="option2" value="1">';
 			$option2 += '<span class="custom-control-indicator"></span>';
-			$option2 += '<span class="custom-control-description">'
-					+ item.option2 + '</span></label></li>'
+			$option2 += '<span class="custom-control-description"><span class="cht-lan">';
+			$option2 += item.option2.split("|")[0] + '</span><span class="en-lan" style="display: none;">';
+			$option2 += item.option2.split("|")[1] + '</span>';
+			$option2 += '</span></label></li>';
 
 			$("#itemList").append($option2);
 		}
@@ -133,8 +189,10 @@
 			$option3 += '<label class="custom-control custom-radio">';
 			$option3 += '<input name="answer" type="radio" class="custom-control-input" id="option3" value="2">';
 			$option3 += '<span class="custom-control-indicator"></span>';
-			$option3 += '<span class="custom-control-description">'
-					+ item.option3 + '</span></label></li>'
+			$option3 += '<span class="custom-control-description"><span class="cht-lan">';
+			$option3 += item.option3.split("|")[0] + '</span><span class="en-lan" style="display: none;">';
+			$option3 += item.option3.split("|")[1] + '</span>';
+			$option3 += '</span></label></li>';
 
 			$("#itemList").append($option3);
 		}
@@ -144,9 +202,11 @@
 			$option4 += '<label class="custom-control custom-radio">';
 			$option4 += '<input name="answer" type="radio" class="custom-control-input" id="option4" value="3">';
 			$option4 += '<span class="custom-control-indicator"></span>';
-			$option4 += '<span class="custom-control-description">'
-					+ item.option4 + '</span></label></li>'
-
+			$option4 += '<span class="custom-control-description"><span class="cht-lan">';
+			$option4 += item.option4.split("|")[0] + '</span><span class="en-lan" style="display: none;">';
+			$option4 += item.option4.split("|")[1] + '</span>';
+			$option4 += '</span></label></li>';
+			
 			$("#itemList").append($option4);
 		}
 	}

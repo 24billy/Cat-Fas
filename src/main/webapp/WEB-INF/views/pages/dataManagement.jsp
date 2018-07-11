@@ -612,4 +612,17 @@
 				.appendTo('body').submit().remove();
 		 
 	}
+	
+	function reLoadItem() {
+		$.ajax({
+			url : "item/reloadItem",
+			type : "POST",
+			error : function(e) {
+
+			},
+			success : function(data) {
+				console.log(data);
+			}
+		});
+	}
 </script>

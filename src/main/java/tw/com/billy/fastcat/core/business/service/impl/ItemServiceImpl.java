@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import tw.com.billy.fastcat.core.business.service.IItemService;
 import tw.com.billy.fastcat.core.db.jdbc.JdbcDAO;
 import tw.com.billy.fastcat.core.db.model.Item;
+import tw.com.billy.fastcat.core.util.ResourceFileUtil;
 
 /**
  * [試題] 服務實作
@@ -118,6 +119,23 @@ public class ItemServiceImpl implements IItemService {
 		}
 
 		return itemList;
+	}
+
+	@Override
+	public Integer deleteAllItem() {
+		String sqltext = "DELETE FROM ITEM";
+		Integer deleteCount = jdbcDAO.update(sqltext);
+
+		return deleteCount;
+	}
+
+	@Override
+	public Integer insertAllItem() {
+		String sqlText = ResourceFileUtil.SQL.getResource("item", "insertItem");
+
+		Integer deleteCount = jdbcDAO.update(sqlText.toString());
+
+		return deleteCount;
 	}
 
 }

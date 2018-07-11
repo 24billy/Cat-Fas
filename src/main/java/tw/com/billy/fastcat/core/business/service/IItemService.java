@@ -26,5 +26,19 @@ public interface IItemService {
 	 * @return
 	 */
 	List<Item> getAllItem();
+	
+	/**
+	 * 清空所有題目
+	 * 
+	 * @return
+	 */
+	Integer deleteAllItem();
+	
+	/**
+	 * 加入所有題目
+	 * 
+	 * @return
+	 */
+	Integer insertAllItem();
 
 }

@@ -9,6 +9,7 @@ import tw.com.billy.fastcat.SpringTest;
 import tw.com.billy.fastcat.core.business.service.IItemService;
 import tw.com.billy.fastcat.core.db.model.Item;
 import tw.com.billy.fastcat.core.util.JsonUtil;
+import tw.com.billy.fastcat.core.util.ResourceFileUtil;
 
 public class ItemServiceImplTest extends SpringTest {
 
@@ -29,6 +30,19 @@ public class ItemServiceImplTest extends SpringTest {
 		System.out.println(itemList);
 
 		System.out.println(JsonUtil.toJson(itemList));
+	}
+
+	@Test
+	public void testDeleteAllItem() {
+		Integer deleteCount = itemService.deleteAllItem();
+
+		System.out.println(deleteCount);
+	}
+	
+	@Test
+	public void testInsertAllItem() {
+		Integer insertCount = itemService.insertAllItem();
+		System.out.println(insertCount);
 	}
 
 }
