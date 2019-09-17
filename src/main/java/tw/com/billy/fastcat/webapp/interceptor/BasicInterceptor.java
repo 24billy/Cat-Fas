@@ -19,8 +19,8 @@ public class BasicInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws IOException {
 		long startTime = System.currentTimeMillis();
-		System.out.println("Pre Request URL::" + request.getRequestURL().toString() + ":: Start Time="
-				+ System.currentTimeMillis());
+//		System.out.println("Pre Request URL::" + request.getRequestURL().toString() + ":: Start Time="
+//				+ System.currentTimeMillis());
 		request.setAttribute("startTime", startTime);
 		// if returned false, we need to make sure 'response' is sent
 
@@ -41,8 +41,8 @@ public class BasicInterceptor extends HandlerInterceptorAdapter {
 			}
 		}
 
-		System.out.println("Post Request URL::" + request.getRequestURL().toString()
-				+ " Sent to Handler :: Current Time=" + System.currentTimeMillis());
+//		System.out.println("Post Request URL::" + request.getRequestURL().toString()
+//				+ " Sent to Handler :: Current Time=" + System.currentTimeMillis());
 		// we can add attributes in the modelAndView and use that in the view
 		// page
 	}
@@ -56,10 +56,10 @@ public class BasicInterceptor extends HandlerInterceptorAdapter {
 		for (int i = 1; i <= 1000000; i++) {
 			Math.random();
 		}
-		System.out.println("After start Request URL::" + request.getRequestURL().toString() + ":: End Time="
-				+ System.currentTimeMillis());
-		System.out.println("After end Request URL::" + request.getRequestURL().toString() + ":: Time Taken="
-				+ (System.currentTimeMillis() - startTime));
+//		System.out.println("After start Request URL::" + request.getRequestURL().toString() + ":: End Time="
+//				+ System.currentTimeMillis());
+//		System.out.println("After end Request URL::" + request.getRequestURL().toString() + ":: Time Taken="
+//				+ (System.currentTimeMillis() - startTime));
 	}
 
 }

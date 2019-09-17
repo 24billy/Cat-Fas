@@ -39,7 +39,7 @@ public class ExcelExportTest extends SpringTest {
 
 		try {
 			Workbook workbook = ExcelUtil.exportExcel("CAT-FAS_輸出", data);
-			String filename = "E:\\osp\\NewExcelFile.xlsx";
+			String filename = "E:\\CHT\\NewExcelFile.xlsx";
 			FileOutputStream fileOut = new FileOutputStream(filename);
 			workbook.write(fileOut);
 			fileOut.close();

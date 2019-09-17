@@ -84,6 +84,7 @@
 	});
 
 	function generateItem(itemStr) {
+		console.log(itemStr);
 		var item = JSON.parse(itemStr);
 		console.log(item);
 		

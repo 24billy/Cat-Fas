@@ -360,7 +360,7 @@
 
 			var highReliabilityBtn = '<span class="cht-lan">高信度</span>';
 			highReliabilityBtn +='<span class="en-lan" style="display: none;">High reliability</span>';
-			var highValidityBtn = '<span class="cht-lan">高效度</span>';
+			var highValidityBtn = '<span class="cht-lan">高效率</span>';
 			highValidityBtn +='<span class="en-lan" style="display: none;">High efficiency</span>';
 			
 			if (complete || isDelete) {
@@ -478,7 +478,7 @@
 				var reactionTime = resultMap.reactionTime;
 				
 				if ("hv" == examType) {
-					$("#examType").html("高效度測驗");
+					$("#examType").html("高效率測驗");
 					$("#examTypeEn").html("(Mode: high efficiency)");
 				} else if ("hr" == examType) {
 					$("#examType").html("高信度測驗");
