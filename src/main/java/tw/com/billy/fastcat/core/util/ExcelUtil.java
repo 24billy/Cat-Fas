@@ -147,7 +147,6 @@ public class ExcelUtil {
 			}
 			
 			Long reactionTime = data.get(i).getReactionTime();
-System.out.println(reactionTime);
 
 			if (data.get(i).getReactionTime() != null && reactionTime != 0) {
 				row.createCell(92).setCellValue(reactionTime.intValue());

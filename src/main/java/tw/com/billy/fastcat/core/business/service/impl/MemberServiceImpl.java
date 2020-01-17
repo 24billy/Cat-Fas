@@ -263,7 +263,7 @@ public class MemberServiceImpl implements IMemberService {
 		Integer updateCount = jdbcDAO.update(sqlText.toString());
 
 		if (updateCount > 0) {
-			System.out.println("updateCount : " + updateCount);
+			//System.out.println("updateCount : " + updateCount);
 		}
 
 		return member;
