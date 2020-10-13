@@ -10,7 +10,7 @@
 	<properties>
 		<spring.version>4.3.10.RELEASE</spring.version>
 		<jdk.version>1.8</jdk.version>
-		<junit.version>4.12</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<servlet.version>3.0.1</servlet.version>
 		<postgreSQL.driver>9.1-901-1.jdbc4</postgreSQL.driver>
 		<project.oauth.version>1.19.0</project.oauth.version>
