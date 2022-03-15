@@ -22,7 +22,7 @@ public class ExcelView extends AbstractXlsxView {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date today = new Date();
 		String dateStr = format.format(today);
-		String fileName = "CAT-FAS_輸出_" + dateStr + ".xls";
+		String fileName = "CAT-FAS_輸出_" + dateStr + ".xlsx";
 
 		response.setContentType("application/vnd.ms-excel");
 		OutputStream outputStream;

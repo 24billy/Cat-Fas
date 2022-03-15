@@ -39,7 +39,7 @@ public class ResponseServiceImplTest extends SpringTest {
 	@Test
 	public void testGetAllCompleteResponseByExaminerId() {
 		Subject subject = new Subject();
-		subject.setCreateMemberId(3);
+		subject.setCreateMemberId(6);
 		List<Response> result = responseService.getAllCompletedResponseByExaminerId(subject);
 		
 		for (int i = 0; i < result.size(); i++) {
