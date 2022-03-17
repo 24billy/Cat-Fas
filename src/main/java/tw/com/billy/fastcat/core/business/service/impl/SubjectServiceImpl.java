@@ -119,8 +119,9 @@ public class SubjectServiceImpl implements ISubjectService {
 		sqlText.append(birthday);
 		sqlText.append("', createDate = '");
 		sqlText.append(createDate);
-		sqlText.append("', createMemberId = ");
-		sqlText.append(createMemberId);
+		sqlText.append("' ");
+//		sqlText.append("', createMemberId = ");
+//		sqlText.append(createMemberId);
 		sqlText.append("WHERE subjectId = ");
 		sqlText.append(subjectId);
 
